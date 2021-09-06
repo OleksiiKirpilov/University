@@ -9,12 +9,12 @@ h2 {
     margin-right: 0;
     font-weight: bold;
     text-align: center; */
-	align: center;
+	text-align: center;
 }
 
 body {
 	font-size: 16px;
-	font-family: "Times New Roman";
+	font-family: "Times New Roman", serif;
 }
 
 label {
@@ -82,7 +82,7 @@ a:active {
 .menu {
 	text-align: center;
 	font-size: 18px;
-	font-family: "Times New Roman";
+	font-family: "Times New Roman", serif;
 }
 
 /*removes pointers in browsers for number inputs in Mozilla */

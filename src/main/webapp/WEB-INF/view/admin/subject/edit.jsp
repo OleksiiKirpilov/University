@@ -34,6 +34,6 @@
 					key="subject.edit_jsp.button.back" /></a>
 		</p>
 	</div>
-	<script src="/script/subject-validation.js"></script>
+	<script src="${pageContext.request.contextPath}/script/subject-validation.js"></script>
 </body>
 </html>

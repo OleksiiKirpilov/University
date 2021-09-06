@@ -16,48 +16,57 @@
 			<input type="hidden" name="command" value="userRegistration" />
 
 			<div class="field">
-				<label for="lang"> <fmt:message
-						key="registration.label.language" />
-				</label> <select name="lang" required>
+				<label for="lang">
+					<fmt:message key="registration.label.language" />
+				</label>
+				<select name="lang" id="lang" required>
 					<option value="ru">Russian</option>
 					<option value="en">English</option>
 				</select>
 			</div>
 
 			<div class="field">
-				<label for="first_name"> <fmt:message
-						key="registration.label.first_name" /></label> <input type="text"
-					name="first_name" value="" required />
+				<label for="first_name">
+					<fmt:message key="registration.label.first_name" />
+				</label>
+				<input type="text" name="first_name" id="first_name" value="" required />
 			</div>
 			<div class="field">
-				<label for="last_name"> <fmt:message
-						key="registration.label.last_name" /></label> <input type="text"
-					name="last_name" value="" required />
+				<label for="last_name">
+					<fmt:message key="registration.label.last_name" />
+				</label>
+				<input type="text" name="last_name" id="last_name" value="" required />
 			</div>
 			<div class="field">
-				<label for="email"> <fmt:message
-						key="registration.label.email" /></label> <input type="text" name="email"
+				<label for="email">
+					<fmt:message key="registration.label.email" />
+				</label>
+				<input type="text" name="email" id="email"	value="" required />
+			</div>
+			<div class="field">
+				<label for="password">
+					<fmt:message key="registration.label.password" />
+				</label>
+				<input type="password" name="password" id="password" value="" required />
+			</div>
+			<div class="field">
+				<label for="city">
+					<fmt:message key="registration.label.city" />
+				</label>
+				<input type="text" name="city" id="city"
 					value="" required />
 			</div>
 			<div class="field">
-				<label for="password"> <fmt:message
-						key="registration.label.password" /></label> <input type="password"
-					name="password" value="" required />
+				<label for="district">
+					<fmt:message key="registration.label.district" />
+				</label>
+				<input type="text" name="district" id="district" value="" required />
 			</div>
 			<div class="field">
-				<label for="town"> <fmt:message
-						key="registration.label.city" /></label> <input type="text" name="city"
-					value="" required />
-			</div>
-			<div class="field">
-				<label for="district"> <fmt:message
-						key="registration.label.district" /></label> <input type="text"
-					name="district" value="" required />
-			</div>
-			<div class="field">
-				<label for="school"> <fmt:message
-						key="registration.label.school" /></label> <input type="text"
-					name="school" value="" required />
+				<label for="school">
+					<fmt:message key="registration.label.school" />
+				</label>
+				<input type="text" name="school" id="school" value="" required />
 			</div>
 			<div class="field">
 				<input type="reset"
@@ -65,14 +74,11 @@
 					key="registration.button.reset" />" />
 			</div>
 			<div class="field">
-				<input type="submit"
-					value="<fmt:message
-					key="registration.button.submit" />" />
+				<input type="submit" value="<fmt:message key="registration.button.submit" />" />
 			</div>
 			<div class="field">
 				<fmt:message key="registration.label.already_registered_msg" />
-				<a href="welcome.jsp"><fmt:message
-						key="registration.label.login_here_msg" /></a>
+				<a href="welcome.jsp"><fmt:message key="registration.label.login_here_msg" /></a>
 			</div>
 		</form>
 	</div>
@@ -85,9 +91,7 @@
 			var city = document.getElementById("city");
 			var district = document.getElementById("district");
 			var school = document.getElementById("school");
-
 			var valid = true;
-
 			if (first_name.value.length <= 0 || last_name.value.length <= 0) {
 				alert("Enter your name and surname!");
 			}
@@ -101,7 +105,7 @@
 				valid = false;
 			}
 			return valid;
-		};
+		}
 	</script>
 </body>
 </html>

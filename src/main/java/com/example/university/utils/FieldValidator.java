@@ -10,12 +10,13 @@ public class FieldValidator {
 	private static final String IS_LATIN_WORD = "[a-zA-Z ]+";
 	private static final String IS_CYRILLIC_WORD = "[а-яА-Я ]+";
 
-	private static <T> boolean checkNull(
-			@SuppressWarnings("unchecked") T... values) {
+	private FieldValidator() {}
+
+	private static boolean checkNull(Object... values) {
 		if (values == null) {
 			return true;
 		} else {
-			for (T value : values) {
+			for (Object value : values) {
 				if (value == null) {
 					return true;
 				}
@@ -24,11 +25,11 @@ public class FieldValidator {
 		}
 	}
 
-	public static boolean isFilled(String... values) {
-		if (checkNull(values)) {
+	public static boolean isFilled(String... stringValues) {
+		if (checkNull((Object) stringValues)) {
 			return false;
 		}
-		for (String value : values) {
+		for (String value : stringValues) {
 			if (!value.matches(FILLED_REGEX)) {
 				return false;
 			}
@@ -37,7 +38,7 @@ public class FieldValidator {
 	}
 
 	public static boolean isCyrillicWord(String... values) {
-		if (checkNull(values)) {
+		if (checkNull((Object) values)) {
 			return false;
 		}
 		for (String value : values) {
@@ -49,7 +50,7 @@ public class FieldValidator {
 	}
 
 	public static boolean isLatinWord(String... values) {
-		if (checkNull(values)) {
+		if (checkNull((Object) values)) {
 			return false;
 		}
 		for (String value : values) {
@@ -61,7 +62,7 @@ public class FieldValidator {
 	}
 
 	public static boolean isPositiveDecimalNumber(String... values) {
-		if (checkNull(values)) {
+		if (checkNull((Object) values)) {
 			return false;
 		}
 		for (String value : values) {
@@ -72,14 +73,12 @@ public class FieldValidator {
 		return true;
 	}
 
-	public static boolean isPositiveByte(Number... values) {
-		if (checkNull(values)) {
+	public static boolean isPositiveNumbers(Number... values) {
+		if (checkNull((Object) values)) {
 			return false;
 		}
 		for (Number value : values) {
-			Long longValue = value.longValue();
-			if (longValue.compareTo((long) 0) < 0
-					|| longValue.compareTo((long) Byte.MAX_VALUE) > 0) {
+			if (value.intValue() < 0) {
 				return false;
 			}
 		}

@@ -17,26 +17,27 @@
 			<div class="field">
 				<label for="lang"> <fmt:message
 						key="registration.label.language" />
-				</label> <select name="lang">
+				</label>
+				<select name="lang" id="lang">
 					<option value="ru">Russian</option>
 					<option value="en">English</option>
 				</select>
 			</div>
 			<div class="field">
-				<label><fmt:message key="registration.label.first_name" /></label>
-				<input type="text" name="first_name" value="" required />
+				<label for="first_name"><fmt:message key="registration.label.first_name" /></label>
+				<input type="text" name="first_name" id="first_name" value="" required />
 			</div>
 			<div class="field">
-				<label><fmt:message key="registration.label.last_name" /></label> <input
-					type="text" name="last_name" value="" required />
+				<label for="last_name"><fmt:message key="registration.label.last_name" /></label>
+				<input type="text" name="last_name" id="last_name" value="" required />
 			</div>
 			<div class="field">
-				<label><fmt:message key="registration.label.email" /></label> <input
-					type="text" name="email" value="" required />
+				<label for="email"><fmt:message key="registration.label.email" /></label>
+				<input type="text" name="email" id="email" value="" required />
 			</div>
 			<div class="field">
-				<label> <fmt:message key="registration.label.password" /></label> <input
-					type="password" name="password" value="" required />
+				<label for="password"> <fmt:message key="registration.label.password" /></label>
+				<input type="password" name="password" id="password" value="" required />
 			</div>
 			<br>
 			<div class="field">

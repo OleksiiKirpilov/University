@@ -24,6 +24,6 @@
 			</p>
 		</form>
 	</div>
-	<script src="/script/subject-validation.js"></script>
+	<script src="<c:url value="/script/subject-validation.js"/>"></script>
 </body>
 </html>

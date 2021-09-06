@@ -30,8 +30,8 @@ public class InputValidator {
                 facultyTotalPlaces)) {
             return false;
         }
-        if (!FieldValidator.isPositiveByte(Long.valueOf(facultyBudgetPlaces),
-                Long.valueOf(facultyTotalPlaces))) {
+        if (!FieldValidator.isPositiveNumbers(Integer.valueOf(facultyBudgetPlaces),
+                Integer.valueOf(facultyTotalPlaces))) {
             return false;
         }
         int budget = Integer.parseInt(facultyBudgetPlaces);
