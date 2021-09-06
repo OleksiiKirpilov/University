@@ -1,0 +1,126 @@
+header_jspf.anchor.register   = Регистрация
+header_jspf.anchor.login      = Войти
+header_jspf.anchor.faculties  = Факультеты
+header_jspf.anchor.subjects   = Предметы
+header_jspf.anchor.profile    = Профиль
+header_jspf.anchor.logout     = Выйти
+
+welcome_jsp.label.greeting = Добро пожаловать!
+welcome_jsp.button.login = Войти
+welcome_jsp.label.login  = Логин
+welcome_jsp.label.password = Пароль
+welcome_jsp.label.not_registered_msg = Не зарегистрированы ?
+welcome_jsp.label.register_here_msg = Нажмите сюда
+
+profile.view_jsp.label.first_name = Имя
+profile.view_jsp.label.last_name = Фамилия
+profile.view_jsp.label.email = Почтовый ящик
+profile.view_jsp.label.city = Город
+profile.view_jsp.label.district = Область
+profile.view_jsp.label.school = Школа
+profile.view_jsp.button.edit = Изменить
+profile.view_jsp.button.logout = Выйти
+profile.view_jsp.label.register_new_admin = Добавить администратора
+
+profile.edit_jsp.header = Изменить профиль
+profile.edit_jsp.label.language = Язык интерфейса
+profile.edit_jsp.label.first_name = Имя
+profile.edit_jsp.label.last_name = Фамилия
+profile.edit_jsp.label.email = Почтовый ящик
+profile.edit_jsp.label.password = Пароль
+profile.edit_jsp.label.city = Город
+profile.edit_jsp.label.district = Область
+profile.edit_jsp.label.school = Школа
+profile.edit_jsp.label.localization = Локализация
+profile.edit_jsp.button.update = Обновить
+profile.edit_jsp.button.back = Вернуться
+
+registration.label.enter_admin_info_msg = Данные администратора
+registration.label.enter_info_msg = Введите информацию о себе
+registration.label.language = Язык интерфейса
+registration.label.first_name = Имя
+registration.label.last_name = Фамилия
+registration.label.email = Почтовый ящик
+registration.label.password = Пароль
+registration.label.city = Город
+registration.label.district = Область
+registration.label.school = Школа
+registration.label.already_registered_msg = Уже зарегистрированы ?
+registration.label.login_here_msg = Нажмите сюда
+registration.button.submit = ОК
+registration.button.reset = Отменить
+
+faculty.list_jsp.label.faculties_list = Список факультетов
+faculty.list_jsp.label.name = Название факультета
+faculty.list_jsp.label.total_seats = Всего мест
+faculty.list_jsp.label.budget_seats = Бюджетные места
+faculty.list_jsp.button.add = Добавить факультет
+
+faculty.view_jsp.label.name = Название факультета
+faculty.view_jsp.label.total_places = Всего мест
+faculty.view_jsp.label.budget_places = Бюджетные места
+faculty.view_jsp.label.preliminary_subjects = Вступительные экзамены
+faculty.view_jsp.label.no_subjects_msg = Отсутствуют
+faculty.view_jsp.label.faculty_applicants = Зарегистрированные абитуриенты
+faculty.view_jsp.label.no_faculty_applicants_msg = Отсутствуют
+faculty.view_jsp.button.apply = Подать заявку
+faculty.view_jsp.button.edit = Изменить
+faculty.view_jsp.button.create_report = Создать ведомость
+faculty.view_jsp.button.delete = Удалить
+
+faculty.apply_jsp.label.name = Название факультета
+faculty.apply_jsp.label.total_places = Всего мест
+faculty.apply_jsp.label.budget_places = Бюджетные места
+faculty.apply_jsp.label.preliminary_subjects = Введите свои оценки по вступительным экзаменам
+faculty.apply_jsp.label.diploma_subjects =  Введите свои оценки из аттестата.
+faculty.apply_jsp.label.no_preliminary_subjects_msg = Вступительные экзамены отсутствуют на данном факультете.
+faculty.apply_jsp.button.submit = ОК
+
+faculty.edit_jsp.label.name = Название факультета
+faculty.edit_jsp.label.total_places = Всего мест
+faculty.edit_jsp.label.budget_places = Бюджетные места
+faculty.edit_jsp.label.preliminary_subjects = Вступительные экзамены
+faculty.edit_jsp.button.submit = ОК
+
+faculty.add_jsp.label.name = Название факультета
+faculty.add_jsp.label.total_places = Всего мест
+faculty.add_jsp.label.budget_places = Бюджетные места
+faculty.add_jsp.label.preliminary_subjects = Вступительные экзамены
+faculty.add_jsp.button.submit = ОК
+faculty.add_jsp.button.back = Вернуться
+
+subject.list_jsp.label.subjects_list = Список предметов
+subject.list_jsp.button.add = Добавить предмет
+
+subject.view_jsp.label.name = Название предмета
+subject.view_jsp.button.edit = Изменить
+subject.view_jsp.button.delete = Удалить
+
+subject.edit_jsp.label.name = Название предмета
+subject.edit_jsp.button.submit = ОК
+subject.edit_jsp.button.back = Вернуться
+
+subject.add_jsp.label.name = Название предмета
+subject.add_jsp.button.submit = ОК
+
+applicant.view_jsp.label.blocked_status = Статус
+applicant.view_jsp.button.change_blocked_status_msg = Изменить статус
+applicant.view_jsp.label.blocked = заблокирован
+applicant.view_jsp.label.unblocked = не заблокирован
+
+report.view_jsp.label.report = Ведомость
+report.view_jsp.label.first_name = Имя
+report.view_jsp.label.last_name = Фамилия
+report.view_jsp.label.email = Почтовый ящик
+report.view_jsp.label.isBlocked = Статус
+report.view_jsp.label.blocked = заблокирован
+report.view_jsp.label.unblocked = не заблокирован
+report.view_jsp.label.preliminary_sum = Сумма по вступительным экзаменам
+report.view_jsp.label.diploma_sum = Сумма баллов аттестата
+report.view_jsp.label.total_sum = Общая сумма
+report.view_jsp.label.entered = Зачислен
+report.view_jsp.label.entered_on_budget = Зачислен на бюджет
+report.view_jsp.label.entered_yes_msg = Да
+report.view_jsp.label.entered_no_msg = Нет
+report.view_jsp.label.entered_on_budget_yes_msg = Да
+report.view_jsp.label.entered_on_budget_no_msg = Нет
