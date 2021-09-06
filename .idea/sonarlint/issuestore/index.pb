@@ -41,8 +41,6 @@ n
 >src/main/java/com/example/university/utils/FieldValidator.java,d\9\d9a8c372ea0fcb6cff6c1ca93e0bf2154b42f397
 ]
 -src/main/webapp/WEB-INF/view/jspf/footer.jspf,2\a\2a27544d0236924ce7d51f029b922a39fb333024
-i
-9src/main/java/com/example/university/FrontController.java,1\5\155f75083ea29e03ff5dc37a1cebe42c29a8b60d
 [
 +src/main/webapp/WEB-INF/view/jspf/head.jspf,e\5\e51ffc714238da11695fb5266394ee947270c92b
 ]
