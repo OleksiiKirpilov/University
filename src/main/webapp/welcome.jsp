@@ -43,5 +43,6 @@
 		<c:out value="${successfulMessage}"></c:out>
 	</c:if>
 
+<%@ include file="/WEB-INF/view/jspf/footer.jspf"%>
 </body>
 </html>

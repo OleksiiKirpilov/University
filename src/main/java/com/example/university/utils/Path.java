@@ -5,7 +5,7 @@ package com.example.university.utils;
  */
 public final class Path {
 
-	public static final String WELCOME_PAGE = "/WEB-INF/view/welcome.jsp";
+	public static final String WELCOME_PAGE = "welcome.jsp";
 	public static final String ERROR_PAGE = "/WEB-INF/view/errorPage.jsp";
 
 	public static final String FORWARD_USER_REGISTRATION_PAGE = "/WEB-INF/view/user/addUser.jsp";

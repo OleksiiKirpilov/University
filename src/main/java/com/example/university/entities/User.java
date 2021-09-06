@@ -15,7 +15,6 @@ public class User extends Entity {
     private String lastName;
     private String role;
     private String lang;
-    private boolean activeStatus;
 
     public User() {
     }
@@ -78,20 +77,13 @@ public class User extends Entity {
         this.lang = lang;
     }
 
-    public boolean getActiveStatus() {
-        return activeStatus;
-    }
-
-    public void setActiveStatus(boolean activeStatus) {
-        this.activeStatus = activeStatus;
-    }
 
     @Override
     public String toString() {
-        return "User [email=" + email + ", password=" + password
+        return "User [email=" + email + ", password=***"
                 + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", role=" + role + ", lang=" + lang + ", activeStatus="
-                + activeStatus + "]";
+                + ", role=" + role + ", lang=" + lang + "]";
+
     }
 
 }

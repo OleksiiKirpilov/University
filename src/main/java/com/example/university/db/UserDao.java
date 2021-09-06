@@ -76,7 +76,6 @@ public class UserDao extends AbstractDao<User> {
             pstmt.setString(++counter, user.getPassword());
             pstmt.setString(++counter, user.getRole());
             pstmt.setString(++counter, user.getLang());
-            pstmt.setBoolean(++counter, user.getActiveStatus());
             pstmt.setInt(++counter, user.getId());
             pstmt.executeUpdate();
             con.commit();
@@ -225,7 +224,7 @@ public class UserDao extends AbstractDao<User> {
             user.setPassword(rs.getString(Fields.USER_PASSWORD));
             user.setRole(rs.getString(Fields.USER_ROLE));
             user.setLang(rs.getString(Fields.USER_LANG));
-            user.setActiveStatus(rs.getBoolean(Fields.USER_ACTIVE_STATUS));
+            //user.setActiveStatus(rs.getBoolean(Fields.USER_ACTIVE_STATUS));
         } catch (SQLException e) {
             LOG.error("Can not unmarshal result set to user", e);
         }

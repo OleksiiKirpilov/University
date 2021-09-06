@@ -68,6 +68,12 @@ a:active {
 	margin-left: 40%;
 }
 
+#footer {
+	margin: auto;
+	text-align: center;
+	color: green;
+}
+
 .welcomeform {
 	float: left;
 	margin-left: 35%;

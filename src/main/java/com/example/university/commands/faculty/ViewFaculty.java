@@ -57,8 +57,7 @@ public class ViewFaculty extends Command {
         LOG.trace("Set the request attribute: 'id' = {}", facultyRecord.getId());
         request.setAttribute(Fields.FACULTY_NAME_RU, facultyRecord.getNameRu());
         LOG.trace("Set the request attribute: 'name_ru' = {}", facultyRecord.getNameRu());
-        request.setAttribute(Fields.FACULTY_NAME_EN,
-                facultyRecord.getNameEn());
+        request.setAttribute(Fields.FACULTY_NAME_EN, facultyRecord.getNameEn());
         LOG.trace("Set the request attribute: 'name_en' = {}", facultyRecord.getNameEn());
         request.setAttribute(Fields.FACULTY_TOTAL_PLACES, facultyRecord.getTotalPlaces());
         LOG.trace("Set the request attribute: 'total_places' = {}",
@@ -75,19 +74,17 @@ public class ViewFaculty extends Command {
         HttpSession session = request.getSession(false);
         String role = (String) session.getAttribute("userRole");
 
-        if (role == null || "user".equals(role)) {
+        if (role == null || Role.isUser(role)) {
             return Path.FORWARD_FACULTY_VIEW_USER;
         }
-        if (!"admin".equals(role)) {
+        if (!Role.isAdmin(role)) {
             return null;
         }
 
         ApplicantDao applicantDao = new ApplicantDao();
         List<Applicant> applicants = applicantDao.findAllFacultyApplicants(facultyRecord);
-
         Map<Applicant, String> facultyApplicants = new TreeMap<>(
                 Comparator.comparingInt(Entity::getId));
-
         UserDao userDao = new UserDao();
         for (Applicant applicant : applicants) {
             User user = userDao.find(applicant.getUserId());

@@ -20,8 +20,7 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class AbstractDao<T extends Entity> {
 
-	private static final Logger LOG = LogManager
-			.getLogger(AbstractDao.class);
+	private static final Logger LOG = LogManager.getLogger(AbstractDao.class);
 	protected final DataSource ds;
 
 	/**

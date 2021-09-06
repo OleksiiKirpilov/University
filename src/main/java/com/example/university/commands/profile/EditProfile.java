@@ -3,6 +3,7 @@ package com.example.university.commands.profile;
 import com.example.university.commands.Command;
 import com.example.university.entities.Applicant;
 import com.example.university.db.ApplicantDao;
+import com.example.university.entities.Role;
 import com.example.university.entities.User;
 import com.example.university.db.UserDao;
 import com.example.university.utils.Fields;
@@ -60,13 +61,13 @@ public class EditProfile extends Command {
         request.setAttribute(Fields.USER_EMAIL, user.getEmail());
         LOG.trace("Set attribute 'email': {}", user.getEmail());
         request.setAttribute(Fields.USER_PASSWORD, user.getPassword());
-        LOG.trace("Set attribute 'password': {}", user.getPassword());
+        LOG.trace("Set attribute 'password': ***");
         request.setAttribute(Fields.USER_LANG, user.getLang());
         LOG.trace("Set attribute 'lang': {}", user.getLang());
-        if ("admin".equals(role)) {
+        if (Role.isAdmin(role)) {
             return Path.FORWARD_ADMIN_PROFILE_EDIT;
         }
-        if ("user".equals(role)) {
+        if (Role.isUser(role)) {
             ApplicantDao applicantDao = new ApplicantDao();
             Applicant a = applicantDao.find(user);
             request.setAttribute(Fields.APPLICANT_CITY, a.getCity());
@@ -101,7 +102,7 @@ public class EditProfile extends Command {
         String email = request.getParameter("email");
         LOG.trace("Fetch request parameter: 'email' = {}", email);
         String password = request.getParameter("password");
-        LOG.trace("Fetch request parameter: 'password' = {}", password);
+        LOG.trace("Fetch request parameter: 'password' = ***");
         String language = request.getParameter("lang");
         LOG.trace("Fetch request parameter: 'lang' = {}", language);
 
@@ -118,7 +119,7 @@ public class EditProfile extends Command {
             return Path.REDIRECT_EDIT_PROFILE;
         }
 
-        if ("admin".equals(role)) {
+        if (Role.isAdmin(role)) {
             UserDao userDao = new UserDao();
             User user = userDao.find(oldUserEmail);
             LOG.trace("User found with such email: {}", user);
@@ -135,7 +136,7 @@ public class EditProfile extends Command {
             session.setAttribute(Fields.USER_LANG, language);
             return Path.REDIRECT_TO_PROFILE;
         }
-        if ("user".equals(role)) {
+        if (Role.isUser(role)) {
             // if user role is user then we should also update applicant
             // record for them
             String school = request.getParameter(Fields.APPLICANT_SCHOOL);

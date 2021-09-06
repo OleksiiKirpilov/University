@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -19,13 +20,13 @@ public class AuthFilter implements Filter {
 
     private static final Logger LOG = LogManager.getLogger(AuthFilter.class);
 
-	// accessible to all users
+    // accessible by all users
     private final Set<String> accessibleCommands;
-    // accessible only to logged-in users
+    // accessible only by logged-in users
     private final Set<String> commonCommands;
-    // accessible only to user
+    // accessible only by user
     private final Set<String> userCommands;
-	// accessible only to admin
+    // accessible only by admin
     private final Set<String> adminCommands;
 
 
@@ -63,8 +64,7 @@ public class AuthFilter implements Filter {
 
     @Override
     public void init(FilterConfig fConfig) throws ServletException {
-        LOG.debug("Initializing filter: {}",
-                AuthFilter.class.getSimpleName());
+        LOG.debug("Initializing filter: {}", AuthFilter.class.getSimpleName());
     }
 
     @Override
@@ -73,12 +73,13 @@ public class AuthFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response,
+    public void doFilter(ServletRequest request,
+                         ServletResponse response,
                          FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String command = req.getParameter("command");
-		// commands available for all
+        // commands available for all
         if (accessibleCommands.contains(command)) {
             LOG.debug("This command can be accessed by all users: {}", command);
             chain.doFilter(req, res);
@@ -100,19 +101,24 @@ public class AuthFilter implements Filter {
         }
         // command specific to user role
         LOG.debug("Command is specific to user. Check user role.");
-		String role = session.getAttribute("userRole").toString();
+        String role = session.getAttribute("userRole").toString();
         // user role allows this command
-		if (
-				("user".equals(role) && userCommands.contains(command))
-				||
-				("admin".equals(role) && adminCommands.contains(command))
-		) {
+        if (userCommandByUser(role, command) || adminCommandByAdmin(role, command)) {
             LOG.debug("Command can be executed by this user: {}", command);
             chain.doFilter(req, res);
-			return;
+            return;
         }
-		// user role doesn't allow this command
-		res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        // user role doesn't allow this command
+        res.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
+
+    private boolean userCommandByUser(String role, String command) {
+        return "user".equals(role) && userCommands.contains(command);
+    }
+
+    private boolean adminCommandByAdmin(String role, String command) {
+        return "admin".equals(role) && adminCommands.contains(command);
+    }
+
 
 }

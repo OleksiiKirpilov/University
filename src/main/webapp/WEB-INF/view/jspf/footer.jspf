@@ -1,7 +1,12 @@
 <%--===========================================================================
 Footer (bottom area).
 ===========================================================================--%>
-
-<tr>
-	<td id="footer">&copy;University. 2021 Oleksiy Kirpilov.</td>
-</tr>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div id="footer">&copy;University. 2021 Oleksiy Kirpilov.</div>

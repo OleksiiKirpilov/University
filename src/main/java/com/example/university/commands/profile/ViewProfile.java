@@ -4,6 +4,7 @@ import com.example.university.commands.Command;
 import com.example.university.db.ApplicantDao;
 import com.example.university.db.UserDao;
 import com.example.university.entities.Applicant;
+import com.example.university.entities.Role;
 import com.example.university.entities.User;
 import com.example.university.utils.Path;
 import com.example.university.utils.RequestType;
@@ -55,10 +56,10 @@ public class ViewProfile extends Command {
         request.setAttribute("role", user.getRole());
         LOG.trace("Set the request attribute: 'role' = {}", user.getRole());
         String role = user.getRole();
-        if ("admin".equals(role)) {
+        if (Role.isAdmin(role)) {
             return Path.FORWARD_ADMIN_PROFILE;
         }
-        if ("user".equals(role)) {
+        if (Role.isUser(role)) {
             ApplicantDao applicantDao = new ApplicantDao();
             Applicant applicant = applicantDao.find(user);
             request.setAttribute("city", applicant.getCity());

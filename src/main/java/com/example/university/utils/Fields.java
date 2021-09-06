@@ -46,6 +46,7 @@ public final class Fields {
     public static final String REPORT_SHEET_APPLICANT_DIPLOMA_SUM = "diploma_sum";
     public static final String REPORT_SHEET_APPLICANT_TOTAL_SUM = "total_sum";
 
+
     private Fields() {
     }
 

@@ -26,7 +26,6 @@ public class CommandManager {
         COMMANDS.put("editProfile", new EditProfile());
         COMMANDS.put("viewFaculty", new ViewFaculty());
         COMMANDS.put("viewAllFaculties", new ViewAllFaculties());
-        COMMANDS.put("confirmRegistration", new ConfirmRegistration());
         // user commands
         COMMANDS.put("userRegistration", new UserRegistration());
         COMMANDS.put("applyFaculty", new ApplyFacultyView());
