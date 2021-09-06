@@ -29,186 +29,182 @@ public class UserDao extends AbstractDao<User> {
     private static final String DELETE_USER =
             "DELETE FROM users WHERE users.id = ?";
 
-    private static final Logger LOG = LogManager
-            .getLogger(UserDao.class);
+    private static final Logger LOG = LogManager.getLogger(UserDao.class);
 
 
     public void create(User user) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet generatedKeys = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(INSERT_USER,
+            con = getConnection();
+            pstmt = con.prepareStatement(INSERT_USER,
                     Statement.RETURN_GENERATED_KEYS);
-            int counter = 1;
-            pstmt.setString(counter++, user.getFirstName());
-            pstmt.setString(counter++, user.getLastName());
-            pstmt.setString(counter++, user.getEmail());
-            pstmt.setString(counter++, user.getPassword());
-            pstmt.setString(counter++, user.getRole());
-            pstmt.setString(counter, user.getLang());
+            int counter = 0;
+            pstmt.setString(++counter, user.getFirstName());
+            pstmt.setString(++counter, user.getLastName());
+            pstmt.setString(++counter, user.getEmail());
+            pstmt.setString(++counter, user.getPassword());
+            pstmt.setString(++counter, user.getRole());
+            pstmt.setString(++counter, user.getLang());
             pstmt.execute();
-            connection.commit();
+            con.commit();
             generatedKeys = pstmt.getGeneratedKeys();
             if (generatedKeys.next()) {
                 user.setId(generatedKeys.getInt(Fields.GENERATED_KEY));
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not create a user", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(generatedKeys);
+            close(pstmt);
+            close(con);
         }
     }
 
     public void update(User user) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(UPDATE_USER);
-            int counter = 1;
-            pstmt.setString(counter++, user.getFirstName());
-            pstmt.setString(counter++, user.getLastName());
-            pstmt.setString(counter++, user.getEmail());
-            pstmt.setString(counter++, user.getPassword());
-            pstmt.setString(counter++, user.getRole());
-            pstmt.setString(counter++, user.getLang());
-            pstmt.setBoolean(counter++, user.getActiveStatus());
-
-            pstmt.setInt(counter, user.getId());
-
+            con = getConnection();
+            pstmt = con.prepareStatement(UPDATE_USER);
+            int counter = 0;
+            pstmt.setString(++counter, user.getFirstName());
+            pstmt.setString(++counter, user.getLastName());
+            pstmt.setString(++counter, user.getEmail());
+            pstmt.setString(++counter, user.getPassword());
+            pstmt.setString(++counter, user.getRole());
+            pstmt.setString(++counter, user.getLang());
+            pstmt.setBoolean(++counter, user.getActiveStatus());
+            pstmt.setInt(++counter, user.getId());
             pstmt.executeUpdate();
-            connection.commit();
+            con.commit();
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not update a user", e);
         } finally {
-            close(connection);
             close(pstmt);
+            close(con);
         }
     }
 
     public void delete(User user) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(DELETE_USER);
+            con = getConnection();
+            pstmt = con.prepareStatement(DELETE_USER);
             pstmt.setInt(1, user.getId());
-
             pstmt.execute();
-            connection.commit();
+            con.commit();
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not delete a user", e);
         } finally {
-            close(connection);
             close(pstmt);
+            close(con);
         }
     }
 
     public User find(int userId) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         User user = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_USER);
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_USER);
             pstmt.setInt(1, userId);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             if (rs.next()) {
                 user = unmarshal(rs);
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not find a user by id", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return user;
     }
 
     public User find(String email, String password) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         User user = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_USER_BY_EMAIL_AND_PASS);
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_USER_BY_EMAIL_AND_PASS);
             pstmt.setString(1, email);
             pstmt.setString(2, password);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             if (rs.next()) {
                 user = unmarshal(rs);
             }
-            connection.commit();
+            con.commit();
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not find a user by email and password", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return user;
     }
 
     public User find(String email) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         User user = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_USER_BY_EMAIL);
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_USER_BY_EMAIL);
             pstmt.setString(1, email);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             if (rs.next()) {
                 user = unmarshal(rs);
             }
-            connection.commit();
+            con.commit();
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not find a user by email", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return user;
     }
 
     public List<User> findAll() {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<User> users = new ArrayList<>();
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_ALL_USERS);
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_ALL_USERS);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             while (rs.next()) {
                 users.add(unmarshal(rs));
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not find all users", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return users;
     }

@@ -26,25 +26,25 @@ public class ApplicantReportSheetDao extends AbstractDao<ApplicantReportSheet> {
 
     public List<ApplicantReportSheet> getReport(int facultyId) {
         List<ApplicantReportSheet> applicantsResults = new ArrayList<>();
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(GET_REPORT_SHEET);
+            con = getConnection();
+            pstmt = con.prepareStatement(GET_REPORT_SHEET);
             pstmt.setInt(1, facultyId);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             while (rs.next()) {
                 applicantsResults.add(unmarshal(rs));
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not get report sheet", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return applicantsResults;
     }

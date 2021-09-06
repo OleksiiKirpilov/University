@@ -31,145 +31,145 @@ public class FacultyDao extends AbstractDao<Faculty> {
 
 
     public void create(Faculty entity) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(INSERT_FACULTY,
+            con = getConnection();
+            pstmt = con.prepareStatement(INSERT_FACULTY,
                     Statement.RETURN_GENERATED_KEYS);
-            int counter = 1;
-            pstmt.setString(counter++, entity.getNameRu());
-            pstmt.setString(counter++, entity.getNameEn());
-            pstmt.setInt(counter++, entity.getTotalPlaces());
-            pstmt.setInt(counter, entity.getBudgetPlaces());
-            connection.commit();
+            int counter = 0;
+            pstmt.setString(++counter, entity.getNameRu());
+            pstmt.setString(++counter, entity.getNameEn());
+            pstmt.setInt(++counter, entity.getTotalPlaces());
+            pstmt.setInt(++counter, entity.getBudgetPlaces());
+            con.commit();
             rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 entity.setId(rs.getInt(Fields.GENERATED_KEY));
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not create a faculty", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
     }
 
     public void update(Faculty entity) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(UPDATE_FACULTY);
-            int counter = 1;
-            pstmt.setString(counter++, entity.getNameRu());
-            pstmt.setString(counter++, entity.getNameEn());
-            pstmt.setInt(counter++, entity.getTotalPlaces());
-            pstmt.setInt(counter++, entity.getBudgetPlaces());
-            pstmt.setInt(counter, entity.getId());
+            con = getConnection();
+            pstmt = con.prepareStatement(UPDATE_FACULTY);
+            int counter = 0;
+            pstmt.setString(++counter, entity.getNameRu());
+            pstmt.setString(++counter, entity.getNameEn());
+            pstmt.setInt(++counter, entity.getTotalPlaces());
+            pstmt.setInt(++counter, entity.getBudgetPlaces());
+            pstmt.setInt(++counter, entity.getId());
             pstmt.executeUpdate();
-            connection.commit();
+            con.commit();
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not update a faculty", e);
         } finally {
-            close(connection);
             close(pstmt);
+            close(con);
         }
     }
 
     public void delete(Faculty entity) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(DELETE_FACULTY);
+            con = getConnection();
+            pstmt = con.prepareStatement(DELETE_FACULTY);
             pstmt.setInt(1, entity.getId());
             pstmt.execute();
-            connection.commit();
+            con.commit();
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not delete a faculty", e);
         } finally {
-            close(connection);
             close(pstmt);
+            close(con);
         }
     }
 
     public Faculty find(int id) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Faculty faculty = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_FACULTY_BY_ID);
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_FACULTY_BY_ID);
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             if (rs.next()) {
                 faculty = unmarshal(rs);
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not find a faculty", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return faculty;
     }
 
     public Faculty find(String facultyName) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Faculty faculty = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_FACULTY_BY_NAME);
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_FACULTY_BY_NAME);
             pstmt.setString(1, facultyName);
             pstmt.setString(2, facultyName);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             if (rs.next()) {
                 faculty = unmarshal(rs);
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not find a faculty", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return faculty;
     }
 
     public List<Faculty> findAll() {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Faculty> faculties = new ArrayList<>();
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_ALL_FACULTIES);
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_ALL_FACULTIES);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             while (rs.next()) {
                 faculties.add(unmarshal(rs));
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not find all faculties", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return faculties;
     }

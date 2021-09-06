@@ -46,198 +46,192 @@ public class SubjectDao extends AbstractDao<Subject> {
 	private static final Logger LOG = LogManager.getLogger(SubjectDao.class);
 
 	public void create(Subject entity) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(INSERT_SUBJECT,
+			con = getConnection();
+			pstmt = con.prepareStatement(INSERT_SUBJECT,
 					Statement.RETURN_GENERATED_KEYS);
-
 			pstmt.setString(1, entity.getNameRu());
 			pstmt.setString(2, entity.getNameEn());
-
 			pstmt.execute();
-			connection.commit();
+			con.commit();
 			rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				entity.setId(rs.getInt(Fields.GENERATED_KEY));
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not create a subject", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 
 	}
 
 	public void update(Subject entity) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(UPDATE_SUBJECT);
+			con = getConnection();
+			pstmt = con.prepareStatement(UPDATE_SUBJECT);
 			pstmt.setString(1, entity.getNameRu());
 			pstmt.setString(2, entity.getNameEn());
-
 			pstmt.setInt(3, entity.getId());
-
 			pstmt.executeUpdate();
-			connection.commit();
+			con.commit();
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not update a subject", e);
 		} finally {
-			close(connection);
 			close(pstmt);
+			close(con);
 		}
 
 	}
 
 	public void delete(Subject entity) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(DELETE_SUBJECT);
+			con = getConnection();
+			pstmt = con.prepareStatement(DELETE_SUBJECT);
 			pstmt.setInt(1, entity.getId());
-
 			pstmt.execute();
-			connection.commit();
+			con.commit();
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not delete a subject", e);
 		} finally {
-			close(connection);
 			close(pstmt);
+			close(con);
 		}
 	}
 
 	public Subject find(int entityPK) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Subject subject = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_SUBJECT_BY_ID);
+			con = getConnection();
+			pstmt = con.prepareStatement(FIND_SUBJECT_BY_ID);
 			pstmt.setInt(1, entityPK);
 			rs = pstmt.executeQuery();
-			connection.commit();
+			con.commit();
 			if (rs.next()) {
 				subject = unmarshal(rs);
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not find a subject", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 		return subject;
 	}
 
 	public Subject find(String subjectName) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Subject subject = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_SUBJECT_BY_NAME);
+			con = getConnection();
+			pstmt = con.prepareStatement(FIND_SUBJECT_BY_NAME);
 			pstmt.setString(1, subjectName);
 			pstmt.setString(2, subjectName);
-
 			rs = pstmt.executeQuery();
-			connection.commit();
+			con.commit();
 			if (rs.next()) {
 				subject = unmarshal(rs);
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not find a subject", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 		return subject;
 	}
 
 	public List<Subject> findAll() {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Subject> subjects = new ArrayList<>();
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_ALL_SUBJECTS);
+			con = getConnection();
+			pstmt = con.prepareStatement(FIND_ALL_SUBJECTS);
 			rs = pstmt.executeQuery();
-			connection.commit();
+			con.commit();
 			while (rs.next()) {
 				subjects.add(unmarshal(rs));
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not find all subjects", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 		return subjects;
 	}
 
 	public List<Subject> findAllFacultySubjects(Faculty faculty) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Subject> facultySubjects = new ArrayList<>();
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_ALL_FACULTY_SUBJECTS);
+			con = getConnection();
+			pstmt = con.prepareStatement(FIND_ALL_FACULTY_SUBJECTS);
 			pstmt.setInt(1, faculty.getId());
 			rs = pstmt.executeQuery();
-			connection.commit();
+			con.commit();
 			while (rs.next()) {
 				facultySubjects.add(unmarshal(rs));
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not find all faculty subjects", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 		return facultySubjects;
 	}
 
 	public List<Subject> findAllNotFacultySubjects(Faculty faculty) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Subject> facultySubjects = new ArrayList<>();
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_ALL_NOT_FACULTY_SUBJECTS);
+			con = getConnection();
+			pstmt = con.prepareStatement(FIND_ALL_NOT_FACULTY_SUBJECTS);
 			pstmt.setInt(1, faculty.getId());
 			rs = pstmt.executeQuery();
-			connection.commit();
+			con.commit();
 			while (rs.next()) {
 				facultySubjects.add(unmarshal(rs));
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not find all not faculty subjects", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 		return facultySubjects;
 	}

@@ -37,173 +37,173 @@ public class ApplicantDao extends AbstractDao<Applicant> {
 	private static final Logger LOG = LogManager.getLogger(ApplicantDao.class);
 
 	public void create(Applicant entity) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(INSERT_APPLICANT,
+			con = getConnection();
+			pstmt = con.prepareStatement(INSERT_APPLICANT,
 					Statement.RETURN_GENERATED_KEYS);
-			int counter = 1;
-			pstmt.setString(counter++, entity.getCity());
-			pstmt.setString(counter++, entity.getDistrict());
-			pstmt.setString(counter++, entity.getSchool());
-			pstmt.setInt(counter++, entity.getUserId());
-			pstmt.setBoolean(counter, entity.getBlockedStatus());
+			int counter = 0;
+			pstmt.setString(++counter, entity.getCity());
+			pstmt.setString(++counter, entity.getDistrict());
+			pstmt.setString(++counter, entity.getSchool());
+			pstmt.setInt(++counter, entity.getUserId());
+			pstmt.setBoolean(++counter, entity.getBlockedStatus());
 			pstmt.execute();
-			connection.commit();
+			con.commit();
 			rs = pstmt.getGeneratedKeys();
 			if (rs.next()) {
 				entity.setId(rs.getInt(Fields.GENERATED_KEY));
 			}
 
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not create an applicant", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 	}
 
 	public void update(Applicant entity) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(UPDATE_APPLICANT);
-			int counter = 1;
-			pstmt.setString(counter++, entity.getCity());
-			pstmt.setString(counter++, entity.getDistrict());
-			pstmt.setString(counter++, entity.getSchool());
-			pstmt.setInt(counter++, entity.getUserId());
-			pstmt.setBoolean(counter++, entity.getBlockedStatus());
-			pstmt.setInt(counter, entity.getId());
+			con = getConnection();
+			pstmt = con.prepareStatement(UPDATE_APPLICANT);
+			int counter = 0;
+			pstmt.setString(++counter, entity.getCity());
+			pstmt.setString(++counter, entity.getDistrict());
+			pstmt.setString(++counter, entity.getSchool());
+			pstmt.setInt(++counter, entity.getUserId());
+			pstmt.setBoolean(++counter, entity.getBlockedStatus());
+			pstmt.setInt(++counter, entity.getId());
 			pstmt.executeUpdate();
-			connection.commit();
+			con.commit();
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not update an applicant", e);
 		} finally {
-			close(connection);
 			close(pstmt);
+			close(con);
 		}
 	}
 
 	public void delete(Applicant entity) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(DELETE_APPLICANT);
+			con = getConnection();
+			pstmt = con.prepareStatement(DELETE_APPLICANT);
 			pstmt.setInt(1, entity.getId());
 			pstmt.execute();
-			connection.commit();
+			con.commit();
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not delete an applicant", e);
 		} finally {
-			close(connection);
 			close(pstmt);
+			close(con);
 		}
 	}
 
 	public Applicant find(int id) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Applicant applicant = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_APPLICANT);
+			con = getConnection();
+			pstmt = con.prepareStatement(FIND_APPLICANT);
 			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
-			connection.commit();
+			con.commit();
 			if (rs.next()) {
 				applicant = unmarshal(rs);
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not find an applicant", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 		return applicant;
 	}
 
 	public Applicant find(User user) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		Applicant applicant = null;
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_APPLICANT_BY_USER_ID);
+			con = getConnection();
+			pstmt = con.prepareStatement(FIND_APPLICANT_BY_USER_ID);
 			pstmt.setInt(1, user.getId());
 			rs = pstmt.executeQuery();
-			connection.commit();
+			con.commit();
 			if (rs.next()) {
 				applicant = unmarshal(rs);
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not find an applicant", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 		return applicant;
 	}
 
 	public List<Applicant> findAll() {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Applicant> users = new ArrayList<>();
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_ALL_APPLICANTS);
+			con = getConnection();
+			pstmt = con.prepareStatement(FIND_ALL_APPLICANTS);
 			rs = pstmt.executeQuery();
-			connection.commit();
+			con.commit();
 			while (rs.next()) {
 				users.add(unmarshal(rs));
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not find all applicants", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 		return users;
 	}
 
 	public List<Applicant> findAllFacultyApplicants(Faculty faculty) {
-		Connection connection = null;
+		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		List<Applicant> facultyApplicants = new ArrayList<>();
 		try {
-			connection = getConnection();
-			pstmt = connection.prepareStatement(FIND_ALL_FACULTY_APPLICANT);
+			con = getConnection();
+			pstmt = con.prepareStatement(FIND_ALL_FACULTY_APPLICANT);
 			pstmt.setInt(1, faculty.getId());
 			rs = pstmt.executeQuery();
-			connection.commit();
+			con.commit();
 			while (rs.next()) {
 				facultyApplicants.add(unmarshal(rs));
 			}
 		} catch (SQLException e) {
-			rollback(connection);
+			rollback(con);
 			LOG.error("Can not find faculty applicants", e);
 		} finally {
-			close(connection);
-			close(pstmt);
 			close(rs);
+			close(pstmt);
+			close(con);
 		}
 		return facultyApplicants;
 	}

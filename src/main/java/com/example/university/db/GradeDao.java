@@ -26,120 +26,120 @@ public class GradeDao extends AbstractDao<Grade> {
     private static final Logger LOG = LogManager.getLogger(GradeDao.class);
 
     public void create(Grade entity) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(INSERT_GRADE,
+            con = getConnection();
+            pstmt = con.prepareStatement(INSERT_GRADE,
                     Statement.RETURN_GENERATED_KEYS);
-            int counter = 1;
-            pstmt.setInt(counter++, entity.getApplicantId());
-            pstmt.setInt(counter++, entity.getSubjectId());
-            pstmt.setInt(counter++, entity.getGrade());
-            pstmt.setString(counter, entity.getExamType());
+            int counter = 0;
+            pstmt.setInt(++counter, entity.getApplicantId());
+            pstmt.setInt(++counter, entity.getSubjectId());
+            pstmt.setInt(++counter, entity.getGrade());
+            pstmt.setString(++counter, entity.getExamType());
             pstmt.execute();
-            connection.commit();
+            con.commit();
             rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
                 entity.setId(rs.getInt(Fields.GENERATED_KEY));
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not create a grade", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
     }
 
     public void update(Grade entity) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(UPDATE_GRADE);
-            int counter = 1;
-            pstmt.setInt(counter++, entity.getApplicantId());
-            pstmt.setInt(counter++, entity.getSubjectId());
-            pstmt.setInt(counter++, entity.getGrade());
-            pstmt.setString(counter++, entity.getExamType());
-            pstmt.setInt(counter, entity.getId());
+            con = getConnection();
+            pstmt = con.prepareStatement(UPDATE_GRADE);
+            int counter = 0;
+            pstmt.setInt(++counter, entity.getApplicantId());
+            pstmt.setInt(++counter, entity.getSubjectId());
+            pstmt.setInt(++counter, entity.getGrade());
+            pstmt.setString(++counter, entity.getExamType());
+            pstmt.setInt(++counter, entity.getId());
             pstmt.executeUpdate();
-            connection.commit();
+            con.commit();
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not update a grade", e);
         } finally {
-            close(connection);
             close(pstmt);
+            close(con);
         }
     }
 
     public void delete(Grade entity) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(DELETE_GRADE);
+            con = getConnection();
+            pstmt = con.prepareStatement(DELETE_GRADE);
             pstmt.setInt(1, entity.getId());
             pstmt.execute();
-            connection.commit();
+            con.commit();
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not delete a grade", e);
         } finally {
-            close(connection);
             close(pstmt);
+            close(con);
         }
     }
 
     public Grade find(int id) {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Grade grade = null;
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_GRADE);
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_GRADE);
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             if (rs.next()) {
                 grade = unmarshal(rs);
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not find a grade", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return grade;
     }
 
     public List<Grade> findAll() {
-        Connection connection = null;
+        Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         List<Grade> users = new ArrayList<>();
         try {
-            connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_ALL_GRADES);
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_ALL_GRADES);
             rs = pstmt.executeQuery();
-            connection.commit();
+            con.commit();
             while (rs.next()) {
                 users.add(unmarshal(rs));
             }
         } catch (SQLException e) {
-            rollback(connection);
+            rollback(con);
             LOG.error("Can not find all grades", e);
         } finally {
-            close(connection);
-            close(pstmt);
             close(rs);
+            close(pstmt);
+            close(con);
         }
         return users;
     }
