@@ -1,4 +1,4 @@
-package com.example.university.entity;
+package com.example.university.entities;
 
 /**
  * Faculty subjects entity. Main purpose of this class is to tell which subjects

@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 import javax.sql.DataSource;
 
-import com.example.university.entity.Entity;
+import com.example.university.entities.Entity;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

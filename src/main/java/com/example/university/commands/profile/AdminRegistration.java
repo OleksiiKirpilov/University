@@ -1,8 +1,8 @@
 package com.example.university.commands.profile;
 
 import com.example.university.commands.Command;
-import com.example.university.entity.Role;
-import com.example.university.entity.User;
+import com.example.university.entities.Role;
+import com.example.university.entities.User;
 import com.example.university.db.UserDao;
 import com.example.university.utils.Fields;
 import com.example.university.utils.InputValidator;

@@ -1,4 +1,4 @@
-package com.example.university.entity;
+package com.example.university.entities;
 
 /**
  * Faculty entity. Every faculty is characterized by the name, amount of budget

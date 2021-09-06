@@ -2,7 +2,8 @@ package com.example.university.utils;
 
 public class InputValidator {
 
-    private InputValidator() {}
+    private InputValidator() {
+    }
 
     public static boolean validateUserParameters(String firstName, String lastName,
                                                  String email, String password, String lang) {
@@ -12,36 +13,38 @@ public class InputValidator {
     }
 
     public static boolean validateApplicantParameters(String city,
-                                                      String district, String school) {
+                                                      String district,
+                                                      String school) {
         return FieldValidator.isFilled(city, district) && (!school.isEmpty());
     }
 
     public static boolean validateFacultyParameters(String facultyNameRu,
-                                             String facultyNameEng, String facultyBudgetSeats,
-                                             String facultyTotalSeats) {
+                                                    String facultyNameEn,
+                                                    String facultyBudgetPlaces,
+                                                    String facultyTotalPlaces) {
         if (!FieldValidator.isCyrillicWord(facultyNameRu)
-                || !FieldValidator.isLatinWord(facultyNameEng)) {
+                || !FieldValidator.isLatinWord(facultyNameEn)) {
             return false;
         }
-        if (!FieldValidator.isPositiveDecimalNumber(facultyBudgetSeats,
-                facultyTotalSeats)) {
+        if (!FieldValidator.isPositiveDecimalNumber(facultyBudgetPlaces,
+                facultyTotalPlaces)) {
             return false;
         }
-        if (!FieldValidator.isPositiveByte(Long.valueOf(facultyBudgetSeats),
-                Long.valueOf(facultyTotalSeats))) {
+        if (!FieldValidator.isPositiveByte(Long.valueOf(facultyBudgetPlaces),
+                Long.valueOf(facultyTotalPlaces))) {
             return false;
         }
-        int budget = Integer.parseInt(facultyBudgetSeats);
-        int total = Integer.parseInt(facultyTotalSeats);
+        int budget = Integer.parseInt(facultyBudgetPlaces);
+        int total = Integer.parseInt(facultyTotalPlaces);
         return FieldValidator.checkBudgetLowerTotal(budget, total);
     }
 
     public static boolean validateSubjectParameters(String subjectNameRu,
-                                             String subjectNameEng) {
+                                                    String subjectNameEn) {
         if (!FieldValidator.isCyrillicWord(subjectNameRu)) {
             return false;
         }
-        return FieldValidator.isLatinWord(subjectNameEng);
+        return FieldValidator.isLatinWord(subjectNameEn);
     }
 
 

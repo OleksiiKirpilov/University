@@ -1,4 +1,4 @@
-package com.example.university.entity;
+package com.example.university.entities;
 
 /**
  * Faculty applicants entity. This is a compound entity class, that tells which

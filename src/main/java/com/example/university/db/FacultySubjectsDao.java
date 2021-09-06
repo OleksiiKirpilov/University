@@ -1,7 +1,7 @@
 package com.example.university.db;
 
-import com.example.university.entity.Faculty;
-import com.example.university.entity.FacultySubjects;
+import com.example.university.entities.Faculty;
+import com.example.university.entities.FacultySubjects;
 import com.example.university.utils.Fields;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

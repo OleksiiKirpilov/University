@@ -8,8 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.university.entity.Faculty;
-import com.example.university.entity.Subject;
+import com.example.university.entities.Faculty;
+import com.example.university.entities.Subject;
 import com.example.university.utils.Fields;
 
 import org.apache.logging.log4j.LogManager;

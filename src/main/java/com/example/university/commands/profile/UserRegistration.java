@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.example.university.commands.Command;
 import com.example.university.db.*;
-import com.example.university.entity.Applicant;
-import com.example.university.entity.Role;
-import com.example.university.entity.User;
+import com.example.university.entities.Applicant;
+import com.example.university.entities.Role;
+import com.example.university.entities.User;
 import com.example.university.utils.Fields;
 import com.example.university.utils.InputValidator;
 import com.example.university.utils.Path;

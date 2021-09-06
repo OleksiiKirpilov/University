@@ -2,7 +2,7 @@ package com.example.university.commands.subject;
 
 import com.example.university.commands.Command;
 import com.example.university.db.SubjectDao;
-import com.example.university.entity.Subject;
+import com.example.university.entities.Subject;
 import com.example.university.utils.Path;
 import com.example.university.utils.RequestType;
 import org.apache.logging.log4j.LogManager;

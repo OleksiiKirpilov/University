@@ -1,4 +1,4 @@
-package com.example.university.entity;
+package com.example.university.entities;
 
 public class ApplicantReportSheet extends Entity {
 

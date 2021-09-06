@@ -2,7 +2,7 @@ package com.example.university.commands.subject;
 
 import com.example.university.commands.Command;
 import com.example.university.db.SubjectDao;
-import com.example.university.entity.Subject;
+import com.example.university.entities.Subject;
 import com.example.university.utils.Fields;
 import com.example.university.utils.Path;
 import com.example.university.utils.RequestType;
@@ -39,10 +39,10 @@ public class ViewSubject extends Command {
      * @return path to the subject view.
      */
     private String doGet(HttpServletRequest request) {
-        String subjectNameEng = request.getParameter(Fields.SUBJECT_NAME_EN);
-        LOG.trace("Subject name to look for is equal to: '{}'", subjectNameEng);
+        String subjectNameEn = request.getParameter(Fields.SUBJECT_NAME_EN);
+        LOG.trace("Subject name to look for is equal to: '{}'", subjectNameEn);
         SubjectDao subjectDao = new SubjectDao();
-        Subject subject = subjectDao.find(subjectNameEng);
+        Subject subject = subjectDao.find(subjectNameEn);
         LOG.trace("Subject record found: {}", subject);
         request.setAttribute(Fields.ENTITY_ID, subject.getId());
         LOG.trace("Set the request attribute: 'id' = {}", subject.getId());

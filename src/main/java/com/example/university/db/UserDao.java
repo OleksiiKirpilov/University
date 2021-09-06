@@ -1,6 +1,6 @@
 package com.example.university.db;
 
-import com.example.university.entity.User;
+import com.example.university.entities.User;
 import com.example.university.utils.Fields;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

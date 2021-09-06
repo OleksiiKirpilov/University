@@ -1,4 +1,4 @@
-package com.example.university.entity;
+package com.example.university.entities;
 
 /**
  * Applicant entity. This transfer object characterized by city, district,

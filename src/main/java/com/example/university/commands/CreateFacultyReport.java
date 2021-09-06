@@ -2,8 +2,8 @@ package com.example.university.commands;
 
 import com.example.university.db.ApplicantReportSheetDao;
 import com.example.university.db.FacultyDao;
-import com.example.university.entity.ApplicantReportSheet;
-import com.example.university.entity.Faculty;
+import com.example.university.entities.ApplicantReportSheet;
+import com.example.university.entities.Faculty;
 import com.example.university.utils.Fields;
 import com.example.university.utils.Path;
 import com.example.university.utils.RequestType;

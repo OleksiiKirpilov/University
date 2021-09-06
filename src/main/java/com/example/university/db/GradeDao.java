@@ -1,6 +1,6 @@
 package com.example.university.db;
 
-import com.example.university.entity.Grade;
+import com.example.university.entities.Grade;
 import com.example.university.utils.Fields;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,14 +14,14 @@ import java.util.List;
  */
 public class GradeDao extends AbstractDao<Grade> {
 
-    private static final String FIND_ALL_MARKS = "SELECT * FROM grades";
-    private static final String FIND_MARK = "SELECT * FROM grades WHERE id = ?";
-    private static final String INSERT_MARK =
+    private static final String FIND_ALL_GRADES = "SELECT * FROM grades";
+    private static final String FIND_GRADE = "SELECT * FROM grades WHERE id = ?";
+    private static final String INSERT_GRADE =
             "INSERT INTO grades(applicant_id, subject_id, grade, exam_type) VALUES (?,?,?,?)";
-    private static final String UPDATE_MARK =
+    private static final String UPDATE_GRADE =
             "UPDATE grades SET applicant_id = ?, subject_id = ?, grade = ?, exam_type = ? " +
                     "WHERE id = ?";
-    private static final String DELETE_MARK = "DELETE FROM grades WHERE id = ?";
+    private static final String DELETE_GRADE = "DELETE FROM grades WHERE id = ?";
 
     private static final Logger LOG = LogManager.getLogger(GradeDao.class);
 
@@ -31,12 +31,12 @@ public class GradeDao extends AbstractDao<Grade> {
         ResultSet rs = null;
         try {
             connection = getConnection();
-            pstmt = connection.prepareStatement(INSERT_MARK,
+            pstmt = connection.prepareStatement(INSERT_GRADE,
                     Statement.RETURN_GENERATED_KEYS);
             int counter = 1;
             pstmt.setInt(counter++, entity.getApplicantId());
             pstmt.setInt(counter++, entity.getSubjectId());
-            pstmt.setInt(counter++, entity.getMark());
+            pstmt.setInt(counter++, entity.getGrade());
             pstmt.setString(counter, entity.getExamType());
             pstmt.execute();
             connection.commit();
@@ -46,7 +46,7 @@ public class GradeDao extends AbstractDao<Grade> {
             }
         } catch (SQLException e) {
             rollback(connection);
-            LOG.error("Can not create a mark", e);
+            LOG.error("Can not create a grade", e);
         } finally {
             close(connection);
             close(pstmt);
@@ -59,18 +59,18 @@ public class GradeDao extends AbstractDao<Grade> {
         PreparedStatement pstmt = null;
         try {
             connection = getConnection();
-            pstmt = connection.prepareStatement(UPDATE_MARK);
+            pstmt = connection.prepareStatement(UPDATE_GRADE);
             int counter = 1;
             pstmt.setInt(counter++, entity.getApplicantId());
             pstmt.setInt(counter++, entity.getSubjectId());
-            pstmt.setInt(counter++, entity.getMark());
+            pstmt.setInt(counter++, entity.getGrade());
             pstmt.setString(counter++, entity.getExamType());
             pstmt.setInt(counter, entity.getId());
             pstmt.executeUpdate();
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            LOG.error("Can not update a mark", e);
+            LOG.error("Can not update a grade", e);
         } finally {
             close(connection);
             close(pstmt);
@@ -82,13 +82,13 @@ public class GradeDao extends AbstractDao<Grade> {
         PreparedStatement pstmt = null;
         try {
             connection = getConnection();
-            pstmt = connection.prepareStatement(DELETE_MARK);
+            pstmt = connection.prepareStatement(DELETE_GRADE);
             pstmt.setInt(1, entity.getId());
             pstmt.execute();
             connection.commit();
         } catch (SQLException e) {
             rollback(connection);
-            LOG.error("Can not delete a mark", e);
+            LOG.error("Can not delete a grade", e);
         } finally {
             close(connection);
             close(pstmt);
@@ -99,25 +99,25 @@ public class GradeDao extends AbstractDao<Grade> {
         Connection connection = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        Grade mark = null;
+        Grade grade = null;
         try {
             connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_MARK);
+            pstmt = connection.prepareStatement(FIND_GRADE);
             pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
             connection.commit();
             if (rs.next()) {
-                mark = unmarshal(rs);
+                grade = unmarshal(rs);
             }
         } catch (SQLException e) {
             rollback(connection);
-            LOG.error("Can not find a mark", e);
+            LOG.error("Can not find a grade", e);
         } finally {
             close(connection);
             close(pstmt);
             close(rs);
         }
-        return mark;
+        return grade;
     }
 
     public List<Grade> findAll() {
@@ -127,7 +127,7 @@ public class GradeDao extends AbstractDao<Grade> {
         List<Grade> users = new ArrayList<>();
         try {
             connection = getConnection();
-            pstmt = connection.prepareStatement(FIND_ALL_MARKS);
+            pstmt = connection.prepareStatement(FIND_ALL_GRADES);
             rs = pstmt.executeQuery();
             connection.commit();
             while (rs.next()) {
@@ -135,7 +135,7 @@ public class GradeDao extends AbstractDao<Grade> {
             }
         } catch (SQLException e) {
             rollback(connection);
-            LOG.error("Can not find all marks", e);
+            LOG.error("Can not find all grades", e);
         } finally {
             close(connection);
             close(pstmt);
@@ -156,10 +156,10 @@ public class GradeDao extends AbstractDao<Grade> {
             g.setId(rs.getInt(Fields.ENTITY_ID));
             g.setApplicantId(rs.getInt(Fields.APPLICANT_ID));
             g.setSubjectId(rs.getInt(Fields.SUBJECT_ID));
-            g.setMark(rs.getInt(Fields.MARK_VALUE));
-            g.setExamType(rs.getString(Fields.MARK_EXAM_TYPE));
+            g.setGrade(rs.getInt(Fields.GRADE_VALUE));
+            g.setExamType(rs.getString(Fields.GRADE_EXAM_TYPE));
         } catch (SQLException e) {
-            LOG.error("Can not unmarshal ResultSet to mark", e);
+            LOG.error("Can not unmarshal ResultSet to grade", e);
         }
         return g;
     }

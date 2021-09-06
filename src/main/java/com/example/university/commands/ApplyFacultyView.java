@@ -1,7 +1,7 @@
 package com.example.university.commands;
 
 import com.example.university.db.*;
-import com.example.university.entity.*;
+import com.example.university.entities.*;
 import com.example.university.utils.Fields;
 import com.example.university.utils.Path;
 import com.example.university.utils.RequestType;
@@ -103,9 +103,9 @@ public class ApplyFacultyView extends Command {
                 int subjectId = Integer.parseInt(subjectIdAndExamType[0]);
                 String examType = subjectIdAndExamType[1];
                 Grade grade = new Grade(subjectId, applicant.getId(), gradeValue, examType);
-                LOG.trace("Create Mark transfer object: {}", grade);
+                LOG.trace("Create Grade transfer object: {}", grade);
                 gradeDao.create(grade);
-                LOG.trace("Mark record was created in database: {}", grade);
+                LOG.trace("Grade record was created in database: {}", grade);
             }
         }
         LOG.trace("End extracting data from request");

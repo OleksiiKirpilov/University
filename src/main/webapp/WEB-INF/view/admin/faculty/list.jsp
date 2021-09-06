@@ -16,8 +16,8 @@
 		<thead>
 			<tr>
 				<td><fmt:message key="faculty.list_jsp.label.name" /></td>
-				<td><fmt:message key="faculty.list_jsp.label.total_seats" /></td>
-				<td><fmt:message key="faculty.list_jsp.label.budget_seats" /></td>
+				<td><fmt:message key="faculty.list_jsp.label.total_places" /></td>
+				<td><fmt:message key="faculty.list_jsp.label.budget_places" /></td>
 			</tr>
 		</thead>
 		<tbody>

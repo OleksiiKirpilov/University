@@ -4,9 +4,9 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.university.entity.Applicant;
-import com.example.university.entity.Faculty;
-import com.example.university.entity.User;
+import com.example.university.entities.Applicant;
+import com.example.university.entities.Faculty;
+import com.example.university.entities.User;
 import com.example.university.utils.Fields;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,7 +50,6 @@ public class ApplicantDao extends AbstractDao<Applicant> {
 			pstmt.setString(counter++, entity.getSchool());
 			pstmt.setInt(counter++, entity.getUserId());
 			pstmt.setBoolean(counter, entity.getBlockedStatus());
-
 			pstmt.execute();
 			connection.commit();
 			rs = pstmt.getGeneratedKeys();
@@ -81,7 +80,6 @@ public class ApplicantDao extends AbstractDao<Applicant> {
 			pstmt.setInt(counter++, entity.getUserId());
 			pstmt.setBoolean(counter++, entity.getBlockedStatus());
 			pstmt.setInt(counter, entity.getId());
-
 			pstmt.executeUpdate();
 			connection.commit();
 		} catch (SQLException e) {
@@ -100,7 +98,6 @@ public class ApplicantDao extends AbstractDao<Applicant> {
 			connection = getConnection();
 			pstmt = connection.prepareStatement(DELETE_APPLICANT);
 			pstmt.setInt(1, entity.getId());
-
 			pstmt.execute();
 			connection.commit();
 		} catch (SQLException e) {

@@ -1,9 +1,9 @@
 package com.example.university.commands.faculty;
 
 import com.example.university.commands.Command;
-import com.example.university.entity.Applicant;
+import com.example.university.entities.Applicant;
 import com.example.university.db.ApplicantDao;
-import com.example.university.entity.Faculty;
+import com.example.university.entities.Faculty;
 import com.example.university.db.FacultyDao;
 import com.example.university.utils.Fields;
 import com.example.university.utils.Path;

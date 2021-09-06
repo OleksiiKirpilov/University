@@ -1,4 +1,4 @@
-package com.example.university.entity;
+package com.example.university.entities;
 
 /**
  * Subject entity. Every subject is characterized by its name.
@@ -35,7 +35,7 @@ public class Subject extends Entity {
 
 	@Override
 	public String toString() {
-		return "Subject [nameRu=" + nameRu + ", nameEng=" + nameEn + "]";
+		return "Subject [nameRu=" + nameRu + ", nameEn=" + nameEn + "]";
 	}
 
 }

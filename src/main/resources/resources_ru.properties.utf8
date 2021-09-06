@@ -52,8 +52,8 @@ registration.button.reset = Отменить
 
 faculty.list_jsp.label.faculties_list = Список факультетов
 faculty.list_jsp.label.name = Название факультета
-faculty.list_jsp.label.total_seats = Всего мест
-faculty.list_jsp.label.budget_seats = Бюджетные места
+faculty.list_jsp.label.total_places = Всего мест
+faculty.list_jsp.label.budget_places = Бюджетные места
 faculty.list_jsp.button.add = Добавить факультет
 
 faculty.view_jsp.label.name = Название факультета
