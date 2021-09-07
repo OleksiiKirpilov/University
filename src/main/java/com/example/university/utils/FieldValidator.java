@@ -15,21 +15,20 @@ public class FieldValidator {
 	private static boolean checkNull(Object... values) {
 		if (values == null) {
 			return true;
-		} else {
-			for (Object value : values) {
-				if (value == null) {
-					return true;
-				}
-			}
-			return false;
 		}
+		for (Object value : values) {
+			if (value == null) {
+				return true;
+			}
+		}
+		return false;
 	}
 
-	public static boolean isFilled(String... stringValues) {
-		if (checkNull((Object) stringValues)) {
+	public static boolean isFilled(String... values) {
+		if (checkNull((Object) values)) {
 			return false;
 		}
-		for (String value : stringValues) {
+		for (String value : values) {
 			if (!value.matches(FILLED_REGEX)) {
 				return false;
 			}

@@ -28,7 +28,7 @@ public class AddSubject extends Command {
             throws IOException, ServletException {
         LOG.debug("Command execution");
         if (requestType == RequestType.GET) {
-            return doGet(response);
+            return doGet();
         }
         return doPost(request);
     }
@@ -38,7 +38,7 @@ public class AddSubject extends Command {
      *
      * @return path to add page
      */
-    private String doGet(HttpServletResponse response) {
+    private String doGet() {
         return Path.FORWARD_SUBJECT_ADD_ADMIN;
     }
 

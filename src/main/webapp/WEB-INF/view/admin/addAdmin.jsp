@@ -41,15 +41,11 @@
 			</div>
 			<br>
 			<div class="field">
-				<input type="reset"
-					value="<fmt:message
-					key="registration.button.reset" />" />
+				<input type="reset" value="<fmt:message key="registration.button.reset" />" />
 			</div>
 			<br>
 			<div class="field">
-				<input type="submit"
-					value="<fmt:message
-					key="registration.button.submit" />" />
+				<input type="submit" value="<fmt:message key="registration.button.submit" />" />
 			</div>
 		</form>
 	</div>
