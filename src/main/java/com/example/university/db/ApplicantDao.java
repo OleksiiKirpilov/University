@@ -29,9 +29,8 @@ public class ApplicantDao extends AbstractDao<Applicant> {
 	private static final String DELETE_APPLICANT =
 			"DELETE FROM applicants WHERE id = ?";
 	private static final String FIND_ALL_FACULTY_APPLICANT =
-			"SELECT university.applicants.* FROM applicants " +
-					"INNER JOIN university.faculty_applicants ON " +
-					"university.faculty_applicants.applicant_id = university.applicants.id  " +
+			"SELECT applicants.* FROM applicants INNER JOIN faculty_applicants" +
+					" ON faculty_applicants.applicant_id = applicants.id  " +
 					"WHERE faculty_applicants.faculty_id = ?";
 
 	private static final Logger LOG = LogManager.getLogger(ApplicantDao.class);
