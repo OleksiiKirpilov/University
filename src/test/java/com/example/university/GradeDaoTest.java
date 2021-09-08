@@ -18,7 +18,7 @@ public class GradeDaoTest {
     }
 
     @Test
-    public void should() {
+    public void shouldDoCrud() {
         String email = "invalid@invalid.invalid";
         GradeDao d = new GradeDao();
         ApplicantDao applicantDao = new ApplicantDao();

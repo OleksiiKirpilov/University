@@ -19,7 +19,7 @@ public class FacultyDao extends AbstractDao<Faculty> {
             "SELECT * FROM faculties WHERE faculties.id = ?";
     private static final String FIND_FACULTY_BY_NAME =
             "SELECT * FROM faculties WHERE faculties.name_ru = ? OR faculties.name_en = ?";
-    private static final String INSERT_FACULTY =
+    private static final String ADD_FACULTY =
             "INSERT INTO faculties(name_ru, name_en, total_places, budget_places) VALUES (?,?,?,?)";
     private static final String UPDATE_FACULTY =
             "UPDATE faculties SET name_ru = ?, name_en= ?, total_places = ?," +
@@ -36,13 +36,13 @@ public class FacultyDao extends AbstractDao<Faculty> {
         ResultSet rs = null;
         try {
             con = getConnection();
-            pstmt = con.prepareStatement(INSERT_FACULTY,
-                    Statement.RETURN_GENERATED_KEYS);
+            pstmt = con.prepareStatement(ADD_FACULTY, Statement.RETURN_GENERATED_KEYS);
             int counter = 0;
             pstmt.setString(++counter, entity.getNameRu());
             pstmt.setString(++counter, entity.getNameEn());
             pstmt.setInt(++counter, entity.getTotalPlaces());
             pstmt.setInt(++counter, entity.getBudgetPlaces());
+            pstmt.execute();
             con.commit();
             rs = pstmt.getGeneratedKeys();
             if (rs.next()) {
