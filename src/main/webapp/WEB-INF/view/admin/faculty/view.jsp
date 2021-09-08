@@ -74,5 +74,8 @@
 			</ol>
 		</c:if>
 	</div>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 </body>
 </html>

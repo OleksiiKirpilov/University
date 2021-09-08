@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.example.university.commands.Command;
 import com.example.university.db.*;
@@ -67,7 +68,7 @@ public class UserRegistration extends Command {
 				lastName, email, password, lang);
 		valid &= InputValidator.validateApplicantParameters(city, district, school);
 		if (!valid) {
-			request.setAttribute("errorMessage", "Please fill all fields!");
+			setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
 			LOG.error("errorMessage: Not all fields are filled");
 			return Path.REDIRECT_USER_REGISTRATION_PAGE;
 		}

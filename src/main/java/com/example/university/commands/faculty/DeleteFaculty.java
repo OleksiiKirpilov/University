@@ -14,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class DeleteFaculty extends Command {
             throws IOException, ServletException {
         LOG.debug("Executing Command");
         if (RequestType.POST == requestType) {
-            return doPost(request, response);
+            return doPost(request);
         }
         return null;
     }
@@ -43,16 +44,14 @@ public class DeleteFaculty extends Command {
      * @return path to view of all faculties if deletion was successful,
      * otherwise to faculty view.
      */
-    private String doPost(HttpServletRequest request,
-                          HttpServletResponse response) {
+    private String doPost(HttpServletRequest request) {
         int facultyId = Integer.parseInt(request.getParameter(Fields.ENTITY_ID));
         FacultyDao facultyDao = new FacultyDao();
         Faculty facultyToDelete = facultyDao.find(facultyId);
         ApplicantDao applicantDao = new ApplicantDao();
         List<Applicant> facultyApplicants = applicantDao.findAllFacultyApplicants(facultyToDelete);
         if (facultyApplicants != null) {
-            request.setAttribute("errorMessage",
-                    "There are records in other tables that rely on this faculty.");
+            setErrorMessage(request, ERROR_FACULTY_DEPENDS);
             return Path.REDIRECT_TO_FACULTY + facultyToDelete.getNameEn();
         }
         facultyDao.delete(facultyToDelete);

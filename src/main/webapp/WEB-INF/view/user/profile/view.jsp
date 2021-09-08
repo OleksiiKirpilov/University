@@ -41,5 +41,8 @@
 				value="<fmt:message key="profile.view_jsp.button.logout" />">
 		</form>
 	</div>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 </body>
 </html>

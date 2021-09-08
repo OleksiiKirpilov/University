@@ -49,5 +49,8 @@
 			</div>
 		</form>
 	</div>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 </body>
 </html>

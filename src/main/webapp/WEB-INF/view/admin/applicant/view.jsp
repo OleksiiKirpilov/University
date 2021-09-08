@@ -50,5 +50,7 @@
 				key="applicant.view_jsp.button.change_blocked_status_msg" />">
 	</form>
 
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 </body>
 </html>

@@ -24,6 +24,9 @@
 			</p>
 		</form>
 	</div>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 	<script src="<c:url value="/script/subject-validation.js"/>"></script>
 </body>
 </html>

@@ -82,6 +82,9 @@
 			</div>
 		</form>
 	</div>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 	<script>
 		function validate() {
 			var first_name = document.getElementById("first_name");

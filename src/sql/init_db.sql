@@ -8,27 +8,35 @@ USE university ;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS users (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(40) NOT NULL,
-  `last_name` VARCHAR(40) NOT NULL,
-  `email` VARCHAR(100) NOT NULL,
-  `password` VARCHAR(32) NOT NULL,
-  `role` ENUM('user', 'admin') NOT NULL,
-  `lang` ENUM('ru','en') NOT NULL DEFAULT 'ru',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`));
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `first_name` VARCHAR(40) NOT NULL,
+    `last_name` VARCHAR(40) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `password` VARCHAR(32) NOT NULL,
+    `role` ENUM('user', 'admin') NOT NULL,
+    `lang` ENUM('ru','en') NOT NULL DEFAULT 'ru',
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+    UNIQUE KEY `email` (`email`)),
+    UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 
 -- ---------------- applicants -------------------------------------
 DROP TABLE IF EXISTS applicants;
 
 CREATE TABLE IF NOT EXISTS applicants (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `city` VARCHAR(40) NOT NULL,
-  `district` VARCHAR(40) NOT NULL,
-  `school` VARCHAR(50) NOT NULL,
-  `users_id` INT REFERENCES `users` (`id`) ON DELETE CASCADE,
-  `isBlocked` TINYINT NOT NULL DEFAULT false,
-  PRIMARY KEY (`id`) );
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `city` VARCHAR(40) NOT NULL,
+    `district` VARCHAR(40) NOT NULL,
+    `school` VARCHAR(50) NOT NULL,
+    `users_id` INT NOT NULL,
+    `isBlocked` TINYINT NOT NULL DEFAULT false,
+    PRIMARY KEY (`id`),
+    UNIQUE INDEX `id_UNIQUE` (`id` ASC),
+    INDEX `fk_Applicant_User_idx` (`users_id` ASC),
+    CONSTRAINT `fk_Applicant_User`
+        FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
+            ON DELETE CASCADE
+     );
 
 -- ------------ faculties -----------------------------------------
 DROP TABLE IF EXISTS faculties;

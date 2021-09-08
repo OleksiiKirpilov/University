@@ -17,6 +17,7 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -62,17 +63,15 @@ public class AdminRegistration extends Command {
 		boolean valid = InputValidator.validateUserParameters(firstName,
 				lastName, email, password, lang);
 		if (!valid) {
-			request.setAttribute("errorMessage", "Please fill all fields!");
+			setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
 			LOG.error("errorMessage: Not all fields are filled");
 			return Path.REDIRECT_ADMIN_REGISTRATION_PAGE;
 		}
-		User user = new User(email, password, firstName, lastName,
-				Role.ADMIN, lang);
+		User user = new User(email, password, firstName, lastName, Role.ADMIN, lang);
 		UserDao userDao = new UserDao();
 		userDao.create(user);
 		LOG.trace("User record created: {}", user);
-		request.setAttribute("successfulMessage",
-				"The account was created.");
+		setOkMessage(request, MESSAGE_ACCOUNT_CREATED);
 		return Path.REDIRECT_TO_PROFILE;
 
 	}

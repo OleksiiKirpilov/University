@@ -55,8 +55,7 @@ public class AddSubject extends Command {
         LOG.trace("Fetch request parameter: 'name_en' = {}", nameEn);
         boolean valid = InputValidator.validateSubjectParameters(nameRu, nameEn);
         if (!valid) {
-            request.setAttribute("errorMessage",
-                    "Please fill all fields properly!");
+            setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
             LOG.error("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_SUBJECT_ADD_ADMIN;
         }

@@ -12,6 +12,10 @@ welcome_jsp.label.password = Пароль
 welcome_jsp.label.not_registered_msg = Не зарегистрированы ?
 welcome_jsp.label.register_here_msg = Нажмите сюда
 
+errorMessage.fill_all_fields = Пожалуйста, заполните все поля!
+errorMessage.can_not_find_user = Не найден пользователь с такими учетными данными!
+errorMessage.can_not_delete_faculty_dependent = Есть записи в других таблицах, зависящие от этого факультета.
+
 profile.view_jsp.label.first_name = Имя
 profile.view_jsp.label.last_name = Фамилия
 profile.view_jsp.label.email = Почтовый ящик
@@ -21,6 +25,8 @@ profile.view_jsp.label.school = Школа
 profile.view_jsp.button.edit = Изменить
 profile.view_jsp.button.logout = Выйти
 profile.view_jsp.label.register_new_admin = Добавить администратора
+
+profile.view_jsp.message.account_created = Учетная запись создана.
 
 profile.edit_jsp.header = Изменить профиль
 profile.edit_jsp.label.language = Язык интерфейса

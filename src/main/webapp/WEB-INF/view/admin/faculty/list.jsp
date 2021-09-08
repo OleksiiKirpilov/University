@@ -33,12 +33,15 @@
 			</c:forEach>
 		</tbody>
 	</table>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 	<script type="text/javascript">
 		var language = "${language}";
 		$(document).ready(function() {
 			$('#facultiesTable').dataTable({
 				"language" : {
-					"url" : (language == 'ru') ? "script/russian.lang" : "",
+					"url" : (language === 'ru') ? "script/russian.lang" : "",
 				}
 			});
 		});

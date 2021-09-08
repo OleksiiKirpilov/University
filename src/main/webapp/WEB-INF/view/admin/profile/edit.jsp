@@ -19,7 +19,7 @@
 			<div class="field">
 				<label for="lang"> <fmt:message
 						key="profile.edit_jsp.label.language" />
-				</label> <select name="lang">
+				</label> <select name="lang" id="lang">
 					<option value="ru">Russian</option>
 					<option value="en">English</option>
 				</select>
@@ -28,22 +28,27 @@
 			<div class="field">
 				<label for="first_name"><fmt:message
 						key="profile.edit_jsp.label.first_name" /></label> <input
-					name="first_name" type="text" value="${requestScope.first_name}"
+					name="first_name" id="first_name" type="text" value="${requestScope.first_name}"
 					required />
 			</div>
 			<div class="field">
-				<label for="last_name"><fmt:message
-						key="profile.edit_jsp.label.last_name" /></label> <input name="last_name"
+				<label for="last_name">
+					<fmt:message key="profile.edit_jsp.label.last_name" />
+				</label>
+				<input name="last_name" id="last_name"
 					type="text" value="${requestScope.last_name}" required />
 			</div>
 			<div class="field">
-				<label for="email"><fmt:message
-						key="profile.edit_jsp.label.email" /></label> <input name="email"
+				<label for="email">
+					<fmt:message key="profile.edit_jsp.label.email" />
+				</label>
+				<input name="email" id="email"
 					type="text" value="${requestScope.email}" required />
 			</div>
 			<div class="field">
-				<label for="password"><fmt:message
-						key="profile.edit_jsp.label.password" /></label> <input name="password"
+				<label for="password">
+					<fmt:message key="profile.edit_jsp.label.password" /></label>
+				<input name="password" id="password"
 					type="password" value="${requestScope.password}" required />
 			</div>
 			<div class="field">
@@ -52,5 +57,8 @@
 			</div>
 		</form>
 	</div>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 </body>
 </html>

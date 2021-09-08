@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -71,8 +72,7 @@ public class AddFaculty extends Command {
         boolean valid = InputValidator.validateFacultyParameters(facultyNameRu,
                 facultyNameEn, facultyBudgetPlaces, facultyTotalPlaces);
         if (!valid) {
-            request.setAttribute("errorMessage",
-                    "Please fill all fields properly!");
+            setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
             LOG.error("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_FACULTY_ADD_ADMIN;
         }

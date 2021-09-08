@@ -20,5 +20,8 @@
 		<a href="controller?command=addSubject"><fmt:message
 				key="subject.list_jsp.button.add" /></a>
 	</div>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 </body>
 </html>

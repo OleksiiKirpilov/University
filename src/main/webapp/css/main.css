@@ -66,6 +66,12 @@ a:active {
 	color: green;
 }
 
+#error {
+	margin: auto;
+	text-align: center;
+	color: red;
+}
+
 .welcomeform {
 	float: left;
 	margin-left: 35%;

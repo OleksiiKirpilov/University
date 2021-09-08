@@ -35,9 +35,9 @@ public class EditProfile extends Command {
             throws IOException, ServletException {
         LOG.debug("Executing Command");
         if (RequestType.GET == requestType) {
-            return doGet(request, response);
+            return doGet(request);
         }
-        return doPost(request, response);
+        return doPost(request);
     }
 
     /**
@@ -45,9 +45,7 @@ public class EditProfile extends Command {
      *
      * @return path to the edit profile page.
      */
-    private String doGet(HttpServletRequest request,
-                         HttpServletResponse response) {
-        String result = null;
+    private String doGet(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         String userEmail = String.valueOf(session.getAttribute("user"));
         String role = String.valueOf(session.getAttribute("userRole"));
@@ -90,8 +88,7 @@ public class EditProfile extends Command {
      * @return path to the user profile if command succeeds, otherwise
      * redisplays editing page.
      */
-    private String doPost(HttpServletRequest request,
-                          HttpServletResponse response) {
+    private String doPost(HttpServletRequest request) {
         String oldUserEmail = request.getParameter("oldEmail");
         LOG.trace("Fetch request parameter: 'oldEmail' = {}", oldUserEmail);
 
@@ -108,13 +105,11 @@ public class EditProfile extends Command {
 
         boolean valid = InputValidator.validateUserParameters(
                 userFirstName, userLastName, email, password, language);
-
         HttpSession session = request.getSession(false);
         String role = String.valueOf(session.getAttribute("userRole"));
 
         if (!valid) {
-            request.setAttribute("errorMessage",
-                    "Please fill all fields properly!");
+            setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
             LOG.error("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_EDIT_PROFILE;
         }
@@ -150,8 +145,7 @@ public class EditProfile extends Command {
             LOG.trace("Fetch request parameter: 'isBlocked' = {}", blockedStatus);
             valid = InputValidator.validateApplicantParameters(city, district, school);
             if (!valid) {
-                request.setAttribute("errorMessage",
-                        "Please fill all fields properly!");
+                setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
                 LOG.error("errorMessage: Not all fields are properly filled");
                 return Path.REDIRECT_EDIT_PROFILE;
             }

@@ -44,5 +44,8 @@
 					key="faculty.view_jsp.button.apply" /></a>
 		</p></c:if>
 	</div>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 </body>
 </html>

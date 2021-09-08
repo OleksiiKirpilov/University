@@ -46,18 +46,17 @@ public class Login extends Command {
         User user = userDao.find(email, password);
         LOG.trace("User found: {}", user);
         if (user == null) {
-            request.setAttribute("errorMessage",
-                    "Cannot find user with such login/password");
+            setErrorMessage(request, ERROR_CAN_NOT_FIND_USER);
             LOG.error("errorMessage: Cannot find user with such login/password");
             return null;
         }
         HttpSession session = request.getSession(true);
         session.setAttribute("user", user.getEmail());
-        LOG.trace("Set the session attribute 'user' = {}", user.getEmail());
+        LOG.trace("Set session attribute 'user' = {}", user.getEmail());
         session.setAttribute("userRole", user.getRole());
-        LOG.trace("Set the session attribute: 'userRole' = {}", user.getRole());
+        LOG.trace("Set session attribute: 'userRole' = {}", user.getRole());
         session.setAttribute("lang", user.getLang());
-        LOG.trace("Set the session attribute 'lang' = {}", user.getLang());
+        LOG.trace("Set session attribute 'lang' = {}", user.getLang());
         LOG.info("User: {} logged as {}", user, user.getRole());
         return Path.REDIRECT_TO_VIEW_ALL_FACULTIES;
     }

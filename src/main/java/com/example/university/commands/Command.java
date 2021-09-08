@@ -6,6 +6,7 @@ import java.io.Serializable;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.example.university.utils.RequestType;
 
@@ -14,6 +15,11 @@ import com.example.university.utils.RequestType;
  */
 public abstract class Command implements Serializable {
 	private static final long serialVersionUID = 8879403039606311780L;
+
+	protected static final String ERROR_FILL_ALL_FIELDS = "errorMessage.fill_all_fields";
+	protected static final String ERROR_FACULTY_DEPENDS = "errorMessage.can_not_delete_faculty_dependent";
+	protected static final String ERROR_CAN_NOT_FIND_USER = "errorMessage.can_not_find_user";
+	protected static final String MESSAGE_ACCOUNT_CREATED = "profile.view_jsp.message.account_created";
 
 	/**
 	 * Execution method for command. Returns path to go to based on the user
@@ -25,7 +31,7 @@ public abstract class Command implements Serializable {
 	 *            - client request
 	 * @param response
 	 *            - server response
-	 * @param actionType
+	 * @param requestType
 	 *            - client HTTP method
 	 * @return Address to go once the command is executed.
 	 * @throws IOException
@@ -33,8 +39,23 @@ public abstract class Command implements Serializable {
 	 * @see RequestType
 	 */
 	public abstract String execute(HttpServletRequest request,
-			HttpServletResponse response, RequestType actionType)
+			HttpServletResponse response, RequestType requestType)
 			throws IOException, ServletException;
+
+
+	protected void setErrorMessage(HttpServletRequest request, String messageKey) {
+		setMessage(request, "errorMessage", messageKey);
+	}
+
+	protected void setOkMessage(HttpServletRequest request, String messageKey) {
+		setMessage(request, "successfulMessage", messageKey);
+	}
+
+	protected void setMessage(HttpServletRequest request, String attribute, String messageKey) {
+		HttpSession session = request.getSession();
+		session.setAttribute(attribute, messageKey);
+	}
+
 
 	@Override
 	public final String toString() {

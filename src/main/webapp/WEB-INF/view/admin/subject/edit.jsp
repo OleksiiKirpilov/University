@@ -34,6 +34,9 @@
 					key="subject.edit_jsp.button.back" /></a>
 		</p>
 	</div>
+
+	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
+
 	<script src="${pageContext.request.contextPath}/script/subject-validation.js"></script>
 </body>
 </html>
