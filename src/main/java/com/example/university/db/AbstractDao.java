@@ -35,7 +35,9 @@ public abstract class AbstractDao<T extends Entity> {
 	 * @throws SQLException
 	 */
 	protected Connection getConnection() throws SQLException {
-		return ds.getConnection();
+		Connection con = ds.getConnection();
+		con.setAutoCommit(false);
+		return con;
 	}
 
 	/**

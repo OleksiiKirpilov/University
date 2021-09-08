@@ -31,7 +31,7 @@ public final class Fields {
 
     public static final String SUBJECT_NAME_RU = "name_ru";
     public static final String SUBJECT_NAME_EN = "name_en";
-    public static final String SUBJECT_ID = "subjects_id";
+    public static final String SUBJECT_ID = "subject_id";
 
     public static final String GRADE_VALUE = "grade";
     public static final String GRADE_EXAM_TYPE = "exam_type";

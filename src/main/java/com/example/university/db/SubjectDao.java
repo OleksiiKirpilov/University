@@ -111,7 +111,7 @@ public class SubjectDao extends AbstractDao<Subject> {
 		}
 	}
 
-	public Subject find(int entityPK) {
+	public Subject find(int id) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -119,7 +119,7 @@ public class SubjectDao extends AbstractDao<Subject> {
 		try {
 			con = getConnection();
 			pstmt = con.prepareStatement(FIND_SUBJECT_BY_ID);
-			pstmt.setInt(1, entityPK);
+			pstmt.setInt(1, id);
 			rs = pstmt.executeQuery();
 			con.commit();
 			if (rs.next()) {

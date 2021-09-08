@@ -62,6 +62,10 @@ public class CommandManager {
         return COMMANDS.get(commandName);
     }
 
+    public static Map<String, Command> getAllCommands() {
+        return COMMANDS;
+    }
+
     private CommandManager() {
     }
 }
