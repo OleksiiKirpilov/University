@@ -18,8 +18,8 @@ public class ApplicantReportSheet extends Entity {
     }
 
     public ApplicantReportSheet(int facultyId, String firstName, String lastName,
-                                String email, boolean isBlocked, short preliminarySum,
-                                short diplomaSum, short totalSum) {
+                                String email, boolean isBlocked, int preliminarySum,
+                                int diplomaSum, int totalSum) {
         super();
         this.facultyId = facultyId;
         this.firstName = firstName;

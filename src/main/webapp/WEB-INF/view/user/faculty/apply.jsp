@@ -57,7 +57,7 @@
 						</label>
 
 
-						<marks:insert subjectId="${facultySubject.id}"
+						<grades:insert subjectId="${facultySubject.id}"
 							examType="preliminary" />
 					</p>
 				</div>
@@ -77,7 +77,7 @@
 							</c:out></label>
 					<p>
 
-						<marks:insert subjectId="${subject.id}" examType="diploma" />
+						<grades:insert subjectId="${subject.id}" examType="diploma" />
 				</div>
 			</c:forEach>
 

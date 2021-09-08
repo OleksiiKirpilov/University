@@ -68,7 +68,7 @@ public class ApplyFacultyView extends Command {
 
     /**
      * @return redirects user to view of applied faculty if applying is
-     * successful, otherwise redisplays this page.
+     * successful, otherwise refreshes this page.
      */
     private String doPost(HttpServletRequest request) {
         LOG.trace("Start processing applying for faculty form");

@@ -1,10 +1,10 @@
 package com.example.university.commands.faculty;
 
 import com.example.university.commands.Command;
-import com.example.university.entities.Applicant;
 import com.example.university.db.ApplicantDao;
-import com.example.university.entities.Faculty;
 import com.example.university.db.FacultyDao;
+import com.example.university.entities.Applicant;
+import com.example.university.entities.Faculty;
 import com.example.university.utils.Fields;
 import com.example.university.utils.Path;
 import com.example.university.utils.RequestType;
@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 

@@ -32,9 +32,9 @@ public class ViewApplicant extends Command {
 			throws IOException, ServletException {
 		LOG.debug("Command execution");
 		if (requestType == RequestType.GET) {
-			return doGet(request, response);
+			return doGet(request);
 		}
-		return doPost(request, response);
+		return doPost(request);
 	}
 
 	/**
@@ -42,43 +42,34 @@ public class ViewApplicant extends Command {
 	 *
 	 * @return path to applicant profile page
 	 */
-	private String doGet(HttpServletRequest request,
-			HttpServletResponse response) {
+	private String doGet(HttpServletRequest request) {
 
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		UserDao userDao = new UserDao();
 		// should not be null !
 		User user = userDao.find(userId);
 		request.setAttribute("first_name", user.getFirstName());
-		LOG.trace("Set the request attribute: 'first_name' = "
-				+ user.getFirstName());
+		LOG.trace("Set the request attribute: 'first_name' = {}", user.getFirstName());
 		request.setAttribute("last_name", user.getLastName());
-		LOG.trace("Set the request attribute: 'last_name' = "
-				+ user.getLastName());
+		LOG.trace("Set the request attribute: 'last_name' = {}", user.getLastName());
 		request.setAttribute("email", user.getEmail());
-		LOG.trace("Set the request attribute: 'email' = " + user.getEmail());
+		LOG.trace("Set the request attribute: 'email' = {}", user.getEmail());
 		request.setAttribute("role", user.getRole());
-		LOG.trace("Set the request attribute: 'role' = " + user.getRole());
+		LOG.trace("Set the request attribute: 'role' = {}", user.getRole());
 
 		ApplicantDao applicantDao = new ApplicantDao();
-		// should not be null !!
 		Applicant applicant = applicantDao.find(user);
 
 		request.setAttribute(Fields.ENTITY_ID, applicant.getId());
-		LOG.trace("Set the request attribute: 'id' = " + applicant.getId());
+		LOG.trace("Set the request attribute: 'id' = {}", applicant.getId());
 		request.setAttribute(Fields.APPLICANT_CITY, applicant.getCity());
-		LOG.trace("Set the request attribute: 'city' = " + applicant.getCity());
+		LOG.trace("Set the request attribute: 'city' = {}", applicant.getCity());
 		request.setAttribute(Fields.APPLICANT_DISTRICT, applicant.getDistrict());
-		LOG.trace("Set the request attribute: 'district' = "
-				+ applicant.getDistrict());
+		LOG.trace("Set the request attribute: 'district' = {}", applicant.getDistrict());
 		request.setAttribute(Fields.APPLICANT_SCHOOL, applicant.getSchool());
-		LOG.trace("Set the request attribute: 'school' = "
-				+ applicant.getSchool());
-
-		request.setAttribute(Fields.APPLICANT_IS_BLOCKED,
-				applicant.getBlockedStatus());
-		LOG.trace("Set the request attribute: 'isBlocked' = "
-				+ applicant.getBlockedStatus());
+		LOG.trace("Set the request attribute: 'school' = {}", applicant.getSchool());
+		request.setAttribute(Fields.APPLICANT_IS_BLOCKED, applicant.getBlockedStatus());
+		LOG.trace("Set the request attribute: 'isBlocked' = {}", applicant.getBlockedStatus());
 		return Path.FORWARD_APPLICANT_PROFILE;
 	}
 
@@ -87,8 +78,7 @@ public class ViewApplicant extends Command {
 	 *
 	 * @return redirects to view applicant page
 	 */
-	private String doPost(HttpServletRequest request,
-			HttpServletResponse response) {
+	private String doPost(HttpServletRequest request) {
 		int applicantId = Integer.parseInt(request.getParameter(Fields.ENTITY_ID));
 		ApplicantDao applicantDao = new ApplicantDao();
 		Applicant applicant = applicantDao.find(applicantId);
