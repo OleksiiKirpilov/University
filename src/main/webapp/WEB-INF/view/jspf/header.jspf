@@ -34,8 +34,8 @@
         </c:otherwise>
     </c:choose>
     &nbsp;
-    <a href="controller?command=setSessionLanguage&lang=en">EN</a>
-    <a href="controller?command=setSessionLanguage&lang=ru">RU</a>
+    <h:languageSelect lang="en"/>
+    <h:languageSelect lang="ru"/>
 </div>
 <br>
 <br>

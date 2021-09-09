@@ -2,27 +2,21 @@ package com.example.university;
 
 import com.example.university.db.ApplicantDao;
 import com.example.university.db.FacultyDao;
+import com.example.university.db.SubjectDao;
 import com.example.university.db.UserDao;
-import com.example.university.entities.Applicant;
-import com.example.university.entities.Faculty;
-import com.example.university.entities.Role;
-import com.example.university.entities.User;
+import com.example.university.entities.*;
 import com.example.university.utils.Fields;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import java.io.IOException;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class CommandsTest {
@@ -35,10 +29,11 @@ public class CommandsTest {
     User admin;
     Applicant applicant;
     Faculty faculty;
-    String email = "invalid_email@";
-    String email2 = "invalid_email_2@";
-    String invalidAdmin = "invalid_admin";
-    String invalidFaculty = "INVALID_FACULTY";
+    String email = "invalidemail@";
+    String email2 = "invalidemail_2@";
+    String invalidAdmin = "invalidadmin";
+    String invalidFacultyEn = "INVALID FACULTY";
+    String invalidFacultyRu = "НЕВИЛИДНЫй ФАКУЛЬТЕТ";
 
     @Before
     public void setUp() throws ServletException, IOException {
@@ -51,8 +46,7 @@ public class CommandsTest {
         UserDao userDao = new UserDao();
         userDao.create(user);
 
-        admin = new User(email2, invalidAdmin, invalidAdmin,
-                invalidAdmin, Role.ADMIN, "en");
+        admin = new User(email2, invalidAdmin, invalidAdmin, invalidAdmin, Role.ADMIN, "en");
         userDao.create(admin);
 
         String geo = "INVALIDGEO";
@@ -60,7 +54,7 @@ public class CommandsTest {
         ApplicantDao applicantDao = new ApplicantDao();
         applicantDao.create(applicant);
 
-        faculty = new Faculty(invalidFaculty, invalidFaculty, 1, 2);
+        faculty = new Faculty(invalidFacultyRu, invalidFacultyEn, 1, 2);
         new FacultyDao().create(faculty);
 
         when(request.getSession()).thenReturn(session);
@@ -142,9 +136,53 @@ public class CommandsTest {
         new FrontController().doGet(request, response);
     }
 
+    @Test
+    public void testEditFaculty() throws ServletException, IOException {
+        when(request.getParameter("command")).thenReturn("editFaculty");
+        when(request.getParameter(Fields.FACULTY_NAME_RU)).thenReturn(faculty.getNameRu());
+        when(request.getParameter(Fields.FACULTY_NAME_EN)).thenReturn(faculty.getNameEn());
+        when(request.getParameter(Fields.FACULTY_TOTAL_PLACES))
+                .thenReturn(String.valueOf(faculty.getTotalPlaces()));
+        when(request.getParameter(Fields.FACULTY_BUDGET_PLACES))
+                .thenReturn(String.valueOf(faculty.getBudgetPlaces()));
+        when(request.getParameter("oldName")).thenReturn(faculty.getNameEn());
+
+        new FrontController().doGet(request, response);
+
+        //String[] oldCheckedSubjectsIds = request.getParameterValues("oldCheckedSubjects");
+        //String[] newCheckedSubjectsIds = request.getParameterValues("subjects");
+
+        new FrontController().doPost(request, response);
+    }
+
+    @Test
+    public void testViewAllSubjects() throws ServletException, IOException {
+        when(request.getParameter("command")).thenReturn("viewAllSubjects");
+        new FrontController().doGet(request, response);
+    }
+
+    @Test
+    public void testViewSubject() throws ServletException, IOException {
+        when(request.getParameter("command")).thenReturn("viewSubject");
+        SubjectDao subjectDao = new SubjectDao();
+        Subject s = subjectDao.find(1);
+        when(request.getParameter(Fields.SUBJECT_NAME_EN)).thenReturn(s.getNameEn());
+        new FrontController().doGet(request, response);
+    }
+
+    @Test
+    public void testViewApplicant() throws ServletException, IOException {
+        when(request.getParameter("command")).thenReturn("viewApplicant");
+        when(request.getParameter("userId")).thenReturn(String.valueOf(user.getId()));
+        new FrontController().doGet(request, response);
+    }
 
 
-
+    @Test
+    public void testSetSessionLanguage() throws ServletException, IOException {
+        when(request.getParameter("command")).thenReturn("setSessionLanguage");
+        new FrontController().doGet(request, response);
+    }
 
 
     @Test

@@ -63,7 +63,7 @@
     <jsp-config>
         <taglib>
             <taglib-uri>/WEB-INF/grades</taglib-uri>
-            <taglib-location>/WEB-INF/grades.tld</taglib-location>
+            <taglib-location>/WEB-INF/view/jspf/grades.tld</taglib-location>
         </taglib>
     </jsp-config>
 
