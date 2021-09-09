@@ -39,7 +39,6 @@ public class ViewAllFaculties extends Command {
      * @return to view of all faculties
      */
     private String doGet(HttpServletRequest request) {
-        String result = null;
         FacultyDao facultyDao = new FacultyDao();
         Collection<Faculty> faculties = facultyDao.findAll();
         LOG.trace("Faculties records found: {}", faculties);
@@ -48,10 +47,11 @@ public class ViewAllFaculties extends Command {
         HttpSession session = request.getSession(false);
         String role = (String) session.getAttribute("userRole");
         if (role == null || Role.isUser(role)) {
-            result = Path.FORWARD_FACULTY_VIEW_ALL_USER;
-        } else if (Role.isAdmin(role)) {
-            result = Path.FORWARD_FACULTY_VIEW_ALL_ADMIN;
+            return Path.FORWARD_FACULTY_VIEW_ALL_USER;
         }
-        return result;
+        if (Role.isAdmin(role)) {
+            return Path.FORWARD_FACULTY_VIEW_ALL_ADMIN;
+        }
+        return null;
     }
 }

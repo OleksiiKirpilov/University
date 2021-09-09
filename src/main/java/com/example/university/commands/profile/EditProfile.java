@@ -91,7 +91,6 @@ public class EditProfile extends Command {
     private String doPost(HttpServletRequest request) {
         String oldUserEmail = request.getParameter("oldEmail");
         LOG.trace("Fetch request parameter: 'oldEmail' = {}", oldUserEmail);
-
         String userFirstName = request.getParameter(Fields.USER_FIRST_NAME);
         LOG.trace("Fetch request parameter: 'first_name' = {}", userFirstName);
         String userLastName = request.getParameter(Fields.USER_LAST_NAME);

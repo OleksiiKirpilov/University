@@ -25,7 +25,7 @@ public class UserDaoTest {
 
     @Test
     public void shouldDoCrud() {
-        String email = "invalid_email";
+        String email = "invalid_email--";
         User user = new User(email, "xx", "ff", "ll", Role.USER, "en");
         UserDao userDao = new UserDao();
         Assert.assertNull(userDao.find(email));
