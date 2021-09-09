@@ -1,5 +1,5 @@
 <br><br><br><br><br><br><br><br>
-	<div id="error">
+<div id="error">
 	<c:if test="${not empty errorMessage}">
 		<fmt:message key="${errorMessage}"/>
 		<c:remove var="errorMessage" scope="session"/>

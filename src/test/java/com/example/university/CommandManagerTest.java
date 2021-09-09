@@ -54,7 +54,7 @@ public class CommandManagerTest {
     @Test
     public void shouldReturnAllCommands() throws ServletException, IOException {
         for (Map.Entry<String, Command> e : CommandManager.getAllCommands().entrySet()) {
-            String c = e.getKey();
+            Assert.assertNotNull(e.getKey());
         }
     }
 }
