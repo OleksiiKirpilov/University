@@ -59,15 +59,7 @@
 
 	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
 
-	<script type="text/javascript">
-	var language = "${language}";
-		$(document).ready(function() {
-			$('#reportTable').dataTable({
-				"language" : {
-					"url" : (language == 'ru') ? "script/russian.lang" : "" ,
-				}
-			});
-		});
-	</script>
+	<h:datatables table="#reportTable"/>
+
 </body>
 </html>

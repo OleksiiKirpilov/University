@@ -27,10 +27,10 @@ name_en.onkeypress = function (e) {
 function validate() {
     const budget = parseInt($("#budget_places").val());
     const total = parseInt($("#total_places").val());
-    if (budget > total) {
-        //alert("Budget places should be lower then total");
-        return false;
-    } else {
+    if (budget <= total) {
         return true;
     }
+
+    alert("Budget places should be lower then total!");
+    return false;
 }

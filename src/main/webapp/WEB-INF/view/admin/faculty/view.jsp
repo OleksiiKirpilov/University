@@ -34,10 +34,11 @@
 		<c:if test="${not empty facultySubjects}">
 			<ol>
 				<c:forEach var="subject" items="${facultySubjects}">
-					<li><a
-						href="<c:url value="controller?command=viewSubject"> <c:param name="name_en" value="${subject.nameEn}"/></c:url>">
+					<li>
+						<a href="<c:url value="controller?command=viewSubject"><c:param name="name_en" value="${subject.nameEn}"/></c:url>">
 							<c:out value="${lang eq 'ru' ? subject.nameRu : subject.nameEn}"></c:out>
-					</a></li>
+						</a>
+					</li>
 				</c:forEach>
 			</ol>
 		</c:if>
@@ -67,9 +68,12 @@
 		<c:if test="${not empty facultyApplicants}">
 			<ol>
 				<c:forEach var="applicant" items="${facultyApplicants}">
-					<li><a
-						href="<c:url value="controller?command=viewApplicant"> <c:param name="userId" value="${applicant.key.userId}"/></c:url>"><c:out
-								value="${applicant.value}"></c:out></a> <br></li>
+					<li>
+						<a href="<c:url value="controller?command=viewApplicant"><c:param name="userId" value="${applicant.key.userId}"/></c:url>">
+							<c:out value="${applicant.value}"></c:out>
+						</a>
+						<br>
+					</li>
 				</c:forEach>
 			</ol>
 		</c:if>

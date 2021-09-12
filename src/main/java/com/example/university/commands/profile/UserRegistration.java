@@ -6,10 +6,7 @@ import com.example.university.db.UserDao;
 import com.example.university.entities.Applicant;
 import com.example.university.entities.Role;
 import com.example.university.entities.User;
-import com.example.university.utils.Fields;
-import com.example.university.utils.InputValidator;
-import com.example.university.utils.Path;
-import com.example.university.utils.RequestType;
+import com.example.university.utils.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -70,8 +67,7 @@ public class UserRegistration extends Command {
             LOG.error("errorMessage: Not all fields are filled");
             return Path.REDIRECT_USER_REGISTRATION_PAGE;
         }
-        User user = new User(email, password, firstName, lastName,
-                Role.USER, lang);
+        User user = new User(email, password, null, firstName, lastName, Role.USER, lang);
         UserDao userDao = new UserDao();
         userDao.create(user);
         LOG.trace("User record created: {}", user);

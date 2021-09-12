@@ -3,9 +3,12 @@
 <html>
 <%@ include file="/WEB-INF/view/jspf/head.jspf"%>
 <body>
+
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
 
+
 	<div class="form">
+
 		<form id="add_faculty" action="controller" method="POST" onsubmit="return validate();">
 			<input type="hidden" name="command" value="addFaculty" />
 			<div class="field">
@@ -46,7 +49,6 @@
 				<input type="submit" value="<fmt:message key="faculty.add_jsp.button.submit" />">
 			</p>
 		</form>
-
 
 		<a href="controller?command=viewAllFaculties">
 			<fmt:message key="faculty.add_jsp.button.back" />

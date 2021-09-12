@@ -1,6 +1,5 @@
-package com.example.university.commands.profile;
+package com.example.university.commands;
 
-import com.example.university.commands.Command;
 import com.example.university.utils.RequestType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,13 +21,13 @@ public class SetSessionLanguage extends Command {
                           RequestType requestType) throws IOException, ServletException {
         LOG.debug("Executing Command");
         if (requestType == RequestType.GET) {
-            return doGet(request);
+            return doGet(request, response);
         }
         return null;
     }
 
-    private String doGet(HttpServletRequest request) {
-        HttpSession session = request.getSession(true);
+    private String doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
         String lang = "en".equals(request.getParameter("lang")) ? "en" : "ru";
         session.setAttribute("lang", lang);
         LOG.trace("Set session attribute 'lang' = {}", lang);

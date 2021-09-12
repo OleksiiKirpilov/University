@@ -4,7 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%--======================== Custom grades tag =============================--%>
 <%@ taglib uri="/WEB-INF/view/jspf/grades.tld" prefix="grades"%>
-<%--======================== Custom file tag for language selection ========--%>
+<%--======================== Custom file tags for language selection, ======--%>
+<%--========================                 for datatables ================--%>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="h"%>
 <%--======================== JSTL i18n tag library. ========================--%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>

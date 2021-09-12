@@ -20,13 +20,18 @@
 		<tbody>
 			<c:forEach var="faculty" items="${faculties}">
 				<tr>
-					<td><a
-						href="<c:url value="controller?command=viewFaculty"> <c:param name="name_en" value="${faculty.nameEn}"/></c:url>">
-							<c:out
-								value="${language eq 'ru' ? faculty.nameRu : faculty.nameEn}"></c:out>
-					</a></td>
-					<td><c:out value="${faculty.totalPlaces}"></c:out></td>
-					<td><c:out value="${faculty.budgetPlaces}"></c:out></td>
+					<td>
+						<a href="<c:url value="controller?command=viewFaculty">
+							<c:param name="name_en" value="${faculty.nameEn}"/></c:url>">
+						<c:out value="${language eq 'ru' ? faculty.nameRu : faculty.nameEn}"></c:out>
+					</a>
+					</td>
+					<td>
+						<c:out value="${faculty.totalPlaces}"></c:out>
+					</td>
+					<td>
+						<c:out value="${faculty.budgetPlaces}"></c:out>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
@@ -34,15 +39,7 @@
 
 	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
 
-	<script type="text/javascript">
-		var language = "${language}";
-		$(document).ready(function() {
-			$('#facultiesTable').dataTable({
-				"language" : {
-					"url" : (language == 'ru') ? "script/russian.lang" : "",
-				}
-			});
-		});
-	</script>
+	<h:datatables table="#facultiesTable"/>
+
 </body>
 </html>

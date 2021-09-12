@@ -3,6 +3,7 @@ package com.example.university.commands.profile;
 import com.example.university.commands.Command;
 import com.example.university.db.UserDao;
 import com.example.university.entities.User;
+import com.example.university.utils.PasswordManager;
 import com.example.university.utils.Path;
 import com.example.university.utils.RequestType;
 import org.apache.logging.log4j.LogManager;

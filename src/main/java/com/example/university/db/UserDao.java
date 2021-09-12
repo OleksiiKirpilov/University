@@ -2,6 +2,7 @@ package com.example.university.db;
 
 import com.example.university.entities.User;
 import com.example.university.utils.Fields;
+import com.example.university.utils.PasswordManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,15 +18,15 @@ public class UserDao extends AbstractDao<User> {
     private static final String FIND_ALL_USERS = "SELECT * FROM users";
     private static final String FIND_USER = "SELECT * FROM users WHERE users.id = ?";
     private static final String FIND_USER_BY_EMAIL_AND_PASS =
-            "SELECT * FROM users WHERE users.email = ? AND users.password = ?";
+            "SELECT * FROM users WHERE users.email = ? and users.password = ?";
     private static final String FIND_USER_BY_EMAIL =
             "SELECT * FROM users WHERE users.email = ?";
     private static final String INSERT_USER =
             "INSERT INTO users(users.first_name, users.last_name, users.email," +
-                    " users.password, users.role, lang) VALUES (?,?,?,?,?,?);";
+                    " users.password, users.salt, users.role, lang) VALUES (?,?,?,?,?,?,?);";
     private static final String UPDATE_USER =
             "UPDATE users SET first_name = ?, last_name = ?, email = ?, password = ?," +
-                    "role = ?, lang = ? WHERE users.id = ?";
+                    "salt = ?, role = ?, lang = ? WHERE users.id = ?";
     private static final String DELETE_USER =
             "DELETE FROM users WHERE users.id = ?";
 
@@ -33,6 +34,9 @@ public class UserDao extends AbstractDao<User> {
 
 
     public void create(User user) {
+        user.setSalt(PasswordManager.generateSalt());
+        user.setPassword(PasswordManager.hash(user.getPassword(), user.getSalt()));
+
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet generatedKeys = null;
@@ -45,6 +49,7 @@ public class UserDao extends AbstractDao<User> {
             pstmt.setString(++counter, user.getLastName());
             pstmt.setString(++counter, user.getEmail());
             pstmt.setString(++counter, user.getPassword());
+            pstmt.setString(++counter, user.getSalt());
             pstmt.setString(++counter, user.getRole());
             pstmt.setString(++counter, user.getLang());
             pstmt.execute();
@@ -64,6 +69,9 @@ public class UserDao extends AbstractDao<User> {
     }
 
     public void update(User user) {
+        user.setSalt(PasswordManager.generateSalt());
+        user.setPassword(PasswordManager.hash(user.getPassword(), user.getSalt()));
+
         Connection con = null;
         PreparedStatement pstmt = null;
         try {
@@ -74,6 +82,7 @@ public class UserDao extends AbstractDao<User> {
             pstmt.setString(++counter, user.getLastName());
             pstmt.setString(++counter, user.getEmail());
             pstmt.setString(++counter, user.getPassword());
+            pstmt.setString(++counter, user.getSalt());
             pstmt.setString(++counter, user.getRole());
             pstmt.setString(++counter, user.getLang());
             pstmt.setInt(++counter, user.getId());
@@ -138,15 +147,18 @@ public class UserDao extends AbstractDao<User> {
         User user = null;
         try {
             con = getConnection();
-            pstmt = con.prepareStatement(FIND_USER_BY_EMAIL_AND_PASS);
+            pstmt = con.prepareStatement(FIND_USER_BY_EMAIL);
             pstmt.setString(1, email);
-            pstmt.setString(2, password);
+            //pstmt.setString(2, password);
             rs = pstmt.executeQuery();
             con.commit();
             if (rs.next()) {
                 user = unmarshal(rs);
             }
-            con.commit();
+            if (user != null && !PasswordManager
+                    .isExpectedPassword(password, user.getSalt(), user.getPassword())) {
+                user = null;
+            }
         } catch (SQLException e) {
             rollback(con);
             LOG.error("Can not find a user by email and password", e);
@@ -222,6 +234,7 @@ public class UserDao extends AbstractDao<User> {
             user.setLastName(rs.getString(Fields.USER_LAST_NAME));
             user.setEmail(rs.getString(Fields.USER_EMAIL));
             user.setPassword(rs.getString(Fields.USER_PASSWORD));
+            user.setSalt(rs.getString(Fields.USER_SALT));
             user.setRole(rs.getString(Fields.USER_ROLE));
             user.setLang(rs.getString(Fields.USER_LANG));
             //user.setActiveStatus(rs.getBoolean(Fields.USER_ACTIVE_STATUS));

@@ -21,7 +21,7 @@ public class ApplicantReportSheetDao extends AbstractDao<ApplicantReportSheet> {
     private static final Logger LOG = LogManager.getLogger(ApplicantReportSheetDao.class);
 
     private static final String GET_REPORT_SHEET =
-            "SELECT * FROM faculties_report_sheet WHERE facultyId = ?";
+            "SELECT * FROM faculties_report_sheet WHERE faculty_id = ?";
 
 
     public List<ApplicantReportSheet> getReport(int facultyId) {

@@ -1,6 +1,9 @@
 package com.example.university.utils;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +16,7 @@ public class PasswordManager {
     private static final String SYMBOLS =
             "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                     "0123456789" + "!@#$%&*()_+-=[]|,./?><";
+    private static final Logger LOG = LogManager.getLogger(PasswordManager.class);
 
     private PasswordManager() {
     }
@@ -20,12 +24,22 @@ public class PasswordManager {
     /**
      * Calculates the hash of the given password and salt.
      * SHA-256 algorithm is used.
+     *
      * @param password represents user's password
-     * @param salt value which will be concatenated to password as 'salt'
+     * @param salt     value which will be concatenated to password as 'salt'
      * @return salted password hash value
      */
-    public static String hash( String password, String salt) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+    public static String hash(String password, String salt) {
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            LOG.error("Can not get SHA-256 messageDigest.");
+            return password;
+        }
+        if (salt == null) {
+            return password;
+        }
         String toHash = password + salt;
         byte[] encodedHash = digest.digest(toHash.getBytes(StandardCharsets.UTF_8));
         return bytesToHex(encodedHash);
@@ -33,13 +47,19 @@ public class PasswordManager {
 
     /**
      * Generates salt with default length
+     *
      * @return String - salt
      */
-    public String generateSalt(){
+    public static String generateSalt() {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
         int length = SALT_LENGTH;
         StringBuilder text = new StringBuilder(length);
         SecureRandom random = new SecureRandom();
-        for(int i = 0; i < length; ++i){
+        for (int i = 0; i < length; ++i) {
             int position = random.nextInt(SYMBOLS.length());
             text.append(SYMBOLS.charAt(position));
         }
@@ -48,13 +68,17 @@ public class PasswordManager {
 
     /**
      * Checks if a given password's salted hash is equal to the hash value which we expect
-     * @param password represents actual password
-     * @param salt user's salt
+     *
+     * @param password     represents actual password
+     * @param salt         user's salt
      * @param expectedHash hash value which we expect to get
      * @return true if password is ok
      */
     public static boolean isExpectedPassword(String password, String salt,
-                                             String expectedHash) throws NoSuchAlgorithmException {
+                                             String expectedHash) {
+        if (salt == null) {
+            return password.equals(expectedHash);
+        }
         String hash = hash(password, salt);
         return expectedHash.equals(hash);
     }

@@ -4,10 +4,7 @@ import com.example.university.commands.Command;
 import com.example.university.db.UserDao;
 import com.example.university.entities.Role;
 import com.example.university.entities.User;
-import com.example.university.utils.Fields;
-import com.example.university.utils.InputValidator;
-import com.example.university.utils.Path;
-import com.example.university.utils.RequestType;
+import com.example.university.utils.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,7 +61,9 @@ public class AdminRegistration extends Command {
             LOG.error("errorMessage: Not all fields are filled");
             return Path.REDIRECT_ADMIN_REGISTRATION_PAGE;
         }
-        User user = new User(email, password, firstName, lastName, Role.ADMIN, lang);
+//        String salt = PasswordManager.generateSalt();
+//        String pass = PasswordManager.hash(password, salt);
+        User user = new User(email, password, null, firstName, lastName, Role.ADMIN, lang);
         UserDao userDao = new UserDao();
         userDao.create(user);
         LOG.trace("User record created: {}", user);

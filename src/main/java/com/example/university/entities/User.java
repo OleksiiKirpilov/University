@@ -15,14 +15,16 @@ public class User extends Entity {
     private String lastName;
     private String role;
     private String lang;
+    private String salt;
 
     public User() {
     }
 
-    public User(String email, String password, String firstName,
+    public User(String email, String password, String salt, String firstName,
                 String lastName, Role role, String lang) {
         this.email = email;
         this.password = password;
+        this.salt = salt;
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role.getName();
@@ -43,6 +45,14 @@ public class User extends Entity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
     }
 
     public String getFirstName() {
