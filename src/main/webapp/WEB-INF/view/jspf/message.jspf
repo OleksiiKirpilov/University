@@ -1,13 +1,13 @@
 <br><br><br><br><br><br><br><br>
-<div id="error">
-	<c:if test="${not empty errorMessage}">
-		<fmt:message key="${errorMessage}"/>
-		<c:remove var="errorMessage" scope="session"/>
-	</c:if>
-</div>
-<div id="footer">
-	<c:if test="${not empty successfulMessage}">
-		<fmt:message key="${successfulMessage}"/>
-		<c:remove var="successfulMessage" scope="session"/>
-	</c:if>
-</div>
+<c:if test="${not empty errorMessage}">
+    <div id="error">
+        <fmt:message key="${errorMessage}"/>
+        <c:remove var="errorMessage" scope="session"/>
+    </div>
+</c:if>
+<c:if test="${not empty successfulMessage}">
+    <div id="footer">
+        <fmt:message key="${successfulMessage}"/>
+        <c:remove var="successfulMessage" scope="session"/>
+    </div>
+</c:if>

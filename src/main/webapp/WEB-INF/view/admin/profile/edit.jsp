@@ -19,9 +19,12 @@
 			<div class="field">
 				<label for="lang"> <fmt:message
 						key="profile.edit_jsp.label.language" />
-				</label> <select name="lang" id="lang">
-					<option value="ru">Russian</option>
-					<option value="en">English</option>
+				</label>
+				<select name="lang" id="lang">
+					<c:set var="selected" value="${language == 'ru' ? 'selected' : ''}"/>
+					<option value="ru" ${selected}>Russian</option>
+					<c:set var="selected" value="${language != 'ru' ? 'selected' : ''}"/>
+					<option value="en" ${selected}>English</option>
 				</select>
 			</div>
 

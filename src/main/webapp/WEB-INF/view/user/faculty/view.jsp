@@ -33,16 +33,20 @@
 		<c:if test="${not empty facultySubjects}">
 			<ol>
 				<c:forEach var="subject" items="${facultySubjects}">
-					<li><c:out
-							value="${language eq 'ru' ? subject.nameRu : subject.nameEn}"></c:out></li>
+					<li><c:out value="${language eq 'ru' ? subject.nameRu : subject.nameEn}"></c:out></li>
 				</c:forEach>
 			</ol>
 		</c:if>
-		<c:if test="${userRole eq 'user' }">
-		<p>
-			<a href="controller?command=applyFaculty&name_en=${name_en}"><fmt:message
-					key="faculty.view_jsp.button.apply" /></a>
-		</p></c:if>
+
+		<c:if test="${userRole eq 'user' and alreadyApplied eq 'no'}">
+			<p>
+				<a href="controller?command=applyFaculty&name_en=${name_en}">
+					<fmt:message key="faculty.view_jsp.button.apply" /></a>
+			</p>
+		</c:if>
+		<c:if test="${userRole eq 'user' and alreadyApplied eq 'yes'}">
+			<p><fmt:message key="faculty.view_jsp.label.already_applied" /></p>
+		</c:if>
 	</div>
 
 	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>

@@ -69,7 +69,9 @@ public class UserDao extends AbstractDao<User> {
     }
 
     public void update(User user) {
-        user.setSalt(PasswordManager.generateSalt());
+        if (user.getSalt() == null) {
+            user.setSalt(PasswordManager.generateSalt());
+        }
         user.setPassword(PasswordManager.hash(user.getPassword(), user.getSalt()));
 
         Connection con = null;

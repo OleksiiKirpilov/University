@@ -61,8 +61,6 @@ public class AdminRegistration extends Command {
             LOG.error("errorMessage: Not all fields are filled");
             return Path.REDIRECT_ADMIN_REGISTRATION_PAGE;
         }
-//        String salt = PasswordManager.generateSalt();
-//        String pass = PasswordManager.hash(password, salt);
         User user = new User(email, password, null, firstName, lastName, Role.ADMIN, lang);
         UserDao userDao = new UserDao();
         userDao.create(user);

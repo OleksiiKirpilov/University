@@ -73,6 +73,7 @@ faculty.view_jsp.button.apply = Подать заявку
 faculty.view_jsp.button.edit = Изменить
 faculty.view_jsp.button.create_report = Создать ведомость
 faculty.view_jsp.button.delete = Удалить
+faculty.view_jsp.label.already_applied = Вы уже подали заявку
 
 faculty.apply_jsp.label.name = Название факультета
 faculty.apply_jsp.label.total_places = Всего мест

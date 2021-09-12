@@ -1,10 +1,7 @@
 package com.example.university.commands.faculty;
 
 import com.example.university.commands.Command;
-import com.example.university.db.ApplicantDao;
-import com.example.university.db.FacultyDao;
-import com.example.university.db.SubjectDao;
-import com.example.university.db.UserDao;
+import com.example.university.db.*;
 import com.example.university.entities.*;
 import com.example.university.utils.Fields;
 import com.example.university.utils.Path;
@@ -75,6 +72,9 @@ public class ViewFaculty extends Command {
         String role = (String) session.getAttribute("userRole");
 
         if (role == null || Role.isUser(role)) {
+            String userEmail = String.valueOf(session.getAttribute("user"));
+            boolean applied = hasUserAppliedFacultyByEmail(facultyRecord, userEmail);
+            request.setAttribute("alreadyApplied", applied ? "yes" : "no");
             return Path.FORWARD_FACULTY_VIEW_USER;
         }
         if (!Role.isAdmin(role)) {
@@ -94,6 +94,14 @@ public class ViewFaculty extends Command {
         request.setAttribute("facultyApplicants", facultyApplicants);
         LOG.trace("Set the request attribute: 'facultyApplicants' = {}", facultyApplicants);
         return Path.FORWARD_FACULTY_VIEW_ADMIN;
+    }
+
+    private boolean hasUserAppliedFacultyByEmail(Faculty faculty, String email) {
+        User user = new UserDao().find(email);
+        Applicant a = new ApplicantDao().find(user);
+        FacultyApplicants fa = new FacultyApplicants(faculty.getId(), a.getId());
+        fa = new FacultyApplicantsDao().find(fa);
+        return fa != null;
     }
 
 }
