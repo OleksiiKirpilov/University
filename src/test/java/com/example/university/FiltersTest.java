@@ -66,14 +66,14 @@ public class FiltersTest {
         when(request.getParameter("command")).thenReturn("viewAllFaculties");
         when(request.getAttribute("faculties")).thenReturn(true);
         authFilter.doFilter(request, response, chain);
-        assertNotNull(request.getAttribute("faculties"));
+        verify(chain, atLeast(1)).doFilter(request, response);
     }
 
     @Test
     public void authFilterShouldNotAllowEditSubjects() throws ServletException, IOException {
         when(request.getParameter("command")).thenReturn("editSubject");
         authFilter.doFilter(request, response, chain);
-        assertEquals("editSubject", request.getParameter("command"));
+        verify(response, atLeast(1)).sendError(anyInt());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class FiltersTest {
         when(session.getAttribute("user")).thenReturn("user");
         when(request.getParameter("command")).thenReturn("viewProfile");
         authFilter.doFilter(request, response, chain);
-        assertEquals("viewProfile", request.getParameter("command"));
+        verify(chain, atLeast(1)).doFilter(request, response);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class FiltersTest {
         when(session.getAttribute("user")).thenReturn("admin");
         when(request.getParameter("command")).thenReturn("editSubject");
         authFilter.doFilter(request, response, chain);
-        assertEquals("editSubject", request.getParameter("command"));
+        verify(chain, atLeast(1)).doFilter(request, response);
     }
 
 }
