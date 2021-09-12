@@ -5,8 +5,6 @@ import com.example.university.filters.EncodingFilter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -15,39 +13,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyBoolean;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.atLeast;
 
 public class FiltersTest {
 
     EncodingFilter encFilter;
     AuthFilter authFilter;
-
-    @Mock
     HttpSession session;
-
-    @Mock
     FilterChain chain;
-
-    @Mock
     HttpServletRequest request;
-
-    @Mock
     HttpServletResponse response;
-
-    @Mock
     FilterConfig encFilterConfig;
-
-    @Mock
     FilterConfig authFilterConfig;
 
     @Before
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        session = mock(HttpSession.class);
+        chain = mock(FilterChain.class);
+        request = mock(HttpServletRequest.class);
+        response = mock(HttpServletResponse.class);
+        encFilterConfig = mock(FilterConfig.class);
+        authFilterConfig = mock(FilterConfig.class);
+
         encFilter = new EncodingFilter();
         authFilter = new AuthFilter();
         encFilter.init(encFilterConfig);
@@ -63,9 +56,9 @@ public class FiltersTest {
     @Test
     public void encFilterShouldSetProperEncoding()
             throws ServletException, IOException {
-        when(request.getCharacterEncoding()).thenReturn("UTF-8");
+        when(request.getCharacterEncoding()).thenReturn(null);
         encFilter.doFilter(request, response, chain);
-        assertEquals("UTF-8", request.getCharacterEncoding());
+        verify(request, atLeast(1)).setCharacterEncoding(anyString());
     }
 
     @Test

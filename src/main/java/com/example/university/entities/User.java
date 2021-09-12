@@ -31,6 +31,11 @@ public class User extends Entity {
         this.lang = lang;
     }
 
+    public User(String email, String password, String firstName,
+                String lastName, Role role, String lang) {
+        this(email, password, null, firstName, lastName, role, lang);
+    }
+
     public String getEmail() {
         return email;
     }

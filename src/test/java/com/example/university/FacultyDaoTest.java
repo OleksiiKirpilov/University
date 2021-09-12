@@ -15,7 +15,7 @@ public class FacultyDaoTest {
 
     @Test
     public void shouldDoCrud() {
-        String name = "TEST_FACULTY";
+        String name = "TEST_FACULTY3";
         Faculty f = new Faculty(name, name, 1, 10);
         FacultyDao facultyDao = new FacultyDao();
         facultyDao.create(f);

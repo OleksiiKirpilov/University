@@ -19,7 +19,7 @@ public class GradeDaoTest {
 
     @Test
     public void shouldDoCrud() {
-        String email = "invalid@invalid.invalid";
+        String email = "invalid@invalid.invalid5";
         GradeDao d = new GradeDao();
         ApplicantDao applicantDao = new ApplicantDao();
         UserDao userDao = new UserDao();

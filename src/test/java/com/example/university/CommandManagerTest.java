@@ -2,8 +2,6 @@ package com.example.university;
 
 import com.example.university.commands.Command;
 import com.example.university.commands.CommandManager;
-import com.example.university.db.DbManager;
-import com.example.university.utils.RequestType;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,11 +10,8 @@ import org.mockito.MockitoAnnotations;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sql.DataSource;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.Map;
 
 import static org.mockito.Matchers.anyBoolean;
@@ -28,16 +23,10 @@ public class CommandManagerTest {
     HttpServletRequest request;
 
     @Mock
-    HttpServletResponse response;
-
-    @Mock
     HttpSession session;
 
-    RequestType requestType;
-
-
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         when(request.getSession()).thenReturn(session);
         when(request.getSession(anyBoolean())).thenReturn(session);
@@ -52,7 +41,7 @@ public class CommandManagerTest {
     }
 
     @Test
-    public void shouldReturnAllCommands() throws ServletException, IOException {
+    public void shouldReturnAllCommands() {
         for (Map.Entry<String, Command> e : CommandManager.getAllCommands().entrySet()) {
             Assert.assertNotNull(e.getKey());
         }

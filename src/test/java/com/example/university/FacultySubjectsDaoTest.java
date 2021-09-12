@@ -18,13 +18,13 @@ public class FacultySubjectsDaoTest {
 
     @Test
     public void shouldDoCrud() {
-        String name = "TEST_FACULTY";
+        String name = "TEST_FACULTY4";
         Faculty f = new Faculty(name, name, 1, 10);
         FacultyDao facultyDao = new FacultyDao();
         facultyDao.create(f);
         SubjectDao subjectDao = new SubjectDao();
         String subjectName = "TEST_SUBJECT";
-        Subject s = new Subject(name, name);
+        Subject s = new Subject(subjectName, name);
         subjectDao.create(s);
         FacultySubjectsDao facultySubjectsDao = new FacultySubjectsDao();
         FacultySubjects fs = new FacultySubjects(s, f);

@@ -7,6 +7,7 @@ import com.example.university.db.UserDao;
 import com.example.university.entities.*;
 import com.example.university.utils.Fields;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import static org.mockito.Mockito.*;
 
@@ -34,6 +37,8 @@ public class CommandsTest {
     String invalidAdmin = "invalidadmin";
     String invalidFacultyEn = "INVALID FACULTY";
     String invalidFacultyRu = "НЕВИЛИДНЫй ФАКУЛЬТЕТ";
+//    StringWriter stringWriter;
+//    PrintWriter printWriter;
 
     @Before
     public void setUp() throws ServletException, IOException {
@@ -70,6 +75,11 @@ public class CommandsTest {
         when(request.getParameter(Fields.APPLICANT_CITY)).thenReturn(applicant.getCity());
         when(request.getParameter(Fields.APPLICANT_IS_BLOCKED))
                 .thenReturn(String.valueOf(applicant.getBlockedStatus()));
+
+//        stringWriter = new StringWriter();
+//        printWriter = new PrintWriter(stringWriter);
+//        when(response.getWriter()).thenReturn(printWriter);
+
     }
 
     @After
@@ -84,6 +94,7 @@ public class CommandsTest {
     public void testNoCommand() throws ServletException, IOException {
         when(request.getParameter("command")).thenReturn("invalid_command");
         new FrontController().doGet(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
     @Test
@@ -91,12 +102,14 @@ public class CommandsTest {
         when(request.getParameter("command")).thenReturn("login");
         new FrontController().doGet(request, response);
         new FrontController().doPost(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
     @Test
     public void testLogout() throws ServletException, IOException {
         when(request.getParameter("command")).thenReturn("logout");
         new FrontController().doGet(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
     @Test
@@ -104,6 +117,7 @@ public class CommandsTest {
         when(request.getParameter("command")).thenReturn("viewProfile");
         when(session.getAttribute("user")).thenReturn(user.getEmail());
         new FrontController().doGet(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
     @Test
@@ -124,7 +138,7 @@ public class CommandsTest {
 
         when(request.getParameter("password")).thenReturn("qqqqQQQQ");
         new FrontController().doPost(request, response);
-
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
     @Test
@@ -134,6 +148,7 @@ public class CommandsTest {
         when(session.getAttribute("userRole")).thenReturn(admin.getRole());
         when(session.getAttribute("name_en")).thenReturn(faculty.getNameEn());
         new FrontController().doGet(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
     @Test
@@ -148,17 +163,15 @@ public class CommandsTest {
         when(request.getParameter("oldName")).thenReturn(faculty.getNameEn());
 
         new FrontController().doGet(request, response);
-
-        //String[] oldCheckedSubjectsIds = request.getParameterValues("oldCheckedSubjects");
-        //String[] newCheckedSubjectsIds = request.getParameterValues("subjects");
-
         new FrontController().doPost(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
     @Test
     public void testViewAllSubjects() throws ServletException, IOException {
         when(request.getParameter("command")).thenReturn("viewAllSubjects");
         new FrontController().doGet(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
     @Test
@@ -168,6 +181,7 @@ public class CommandsTest {
         Subject s = subjectDao.find(1);
         when(request.getParameter(Fields.SUBJECT_NAME_EN)).thenReturn(s.getNameEn());
         new FrontController().doGet(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
     @Test
@@ -175,6 +189,7 @@ public class CommandsTest {
         when(request.getParameter("command")).thenReturn("viewApplicant");
         when(request.getParameter("userId")).thenReturn(String.valueOf(user.getId()));
         new FrontController().doGet(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
 
@@ -182,6 +197,15 @@ public class CommandsTest {
     public void testSetSessionLanguage() throws ServletException, IOException {
         when(request.getParameter("command")).thenReturn("setSessionLanguage");
         new FrontController().doGet(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
+    }
+
+    @Test
+    public void testCreateReport() throws ServletException, IOException {
+        when(request.getParameter("command")).thenReturn("createReport");
+        when(request.getParameter(Fields.ENTITY_ID)).thenReturn("3");
+        new FrontController().doGet(request, response);
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
 
@@ -196,6 +220,7 @@ public class CommandsTest {
 //        verify(request, atLeast(1)).getParameter("username");
 //        writer.flush(); // it may not have been flushed yet...
 //        assertTrue(stringWriter.toString().contains("list.jsp"));
+        verify(response, atLeast(1)).sendRedirect(anyString());
     }
 
 }

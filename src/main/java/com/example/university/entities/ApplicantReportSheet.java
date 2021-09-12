@@ -2,6 +2,8 @@ package com.example.university.entities;
 
 public class ApplicantReportSheet extends Entity {
 
+    private static final long serialVersionUID = -6098247077808360554L;
+
     private int facultyId;
     private String firstName;
     private String lastName;
@@ -15,21 +17,22 @@ public class ApplicantReportSheet extends Entity {
     private boolean enteredOnBudget;
 
     public ApplicantReportSheet() {
+        // stub
     }
 
-    public ApplicantReportSheet(int facultyId, String firstName, String lastName,
-                                String email, boolean isBlocked, int preliminarySum,
-                                int diplomaSum, int totalSum) {
-        super();
-        this.facultyId = facultyId;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.isBlocked = isBlocked;
-        this.preliminarySum = preliminarySum;
-        this.diplomaSum = diplomaSum;
-        this.totalSum = totalSum;
-    }
+//    public ApplicantReportSheet(int facultyId, String firstName, String lastName,
+//                                String email, boolean isBlocked, int preliminarySum,
+//                                int diplomaSum, int totalSum) {
+//        super();
+//        this.facultyId = facultyId;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.email = email;
+//        this.isBlocked = isBlocked;
+//        this.preliminarySum = preliminarySum;
+//        this.diplomaSum = diplomaSum;
+//        this.totalSum = totalSum;
+//    }
 
     public int getFacultyId() {
         return facultyId;

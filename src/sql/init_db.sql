@@ -8,8 +8,8 @@ USE university ;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS users (
-                                     `id` INT NOT NULL AUTO_INCREMENT,
-                                     `first_name` VARCHAR(40) NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `first_name` VARCHAR(40) NOT NULL,
     `last_name` VARCHAR(40) NOT NULL,
     `email` VARCHAR(100) NOT NULL,
     `password` VARCHAR(64) NOT NULL,
@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS users (
 DROP TABLE IF EXISTS applicants;
 
 CREATE TABLE IF NOT EXISTS applicants (
-                                          `id` INT NOT NULL AUTO_INCREMENT,
-                                          `city` VARCHAR(40) NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `city` VARCHAR(40) NOT NULL,
     `district` VARCHAR(40) NOT NULL,
     `school` VARCHAR(50) NOT NULL,
     `users_id` INT NOT NULL,
@@ -34,16 +34,16 @@ CREATE TABLE IF NOT EXISTS applicants (
     UNIQUE INDEX `id_UNIQUE` (`id` ASC),
     INDEX `fk_applicants_users_idx` (`users_id` ASC),
     CONSTRAINT `fk_applicant_users`
-    FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
-    ON DELETE CASCADE
+        FOREIGN KEY (`users_id`) REFERENCES `users` (`id`)
+        ON DELETE CASCADE
     );
 
 -- ------------ faculties -----------------------------------------
 DROP TABLE IF EXISTS faculties;
 
 CREATE TABLE IF NOT EXISTS faculties (
-                                         `id` INT NOT NULL AUTO_INCREMENT,
-                                         `name_ru` VARCHAR(100) NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name_ru` VARCHAR(100) NOT NULL,
     `name_en` VARCHAR(100) NOT NULL,
     `total_places`  INT UNSIGNED NOT NULL,
     `budget_places` INT UNSIGNED NOT NULL,
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS faculties (
 DROP TABLE IF EXISTS subjects;
 
 CREATE TABLE IF NOT EXISTS subjects (
-                                        `id` INT NOT NULL AUTO_INCREMENT,
-                                        `name_ru` VARCHAR(40) NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `name_ru` VARCHAR(40) NOT NULL,
     `name_en` VARCHAR(40) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `name_ru_UNIQUE`(`name_ru` ASC),
@@ -66,10 +66,10 @@ CREATE TABLE IF NOT EXISTS subjects (
 DROP TABLE IF EXISTS faculty_applicants ;
 
 CREATE TABLE IF NOT EXISTS faculty_applicants (
-                                                  `id` INT NOT NULL AUTO_INCREMENT,
-                                                  `applicant_id` INT NOT NULL,
-                                                  `faculty_id`   INT NOT NULL,
-                                                  PRIMARY KEY (`id`, `applicant_id`, `faculty_id`),
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `applicant_id` INT NOT NULL,
+    `faculty_id`   INT NOT NULL,
+    PRIMARY KEY (`id`, `applicant_id`, `faculty_id`),
     INDEX `fk_applicants_has_faculty_faculty1_idx` (`faculty_id` ASC),
     INDEX `fk_applicants_has_faculty_applicant1_idx` (`applicant_id` ASC),
     UNIQUE INDEX `id_faculty_applicants_UNIQUE` (`id` ASC),
@@ -89,10 +89,10 @@ CREATE TABLE IF NOT EXISTS faculty_applicants (
 DROP TABLE IF EXISTS faculty_subjects;
 
 CREATE TABLE IF NOT EXISTS faculty_subjects (
-                                                `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-                                                `faculty_id` INT NOT NULL,
-                                                `subject_id` INT NOT NULL,
-                                                PRIMARY KEY (`id`, `faculty_id`, `subject_id`),
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `faculty_id` INT NOT NULL,
+    `subject_id` INT NOT NULL,
+    PRIMARY KEY (`id`, `faculty_id`, `subject_id`),
     INDEX `fk_faculty_has_subject_subject1_idx` (`subject_id` ASC),
     INDEX `fk_faculty_has_subject_faculty1_idx` (`faculty_id` ASC),
     UNIQUE INDEX `id_faculty_subjects_UNIQUE` (`id` ASC),
@@ -112,11 +112,11 @@ CREATE TABLE IF NOT EXISTS faculty_subjects (
 DROP TABLE IF EXISTS grades;
 
 CREATE TABLE IF NOT EXISTS grades (
-                                      `id` INT NOT NULL AUTO_INCREMENT,
-                                      `applicant_id` INT NOT NULL,
-                                      `subject_id`   INT NOT NULL,
-                                      `grade` TINYINT UNSIGNED NOT NULL,
-                                      `exam_type` ENUM('diploma','preliminary') NOT NULL,
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `applicant_id` INT NOT NULL,
+    `subject_id`   INT NOT NULL,
+    `grade` TINYINT UNSIGNED NOT NULL,
+    `exam_type` ENUM('diploma','preliminary') NOT NULL,
     PRIMARY KEY (`id`, `applicant_id`, `subject_id`, `exam_type`),
     INDEX `fk_applicant_has_subjects_subject1_idx` (`subject_id` ASC),
     INDEX `fk_applicant_has_subjects_applicant1_idx` (`applicant_id` ASC),
@@ -152,10 +152,8 @@ DROP TABLE IF EXISTS applicants_grades_sum;
 CREATE TABLE IF NOT EXISTS applicants_grades_sum
 (`faculty_id` INT, `applicant_id` INT, `preliminary_sum` INT, `diploma_sum` INT);
 
--- -----------------------------------------------------
--- View `university_admission`.`faculties_report_sheet`
--- -----------------------------------------------------
-DROP VIEW IF EXISTS faculties_report_sheet;
+-- -------------- View `faculties_report_sheet` -------------------------
+-- DROP VIEW IF EXISTS faculties_report_sheet;
 DROP TABLE IF EXISTS faculties_report_sheet;
 CREATE OR REPLACE VIEW faculties_report_sheet AS
 SELECT
@@ -177,10 +175,8 @@ FROM
     users ON applicants.users_id = users.id
 ORDER BY isBlocked ASC , `total_sum` DESC;
 
--- -----------------------------------------------------
--- View `university_admission`.`entrant_marks_sum`
--- -----------------------------------------------------
-DROP VIEW IF EXISTS applicants_grades_sum;
+-- --------------- View applicants_grades_sum --------------
+-- DROP VIEW IF EXISTS applicants_grades_sum;
 DROP TABLE IF EXISTS applicants_grades_sum;
 CREATE OR REPLACE VIEW applicants_grades_sum AS
 SELECT
@@ -204,29 +200,53 @@ GROUP BY faculty_applicants.faculty_id, applicant_id;
 
 ------------------ prepare users ----------------------------------
 INSERT INTO `users`
-VALUES (1, 'admin_name', 'admin_lastname', 'admin@univer.com', 'admin', NULL, 'admin', 'en');
+VALUES (1, 'adminname', 'adminlastname', 'admin@univer.com', 'admin', NULL, 'admin', 'en');
 INSERT INTO `users`
-VALUES (2, 'Иван', 'Иванов', 'ivanov@gmail.com', '123',NULL , 'user', 'ru');
+VALUES (2, 'Иван', 'Иванов', 'ivanov@gmail.com', '1111', NULL, 'user', 'ru');
 INSERT INTO `users`
-VALUES (3, 'John', 'Smith', 'j.smith@gmail.com', 'j123',NULL , 'user', 'en');
+VALUES (3, 'Сергей', 'Сергеев', 'sergeev@gmail.com', '1111', NULL, 'user', 'ru');
+INSERT INTO `users`
+VALUES (4, 'Петр', 'Петров', 'petrov@gmail.com', '1111', NULL, 'user', 'ru');
+INSERT INTO `users`
+VALUES (5, 'Александр', 'Александров', 'aleksandrov@gmail.com', '1111', NULL, 'user', 'ru');
+INSERT INTO `users`
+VALUES (6, 'John', 'Smith', 'j.smith@gmail.com', 'j123', NULL, 'user', 'en');
+INSERT INTO `users`
+VALUES (7, 'Dale', 'Cooper', 'd.cooper@gmail.com', '2222', NULL, 'user', 'en');
+INSERT INTO `users`
+VALUES (8, 'James', 'Brown', 'j.brown@gmail.com', '2222', NULL, 'user', 'en');
+INSERT INTO `users`
+VALUES (9, 'Darth', 'Vader', 'd.vader@gmail.com', '2222', NULL, 'user', 'en');
 
 ------------------- prepare applicants ----------------------------
 INSERT INTO applicants
 VALUES (1, 'Харьков', 'Харьковская область', 'Школа 1', 2, DEFAULT);
 INSERT INTO applicants
-VALUES (2, 'London', 'district', 'Ashbourne college', 3, DEFAULT);
+VALUES (2, 'Харьков', 'Харьковская область', 'Школа 2', 3, DEFAULT);
+INSERT INTO applicants
+VALUES (3, 'Киев', 'Киев', 'Школа 1', 4, DEFAULT);
+INSERT INTO applicants
+VALUES (4, 'Одесса', 'Одесская', 'Школа 6', 5, DEFAULT);
+INSERT INTO applicants
+VALUES (5, 'London', 'London', 'Ashbourne college', 6, DEFAULT);
+INSERT INTO applicants
+VALUES (6, 'Chicago', 'Illinois', 'Columbia college', 7, DEFAULT);
+INSERT INTO applicants
+VALUES (7, 'Houston', 'Texas', 'Houston Community College', 8, DEFAULT);
+INSERT INTO applicants
+VALUES (8, 'Tatooine', 'no data', 'home education', 9, DEFAULT);
 
 -------------------- prepare faculties ------------------------------
 INSERT INTO faculties
 VALUES (1, 'Географический', 'Geography', 20, 5);
 INSERT INTO faculties
-VALUES (2, 'Экономический', 'Economics', 100, 50);
+VALUES (2, 'Экономический', 'Economics', 10, 2);
 INSERT INTO faculties
-VALUES (3, 'Исторический', 'History', 20, 10);
+VALUES (3, 'Исторический', 'History', 5, 1);
 INSERT INTO faculties
-VALUES (4, 'Механико-математический', 'Mechanics and Mathematics', 100, 50);
+VALUES (4, 'Механико-математический', 'Mechanics and Mathematics', 5, 2);
 INSERT INTO faculties
-VALUES (5, 'Информационных технологий', 'Information technology', 200, 50);
+VALUES (5, 'Информационных технологий', 'Information technology', 10, 4);
 
 -- экономический, исторический, механико-математический, информационных технологий
 -- психологии, социологии
@@ -271,4 +291,22 @@ VALUES (9, 5, 5);
 INSERT INTO faculty_subjects
 VALUES (10, 5, 2);
 
---------------------- prepare
+--------------------- prepare grades ---------------------------------------
+INSERT INTO grades
+VALUES (1, 1, 1, 7, 'diploma');
+INSERT INTO grades
+VALUES (2, 1, 2, 8, 'diploma');
+INSERT INTO grades
+VALUES (3, 1, 3, 9, 'diploma');
+INSERT INTO grades
+VALUES (4, 1, 4, 10, 'diploma');
+INSERT INTO grades
+VALUES (5, 1, 5, 11, 'diploma');
+INSERT INTO grades
+VALUES (6, 1, 1, 9, 'preliminary');
+INSERT INTO grades
+VALUES (7, 1, 3, 12, 'preliminary');
+
+--------------------- prepare faculty applicants----------------------------
+INSERT INTO faculty_applicants
+VALUES (1, 1, 3);
