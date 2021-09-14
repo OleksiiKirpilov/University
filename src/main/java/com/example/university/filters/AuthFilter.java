@@ -1,5 +1,7 @@
 package com.example.university.filters;
 
+import com.example.university.commands.CommandManager;
+import com.example.university.utils.Path;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +21,7 @@ import java.util.Set;
 public class AuthFilter implements Filter {
 
     private static final Logger LOG = LogManager.getLogger(AuthFilter.class);
+    private static final String ERROR_GENERAL_ERROR = "errorMessage.general_error";
 
     // accessible by all users
     private final Set<String> accessibleCommands;
@@ -80,6 +83,13 @@ public class AuthFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         String command = req.getParameter("command");
+        // Illegal command
+        if (!CommandManager.getAllCommands().containsKey(command)) {
+            LOG.debug("Invalid command: {}", command);
+            setErrorMessage(req, ERROR_GENERAL_ERROR);
+            res.sendRedirect(Path.WELCOME_PAGE);
+            return;
+        }
         // commands available for all
         if (accessibleCommands.contains(command)) {
             LOG.debug("This command can be accessed by all users: {}", command);
@@ -121,5 +131,18 @@ public class AuthFilter implements Filter {
         return "admin".equals(role) && adminCommands.contains(command);
     }
 
+
+    protected void setErrorMessage(HttpServletRequest request, String messageKey) {
+        setMessage(request, "errorMessage", messageKey);
+    }
+
+    protected void setOkMessage(HttpServletRequest request, String messageKey) {
+        setMessage(request, "successfulMessage", messageKey);
+    }
+
+    protected void setMessage(HttpServletRequest request, String attribute, String messageKey) {
+        HttpSession session = request.getSession();
+        session.setAttribute(attribute, messageKey);
+    }
 
 }
