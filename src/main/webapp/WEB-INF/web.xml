@@ -17,6 +17,7 @@
         <url-pattern>/controller</url-pattern>
     </servlet-mapping>
 
+
     <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>com.example.university.filters.EncodingFilter</filter-class>
@@ -66,5 +67,15 @@
             <taglib-location>/WEB-INF/view/jspf/grades.tld</taglib-location>
         </taglib>
     </jsp-config>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/view/errorPage.jsp</location>
+    </error-page>
+
+<!--    <error-page>-->
+<!--        <error-code>500</error-code>-->
+<!--        <location>/WEB-INF/view/errorPage.jsp</location>-->
+<!--    </error-page>-->
 
 </web-app>

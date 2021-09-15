@@ -38,7 +38,7 @@ public class DeleteFaculty extends Command {
     }
 
     /**
-     * Redirects user to view of all faculties after submiting a delete button.
+     * Redirects user to view of all faculties after submitting a delete button.
      *
      * @return path to view of all faculties if deletion was successful,
      * otherwise to faculty view.
@@ -49,7 +49,7 @@ public class DeleteFaculty extends Command {
         Faculty facultyToDelete = facultyDao.find(facultyId);
         ApplicantDao applicantDao = new ApplicantDao();
         List<Applicant> facultyApplicants = applicantDao.findAllFacultyApplicants(facultyToDelete);
-        if (facultyApplicants != null) {
+        if (!facultyApplicants.isEmpty()) {
             setErrorMessage(request, ERROR_FACULTY_DEPENDS);
             return Path.REDIRECT_TO_FACULTY + facultyToDelete.getNameEn();
         }
