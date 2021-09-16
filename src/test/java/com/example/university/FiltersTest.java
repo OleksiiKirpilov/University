@@ -58,7 +58,7 @@ public class FiltersTest {
             throws ServletException, IOException {
         when(request.getCharacterEncoding()).thenReturn(null);
         encFilter.doFilter(request, response, chain);
-        verify(request, atLeast(1)).setCharacterEncoding(anyString());
+        verify(request, times(1)).setCharacterEncoding(anyString());
     }
 
     @Test

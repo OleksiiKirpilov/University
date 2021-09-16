@@ -12,11 +12,12 @@ import java.security.SecureRandom;
 
 public class PasswordManager {
 
+    private static final Logger LOG = LogManager.getLogger(PasswordManager.class);
+
     private static final int SALT_LENGTH = 16;
     private static final String SYMBOLS =
             "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                     "0123456789" + "!@#$%&*()_+-=[]|,./?><";
-    private static final Logger LOG = LogManager.getLogger(PasswordManager.class);
 
     private PasswordManager() {
     }

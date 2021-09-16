@@ -8,6 +8,7 @@ package com.example.university.entities;
 public class Faculty extends Entity {
 
 	private static final long serialVersionUID = 1590962657803610445L;
+
 	private String nameRu;
 	private String nameEn;
 	private int budgetPlaces;

@@ -208,7 +208,7 @@ public class ApplicantDao extends AbstractDao<Applicant> {
 	}
 
 	/**
-	 * Unmarshals Applicants record in database to Java Applicant instance.
+	 * Unmarshals Applicants record in database to Applicant instance.
 	 *
 	 * @param rs
 	 *            - ResultSet record

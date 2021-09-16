@@ -13,10 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-//@WebServlet(name = "FrontController", value = "/FrontController")
+
 public class FrontController extends HttpServlet {
 
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = -6992506231035511735L;
 
     private static final Logger LOG = LogManager.getLogger(FrontController.class);
     private static final String FINISHED = "Controller processing finished";

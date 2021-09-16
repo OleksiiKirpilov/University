@@ -168,7 +168,7 @@ SELECT
 FROM
     applicants_grades_sum
         INNER JOIN
-    faculties ON applicants_grades_sum.applicant_id = faculties.id
+    faculties ON applicants_grades_sum.faculty_id = faculties.id
         INNER JOIN
     applicants ON applicant_id = applicants.id
         INNER JOIN

@@ -11,7 +11,7 @@ import java.util.List;
  * Custom tag class which needed in apply for faculty user form. The main
  * purpose of this class is remove the need of validation in ApplyFacultyView
  * command.
- * The maximum mark in subject is equal to 12, the lower one is zero.
+ * The maximum grade in subject is equal to 12, the lower one is zero.
  */
 public class GradesTag extends SimpleTagSupport {
 

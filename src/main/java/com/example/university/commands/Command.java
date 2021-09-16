@@ -14,6 +14,7 @@ import com.example.university.utils.RequestType;
  * Main interface for the Command pattern implementation.
  */
 public abstract class Command implements Serializable {
+
 	private static final long serialVersionUID = 8879403039606311780L;
 
 	protected static final String ERROR_FILL_ALL_FIELDS = "errorMessage.fill_all_fields";

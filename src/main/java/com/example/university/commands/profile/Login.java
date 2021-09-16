@@ -3,7 +3,6 @@ package com.example.university.commands.profile;
 import com.example.university.commands.Command;
 import com.example.university.db.UserDao;
 import com.example.university.entities.User;
-import com.example.university.utils.PasswordManager;
 import com.example.university.utils.Path;
 import com.example.university.utils.RequestType;
 import org.apache.logging.log4j.LogManager;
@@ -14,6 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
+import static com.example.university.utils.Fields.USER_EMAIL;
+import static com.example.university.utils.Fields.USER_PASSWORD;
 
 /**
  * Invoked when user logins in the system.
@@ -41,8 +43,8 @@ public class Login extends Command {
      * @return path to the view of all faculties.
      */
     private String doPost(HttpServletRequest request) {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        String email = request.getParameter(USER_EMAIL);
+        String password = request.getParameter(USER_PASSWORD);
         UserDao userDao = new UserDao();
         User user = userDao.find(email, password);
         LOG.trace("User found: {}", user);
@@ -51,7 +53,7 @@ public class Login extends Command {
             LOG.error("errorMessage: Cannot find user with such login/password");
             return null;
         }
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession();
         session.setAttribute("user", user.getEmail());
         LOG.trace("Set session attribute 'user' = {}", user.getEmail());
         session.setAttribute("userRole", user.getRole());

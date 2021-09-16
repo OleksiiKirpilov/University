@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Class that manages all commands.
  */
-public class CommandManager {
+public final class CommandManager {
 
     private static final Logger LOG = LogManager.getLogger(CommandManager.class);
     private static final Map<String, Command> COMMANDS = new HashMap<>();

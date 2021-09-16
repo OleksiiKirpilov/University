@@ -7,12 +7,14 @@ import com.example.university.entities.Applicant;
 import com.example.university.entities.Role;
 import com.example.university.entities.User;
 import com.example.university.utils.*;
+import static com.example.university.utils.Fields.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
@@ -51,14 +53,14 @@ public class UserRegistration extends Command {
      */
     private String doPost(HttpServletRequest request) {
         LOG.debug("Start executing Command");
-        String email = request.getParameter(Fields.USER_EMAIL);
-        String password = request.getParameter(Fields.USER_PASSWORD);
-        String firstName = request.getParameter(Fields.USER_FIRST_NAME);
-        String lastName = request.getParameter(Fields.USER_LAST_NAME);
-        String lang = request.getParameter(Fields.USER_LANG);
-        String city = request.getParameter(Fields.APPLICANT_CITY);
-        String district = request.getParameter(Fields.APPLICANT_DISTRICT);
-        String school = request.getParameter(Fields.APPLICANT_SCHOOL);
+        String email = request.getParameter(USER_EMAIL);
+        String password = request.getParameter(USER_PASSWORD);
+        String firstName = request.getParameter(USER_FIRST_NAME);
+        String lastName = request.getParameter(USER_LAST_NAME);
+        String lang = request.getParameter(USER_LANG);
+        String city = request.getParameter(APPLICANT_CITY);
+        String district = request.getParameter(APPLICANT_DISTRICT);
+        String school = request.getParameter(APPLICANT_SCHOOL);
         boolean valid = InputValidator.validateUserParameters(firstName,
                 lastName, email, password, lang);
         valid &= InputValidator.validateApplicantParameters(city, district, school);
@@ -75,7 +77,16 @@ public class UserRegistration extends Command {
         ApplicantDao applicantDao = new ApplicantDao();
         applicantDao.create(applicant);
         LOG.trace("Applicant record created: {}", applicant);
-        return Path.WELCOME_PAGE;
+
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user.getEmail());
+        LOG.trace("Set session attribute 'user' = {}", user.getEmail());
+        session.setAttribute("userRole", user.getRole());
+        LOG.trace("Set session attribute: 'userRole' = {}", user.getRole());
+        session.setAttribute("lang", user.getLang());
+        LOG.trace("Set session attribute 'lang' = {}", user.getLang());
+        LOG.info("User: {} logged as {}", user, user.getRole());
+        return Path.REDIRECT_TO_PROFILE;
     }
 
 }
