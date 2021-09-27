@@ -62,26 +62,27 @@ public class AddFaculty extends Command {
      * otherwise refreshes add Faculty page.
      */
     private String doPost(HttpServletRequest request) {
-        String facultyNameRu = request.getParameter(Fields.FACULTY_NAME_RU);
-        String facultyNameEn = request.getParameter(Fields.FACULTY_NAME_EN);
-        String facultyTotalPlaces = request
-                .getParameter(Fields.FACULTY_TOTAL_PLACES);
-        String facultyBudgetPlaces = request
-                .getParameter(Fields.FACULTY_BUDGET_PLACES);
-        boolean valid = InputValidator.validateFacultyParameters(facultyNameRu,
-                facultyNameEn, facultyBudgetPlaces, facultyTotalPlaces);
+        String nameRu = request.getParameter(Fields.FACULTY_NAME_RU);
+        String nameEn = request.getParameter(Fields.FACULTY_NAME_EN);
+        String totalPlaces = request.getParameter(Fields.FACULTY_TOTAL_PLACES);
+        String budgetPlaces = request.getParameter(Fields.FACULTY_BUDGET_PLACES);
+        boolean valid = InputValidator.validateFacultyParameters(nameRu, nameEn, budgetPlaces, totalPlaces);
         if (!valid) {
             setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
             LOG.error("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_FACULTY_ADD_ADMIN;
         }
         LOG.trace("All fields are properly filled. Start updating database.");
-        int totalPlaces = Integer.parseInt(facultyTotalPlaces);
-        int budgetPlaces = Integer.parseInt(facultyBudgetPlaces);
-        Faculty faculty = new Faculty(facultyNameRu, facultyNameEn,
-                budgetPlaces, totalPlaces);
-        LOG.trace("Create faculty transfer object: {}", faculty);
         FacultyDao facultyDao = new FacultyDao();
+        if (facultyDao.find(nameEn) != null || facultyDao.find(nameRu) != null) {
+            setErrorMessage(request, ERROR_FACULTY_EXISTS);
+            LOG.error("Can not create faculty with names {}, {}", nameEn, nameRu);
+            return Path.REDIRECT_FACULTY_ADD_ADMIN;
+        }
+        int total = Integer.parseInt(totalPlaces);
+        int budget = Integer.parseInt(budgetPlaces);
+        Faculty faculty = new Faculty(nameRu, nameEn, budget, total);
+        LOG.trace("Create faculty transfer object: {}", faculty);
         facultyDao.create(faculty);
         LOG.trace("Create faculty record in database: {}", faculty);
         // only after creating a faculty record we can proceed with
@@ -90,12 +91,11 @@ public class AddFaculty extends Command {
         if (chosenSubjectsIds != null) {
             FacultySubjectsDao fsd = new FacultySubjectsDao();
             for (String subjectId : chosenSubjectsIds) {
-                FacultySubjects facultySubject = new FacultySubjects(
-                        Integer.parseInt(subjectId), faculty.getId());
+                FacultySubjects facultySubject = new FacultySubjects(Integer.parseInt(subjectId), faculty.getId());
                 fsd.create(facultySubject);
                 LOG.trace("FacultySubjects record created in database: {}", facultySubject);
             }
         }
-        return Path.REDIRECT_TO_FACULTY + facultyNameEn;
+        return Path.REDIRECT_TO_FACULTY + nameEn;
     }
 }

@@ -38,15 +38,25 @@
 			</ol>
 		</c:if>
 
-		<c:if test="${userRole eq 'user' and alreadyApplied eq 'no'}">
+		<c:if test="${userRole eq 'user' and !alreadyApplied}">
 			<p>
 				<a href="controller?command=applyFaculty&name_en=${name_en}">
 					<fmt:message key="faculty.view_jsp.button.apply" /></a>
 			</p>
 		</c:if>
-		<c:if test="${userRole eq 'user' and alreadyApplied eq 'yes'}">
+		<c:if test="${userRole eq 'user' and alreadyApplied}">
 			<p><fmt:message key="faculty.view_jsp.label.already_applied" /></p>
 		</c:if>
+
+		<c:if test="${finalized}">
+			<p><fmt:message key="report.view_jsp.label.finalized" /></p>
+		</c:if>
+
+		<c:if test="${userRole eq 'user' and enrolled}">
+			<p><fmt:message key="report.view_jsp.label.enrolled" /></p>
+		</c:if>
+
+
 	</div>
 
 	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>

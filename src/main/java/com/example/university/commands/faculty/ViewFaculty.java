@@ -50,6 +50,10 @@ public class ViewFaculty extends Command {
         FacultyDao facultyDao = new FacultyDao();
         Faculty facultyRecord = facultyDao.find(facultyNameEn);
         LOG.trace("Faculty record found: {}", facultyRecord);
+        List<ApplicantReportSheet> report = new ApplicantReportSheetDao().getFinalizedReport(facultyRecord.getId());
+        boolean finalized = !report.isEmpty();
+        request.setAttribute(Fields.REPORT_SHEET_FACULTY_FINALIZED, finalized);
+        LOG.trace("Set the request attribute: 'finalized' = {}", finalized);
         request.setAttribute(Fields.ENTITY_ID, facultyRecord.getId());
         LOG.trace("Set the request attribute: 'id' = {}", facultyRecord.getId());
         request.setAttribute(Fields.FACULTY_NAME_RU, facultyRecord.getNameRu());
@@ -72,8 +76,12 @@ public class ViewFaculty extends Command {
         String role = (String) session.getAttribute("userRole");
         String userEmail = (String) session.getAttribute("user");
         if (Role.isUser(role)) {
-            boolean applied = hasUserAppliedFacultyByEmail(facultyRecord, userEmail);
-            request.setAttribute("alreadyApplied", applied ? "yes" : "no");
+            User user = new UserDao().find(userEmail);
+            Applicant applicant = new ApplicantDao().find(user);
+            boolean applied = hasUserAppliedFacultyByEmail(facultyRecord, applicant);
+            request.setAttribute("alreadyApplied", applied);
+            boolean enrolled = isApplicantEnrolled(userEmail, report);
+            request.setAttribute("enrolled", enrolled);
             return Path.FORWARD_FACULTY_VIEW_USER;
         }
         if (!Role.isAdmin(role)) {
@@ -95,12 +103,16 @@ public class ViewFaculty extends Command {
         return Path.FORWARD_FACULTY_VIEW_ADMIN;
     }
 
-    private boolean hasUserAppliedFacultyByEmail(Faculty faculty, String email) {
-        User user = new UserDao().find(email);
-        Applicant a = new ApplicantDao().find(user);
-        FacultyApplicants fa = new FacultyApplicants(faculty.getId(), a.getId());
+    private boolean hasUserAppliedFacultyByEmail(Faculty faculty, Applicant applicant) {
+        FacultyApplicants fa = new FacultyApplicants(faculty.getId(), applicant.getId());
         fa = new FacultyApplicantsDao().find(fa);
         return fa != null;
+    }
+
+    private boolean isApplicantEnrolled(String email, List<ApplicantReportSheet> report) {
+        return report.stream()
+                .filter(r -> r.getEmail().equals(email))
+                .anyMatch(ApplicantReportSheet::getEntered);
     }
 
 }

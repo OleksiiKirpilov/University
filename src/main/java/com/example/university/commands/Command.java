@@ -22,6 +22,7 @@ public abstract class Command implements Serializable {
 	protected static final String ERROR_CAN_NOT_FIND_USER = "error_message.can_not_find_user";
 	protected static final String ERROR_EMAIL_USED = "error_message.email_in_use";
 	protected static final String MESSAGE_ACCOUNT_CREATED = "profile.view_jsp.message.account_created";
+	protected static final String ERROR_FACULTY_EXISTS = "error_message.faculty_exists";
 
 	/**
 	 * Execution method for command. Returns path to go to based on the user
