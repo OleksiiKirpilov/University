@@ -37,6 +37,7 @@ public abstract class AbstractDao<T extends Entity> {
 	protected Connection getConnection() throws SQLException {
 		Connection con = ds.getConnection();
 		con.setAutoCommit(false);
+//		con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 		return con;
 	}
 

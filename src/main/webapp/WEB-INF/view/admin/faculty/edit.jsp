@@ -6,7 +6,7 @@
 	<%@ include file="/WEB-INF/view/jspf/header.jspf"%>
 
 	<h2 align="center">
-		<c:out value="${faculty.name}" />
+		<c:out value="${language eq 'ru' ? name_ru : name_en}" />
 	</h2>
 
 	<div class="form">

@@ -31,12 +31,12 @@ public class SubjectDao extends AbstractDao<Subject> {
 	private static final String DELETE_SUBJECT =
 			"DELETE FROM subjects WHERE id = ?";
 	private static final String FIND_ALL_FACULTY_SUBJECTS =
-			"SELECT subjects.id, subjects.name_ru, subjects.name_en " +
+			"SELECT DISTINCT subjects.id, subjects.name_ru, subjects.name_en " +
 					"FROM subjects, faculty_subjects " +
 					"WHERE faculty_subjects.faculty_id = ?" +
 					" AND faculty_subjects.subject_id = subjects.id";
 	private static final String FIND_ALL_NOT_FACULTY_SUBJECTS =
-			"SELECT subjects.id, subjects.name_ru, subjects.name_en " +
+			"SELECT DISTINCT subjects.id, subjects.name_ru, subjects.name_en " +
 					"FROM subjects " +
 					"LEFT JOIN faculty_subjects" +
 					" ON faculty_subjects.subject_id = subjects.id" +

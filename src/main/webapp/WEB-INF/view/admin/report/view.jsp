@@ -57,6 +57,19 @@
 		</tbody>
 	</table>
 
+	<c:if test="${!finalized && !empty facultyReport}">
+		<div class="form">
+			<form action="controller" method="POST">
+				<input type="hidden" name="command" value="createReport" />
+				<input type="hidden" name="id" value="${requestScope.id}" />
+				<p>
+					<input type="submit"
+						   value="<fmt:message key="report.view_jsp.label.finalize" />">
+				</p>
+			</form>
+		</div>
+	</c:if>
+
 	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
 
 	<h:datatables table="#reportTable"/>

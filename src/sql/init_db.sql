@@ -136,13 +136,25 @@ CREATE TABLE IF NOT EXISTS grades (
 -- ---------------------------------------------------------
 
 -- -----------------------------------------------------
--- Placeholder table for view `faculties_report_sheet`
+-- Table `report_sheet`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS faculties_report_sheet;
+DROP TABLE IF EXISTS report_sheet;
 
-CREATE TABLE IF NOT EXISTS faculties_report_sheet
-(`faculty_id` INT, `first_name` INT, `last_name` INT, `email` INT, `isBlocked` INT,
- `preliminary_sum` INT, `diploma_sum` INT, `total_sum` INT);
+CREATE TABLE IF NOT EXISTS report_sheet (
+    `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `faculty_id` INT,
+    `first_name` VARCHAR(40) NOT NULL,
+    `last_name` VARCHAR(40) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `isBlocked` TINYINT NOT NULL DEFAULT false,
+    `preliminary_sum` INT,
+    `diploma_sum` INT,
+    `total_sum` INT,
+    `entered` TINYINT NOT NULL DEFAULT false,
+    `entered_on_budget` TINYINT NOT NULL DEFAULT false,
+    PRIMARY KEY (`id`)
+    );
+
 
 -- -----------------------------------------------------
 -- Placeholder table for view `applicant_grades_sum`
@@ -153,8 +165,8 @@ CREATE TABLE IF NOT EXISTS applicants_grades_sum
 (`faculty_id` INT, `applicant_id` INT, `preliminary_sum` INT, `diploma_sum` INT);
 
 -- -------------- View `faculties_report_sheet` -------------------------
--- DROP VIEW IF EXISTS faculties_report_sheet;
-DROP TABLE IF EXISTS faculties_report_sheet;
+DROP VIEW IF EXISTS faculties_report_sheet;
+-- DROP TABLE IF EXISTS faculties_report_sheet;
 CREATE OR REPLACE VIEW faculties_report_sheet AS
 SELECT
     faculty_id,

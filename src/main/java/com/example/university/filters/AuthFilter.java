@@ -64,6 +64,7 @@ public class AuthFilter implements Filter {
         adminCommands.add("viewApplicant");
         adminCommands.add("createReport");
         adminCommands.add("deleteSubject");
+        adminCommands.add("finalizeReport");
     }
 
     @Override

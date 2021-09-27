@@ -1,7 +1,7 @@
 package com.example.university.utils;
 
 /**
- * Path holder to jsp pages.
+ * Path holder to jsp pages and controller commands
  */
 public final class Path {
 
@@ -51,6 +51,7 @@ public final class Path {
 	public static final String REDIRECT_APPLICANT_PROFILE = "controller?command=viewApplicant&userId=";
 
 	public static final String FORWARD_REPORT_SHEET_VIEW = "/WEB-INF/view/admin/report/view.jsp";
+	public static final String REDIRECT_REPORT_SHEET_VIEW = "controller?command=createReport&id=";
 
 	private Path() {
 	}

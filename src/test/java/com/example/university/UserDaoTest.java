@@ -17,10 +17,9 @@ public class UserDaoTest {
 
     @Test
     public void shouldFindUserWithId1() {
-        User user = new User();
         UserDao userDao = new UserDao();
-        user = userDao.find(1);
-        Assert.assertNotNull(user.getEmail());
+        User user= userDao.find(1);
+        Assert.assertNotNull(user);
     }
 
     @Test

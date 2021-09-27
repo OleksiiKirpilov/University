@@ -15,7 +15,6 @@ public final class Fields {
     public static final String USER_LAST_NAME = "last_name";
     public static final String USER_ROLE = "role";
     public static final String USER_LANG = "lang";
-    public static final String USER_ACTIVE_STATUS = "isActive";
     public static final String USER_FOREIGN_KEY_ID = "users_id";
 
     public static final String APPLICANT_CITY = "city";
@@ -46,6 +45,9 @@ public final class Fields {
     public static final String REPORT_SHEET_APPLICANT_PRELIMINARY_SUM = "preliminary_sum";
     public static final String REPORT_SHEET_APPLICANT_DIPLOMA_SUM = "diploma_sum";
     public static final String REPORT_SHEET_APPLICANT_TOTAL_SUM = "total_sum";
+    public static final String REPORT_SHEET_APPLICANT_ENTERED = "entered";
+    public static final String REPORT_SHEET_APPLICANT_ENTERED_ON_BUDGET = "entered_on_budget";
+    public static final String REPORT_SHEET_FACULTY_FINALIZED = "finalized";
 
 
     private Fields() {

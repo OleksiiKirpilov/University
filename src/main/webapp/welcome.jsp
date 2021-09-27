@@ -46,6 +46,6 @@
 </c:choose>
 
 <%@ include file="/WEB-INF/view/jspf/message.jspf" %>
-<%@ include file="/WEB-INF/view/jspf/footer.jspf" %>
+<%--<%@ include file="/WEB-INF/view/jspf/footer.jspf" %>--%>
 </body>
 </html>

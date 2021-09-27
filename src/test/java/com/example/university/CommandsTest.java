@@ -7,7 +7,6 @@ import com.example.university.db.UserDao;
 import com.example.university.entities.*;
 import com.example.university.utils.Fields;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import static org.mockito.Mockito.*;
 
@@ -36,7 +33,7 @@ public class CommandsTest {
     String email2 = "invalidemail_2@";
     String invalidAdmin = "invalidadmin";
     String invalidFacultyEn = "INVALID FACULTY";
-    String invalidFacultyRu = "НЕВИЛИДНЫй ФАКУЛЬТЕТ";
+    String invalidFacultyRu = "НЕВАЛИДНЫй ФАКУЛЬТЕТ";
 //    StringWriter stringWriter;
 //    PrintWriter printWriter;
 
