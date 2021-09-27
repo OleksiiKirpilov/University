@@ -17,9 +17,10 @@ public abstract class Command implements Serializable {
 
 	private static final long serialVersionUID = 8879403039606311780L;
 
-	protected static final String ERROR_FILL_ALL_FIELDS = "errorMessage.fill_all_fields";
-	protected static final String ERROR_FACULTY_DEPENDS = "errorMessage.can_not_delete_faculty_dependent";
-	protected static final String ERROR_CAN_NOT_FIND_USER = "errorMessage.can_not_find_user";
+	protected static final String ERROR_FILL_ALL_FIELDS = "error_message.fill_all_fields";
+	protected static final String ERROR_FACULTY_DEPENDS = "error_message.can_not_delete_faculty_dependent";
+	protected static final String ERROR_CAN_NOT_FIND_USER = "error_message.can_not_find_user";
+	protected static final String ERROR_EMAIL_USED = "error_message.email_in_use";
 	protected static final String MESSAGE_ACCOUNT_CREATED = "profile.view_jsp.message.account_created";
 
 	/**

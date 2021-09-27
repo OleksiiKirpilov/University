@@ -70,15 +70,14 @@ public class ViewFaculty extends Command {
 
         HttpSession session = request.getSession(false);
         String role = (String) session.getAttribute("userRole");
-
-        if (role == null || Role.isUser(role)) {
-            String userEmail = String.valueOf(session.getAttribute("user"));
+        String userEmail = (String) session.getAttribute("user");
+        if (Role.isUser(role)) {
             boolean applied = hasUserAppliedFacultyByEmail(facultyRecord, userEmail);
             request.setAttribute("alreadyApplied", applied ? "yes" : "no");
             return Path.FORWARD_FACULTY_VIEW_USER;
         }
         if (!Role.isAdmin(role)) {
-            return null;
+            return Path.FORWARD_FACULTY_VIEW_USER;
         }
 
         ApplicantDao applicantDao = new ApplicantDao();

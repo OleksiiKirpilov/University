@@ -21,7 +21,7 @@ import java.util.Set;
 public class AuthFilter implements Filter {
 
     private static final Logger LOG = LogManager.getLogger(AuthFilter.class);
-    private static final String ERROR_GENERAL_ERROR = "errorMessage.general_error";
+    private static final String ERROR_GENERAL_ERROR = "error_message.general_error";
 
     // accessible by all users
     private final Set<String> accessibleCommands;
@@ -64,7 +64,6 @@ public class AuthFilter implements Filter {
         adminCommands.add("viewApplicant");
         adminCommands.add("createReport");
         adminCommands.add("deleteSubject");
-        adminCommands.add("finalizeReport");
     }
 
     @Override

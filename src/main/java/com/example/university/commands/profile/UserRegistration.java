@@ -69,8 +69,14 @@ public class UserRegistration extends Command {
             LOG.error("errorMessage: Not all fields are filled");
             return Path.REDIRECT_USER_REGISTRATION_PAGE;
         }
-        User user = new User(email, password, null, firstName, lastName, Role.USER, lang);
         UserDao userDao = new UserDao();
+        User user = userDao.find(email);
+        if (user != null) {
+            setErrorMessage(request, ERROR_EMAIL_USED);
+            LOG.error("This email({}) is already in use.", email);
+            return Path.REDIRECT_USER_REGISTRATION_PAGE;
+        }
+        user = new User(email, password, null, firstName, lastName, Role.USER, lang);
         userDao.create(user);
         LOG.trace("User record created: {}", user);
         Applicant applicant = new Applicant(city, district, school, user);

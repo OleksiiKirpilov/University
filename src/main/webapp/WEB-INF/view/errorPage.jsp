@@ -9,7 +9,7 @@
 
 <div class="header">
 	<h4>
-		<fmt:message key="errorMessage.general_error" />
+		<fmt:message key="error_message.general_error" />
 	</h4>
 </div>
 
