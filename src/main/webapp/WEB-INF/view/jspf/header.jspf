@@ -28,9 +28,11 @@
             <a href="controller?command=viewProfile">
                 <fmt:message key="header_jspf.anchor.profile"/>
             </a>
-            <a href="controller?command=logout">
-                <fmt:message key="header_jspf.anchor.logout"/>
-            </a>
+            <c:if test="${not empty userRole}">
+                <a href="controller?command=logout">
+                    <fmt:message key="header_jspf.anchor.logout"/>
+                </a>
+            </c:if>
         </c:otherwise>
     </c:choose>
     &nbsp;

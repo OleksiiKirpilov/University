@@ -72,7 +72,7 @@ public class EditFaculty extends Command {
     }
 
     /**
-     * Edits faculty according to entered data by admin.
+     * Edits faculty according to data entered by admin.
      *
      * @return path to the view of edited faculty if succeeded, otherwise
      * refreshes page
@@ -98,6 +98,8 @@ public class EditFaculty extends Command {
             LOG.error("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_FACULTY_EDIT_ADMIN + oldFacultyName;
         }
+
+
         // if it's true then let's start to update the db
         LOG.trace("All fields are properly filled. Start updating database.");
         int totalPlaces = Integer.parseInt(facultyTotalPlaces);

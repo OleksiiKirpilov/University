@@ -51,7 +51,6 @@ public class EditProfile extends Command {
         String role = String.valueOf(session.getAttribute("userRole"));
         UserDao userDao = new UserDao();
         User user = userDao.find(userEmail);
-
         request.setAttribute(Fields.USER_FIRST_NAME, user.getFirstName());
         LOG.trace("Set attribute 'first_name': {}", user.getFirstName());
         request.setAttribute(Fields.USER_LAST_NAME, user.getLastName());
@@ -112,10 +111,15 @@ public class EditProfile extends Command {
             LOG.error("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_EDIT_PROFILE;
         }
-
+        UserDao userDao = new UserDao();
+        User exisingUser = userDao.find(email);
+        User user = userDao.find(oldUserEmail);
+        if (exisingUser != null && user.getId() != exisingUser.getId()) {
+            setErrorMessage(request, ERROR_EMAIL_USED);
+            LOG.error("This email is already in use.");
+            return Path.REDIRECT_EDIT_PROFILE;
+        }
         if (Role.isAdmin(role)) {
-            UserDao userDao = new UserDao();
-            User user = userDao.find(oldUserEmail);
             LOG.trace("User found with such email: {}", user);
             user.setFirstName(userFirstName);
             user.setLastName(userLastName);
@@ -148,8 +152,6 @@ public class EditProfile extends Command {
                 LOG.error("errorMessage: Not all fields are properly filled");
                 return Path.REDIRECT_EDIT_PROFILE;
             }
-            UserDao userDao = new UserDao();
-            User user = userDao.find(oldUserEmail);
             LOG.trace("User found with such email: {}", user);
             user.setFirstName(userFirstName);
             user.setLastName(userLastName);

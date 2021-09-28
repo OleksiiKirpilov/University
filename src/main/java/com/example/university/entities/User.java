@@ -2,8 +2,8 @@ package com.example.university.entities;
 
 /**
  * User entity. This transfer object characterized by id, first and last names,
- * email, password, role in system, site language and active status. Email
- * should be unique. Every field must be filled.
+ * email, password, role in system, site language. Email should be unique.
+ * Every field must be filled.
  */
 public class User extends Entity {
 

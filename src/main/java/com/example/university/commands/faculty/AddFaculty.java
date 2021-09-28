@@ -72,7 +72,6 @@ public class AddFaculty extends Command {
             LOG.error("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_FACULTY_ADD_ADMIN;
         }
-        LOG.trace("All fields are properly filled. Start updating database.");
         FacultyDao facultyDao = new FacultyDao();
         if (facultyDao.find(nameEn) != null || facultyDao.find(nameRu) != null) {
             setErrorMessage(request, ERROR_FACULTY_EXISTS);
