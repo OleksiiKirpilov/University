@@ -98,7 +98,6 @@ public class User extends Entity {
         return "User [email=" + email + ", password=***"
                 + ", firstName=" + firstName + ", lastName=" + lastName
                 + ", role=" + role + ", lang=" + lang + "]";
-
     }
 
 }
