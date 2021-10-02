@@ -1,6 +1,5 @@
 package com.example.university.db;
 
-import com.example.university.entities.Applicant;
 import com.example.university.entities.Grade;
 import com.example.university.utils.Fields;
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +17,8 @@ public class GradeDao extends AbstractDao<Grade> {
     private static final String FIND_ALL_GRADES = "SELECT * FROM grades";
     private static final String FIND_ALL_GRADES_BY_APPLICANT_ID =
             "SELECT * FROM grades WHERE applicant_id = ?";
+    private static final String FIND_GRADE_BY_APPLICANT_ID_SUBJECT_ID_EXAM_TYPE =
+            "SELECT * FROM grades WHERE subject_id = ?, applicant_id = ?, exam_type = ?";
     private static final String FIND_GRADE = "SELECT * FROM grades WHERE id = ?";
     private static final String INSERT_GRADE =
             "INSERT INTO grades(applicant_id, subject_id, grade, exam_type) VALUES (?,?,?,?)";
@@ -152,7 +153,7 @@ public class GradeDao extends AbstractDao<Grade> {
         Connection con = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-        List<Grade> users = new ArrayList<>();
+        List<Grade> grades = new ArrayList<>();
         try {
             con = getConnection();
             pstmt = con.prepareStatement(FIND_ALL_GRADES_BY_APPLICANT_ID);
@@ -160,7 +161,7 @@ public class GradeDao extends AbstractDao<Grade> {
             rs = pstmt.executeQuery();
             con.commit();
             while (rs.next()) {
-                users.add(unmarshal(rs));
+                grades.add(unmarshal(rs));
             }
         } catch (SQLException e) {
             rollback(con);
@@ -170,7 +171,36 @@ public class GradeDao extends AbstractDao<Grade> {
             close(pstmt);
             close(con);
         }
-        return users;
+        return grades;
+    }
+
+    public Grade findBySubjectIdAndApplicantIdAndExamType(int subjectId,
+                                                          int applicantId,
+                                                          String examType) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        Grade grade = null;
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_GRADE_BY_APPLICANT_ID_SUBJECT_ID_EXAM_TYPE);
+            pstmt.setInt(1, subjectId);
+            pstmt.setInt(2, applicantId);
+            pstmt.setString(3, examType);
+            rs = pstmt.executeQuery();
+            con.commit();
+            if (rs.next()) {
+                grade = unmarshal(rs);
+            }
+        } catch (SQLException e) {
+            rollback(con);
+            LOG.error("Can not find grade", e);
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(con);
+        }
+        return grade;
     }
 
     public void setConfirmedByApplicantId(int applicantId, boolean confirmed) {

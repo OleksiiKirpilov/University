@@ -103,12 +103,18 @@ public class ApplyFacultyView extends Command {
                 int subjectId = Integer.parseInt(subjectIdAndExamType[0]);
                 String examType = subjectIdAndExamType[1];
                 Grade grade = new Grade(subjectId, applicant.getId(), gradeValue, examType);
-                LOG.trace("Create Grade transfer object: {}", grade);
-                gradeDao.create(grade);
-                LOG.trace("Grade record was created in database: {}", grade);
+                Grade oldGrade = gradeDao.findBySubjectIdAndApplicantIdAndExamType(subjectId, applicant.getId(), examType);
+                if (oldGrade == null) {
+                    gradeDao.create(grade);
+                    LOG.trace("Grade record was created: {}", grade);
+                } else if (!oldGrade.isConfirmed()) {
+                    gradeDao.update(grade);
+                    LOG.trace("Grade record was updated: {}", grade);
+                } else {
+                    LOG.trace("Grade already exists. {}", oldGrade);
+                }
             }
         }
-        LOG.trace("End extracting data from request");
         LOG.trace("Create FacultyApplicants transfer object: {}", newFacultyApplicant);
         faDao.create(newFacultyApplicant);
         LOG.trace("FacultyApplicants record was created in database: {}", newFacultyApplicant);
