@@ -1,9 +1,11 @@
 package com.example.university.commands.faculty;
 
 import com.example.university.commands.Command;
+import com.example.university.db.ApplicantDao;
 import com.example.university.db.FacultyDao;
 import com.example.university.db.FacultySubjectsDao;
 import com.example.university.db.SubjectDao;
+import com.example.university.entities.Applicant;
 import com.example.university.entities.Faculty;
 import com.example.university.entities.FacultySubjects;
 import com.example.university.entities.Subject;
@@ -37,9 +39,7 @@ public class EditFaculty extends Command {
                           HttpServletResponse response, RequestType requestType)
             throws IOException, ServletException {
         LOG.debug("Executing Command");
-        return (RequestType.GET == requestType)
-                ? doGet(request)
-                : doPost(request);
+        return (RequestType.POST == requestType) ? doPost(request) : doGet(request);
     }
 
     /**
@@ -78,19 +78,13 @@ public class EditFaculty extends Command {
      * refreshes page
      */
     private String doPost(HttpServletRequest request) {
-        // get parameters from page
         String facultyNameRu = request.getParameter(Fields.FACULTY_NAME_RU);
-        LOG.trace("Get parameter 'name_ru' = {}", facultyNameRu);
         String facultyNameEn = request.getParameter(Fields.FACULTY_NAME_EN);
-        LOG.trace("Get parameter 'name_en' = {}", facultyNameEn);
         String facultyTotalPlaces = request.getParameter(Fields.FACULTY_TOTAL_PLACES);
-        LOG.trace("Get parameter 'total_places = {}", facultyTotalPlaces);
         String facultyBudgetPlaces = request.getParameter(Fields.FACULTY_BUDGET_PLACES);
-        LOG.trace("Get parameter 'budget_places' = {}", facultyBudgetPlaces);
         // if user changes faculty name we need to know the old one
         // to update record in db
         String oldFacultyName = request.getParameter("oldName");
-        LOG.trace("Get old faculty name from page: {}", oldFacultyName);
         boolean valid = InputValidator.validateFacultyParameters(facultyNameRu,
                 facultyNameEn, facultyBudgetPlaces, facultyTotalPlaces);
         if (!valid) {
@@ -98,28 +92,20 @@ public class EditFaculty extends Command {
             LOG.error("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_FACULTY_EDIT_ADMIN + oldFacultyName;
         }
-
-
-        // if it's true then let's start to update the db
-        LOG.trace("All fields are properly filled. Start updating database.");
-        int totalPlaces = Integer.parseInt(facultyTotalPlaces);
-        int budgetPlaces = Integer.parseInt(facultyBudgetPlaces);
-        Faculty faculty = new Faculty(facultyNameRu, facultyNameEn,
-                budgetPlaces, totalPlaces);
+        Faculty faculty = createFaculty(facultyNameRu, facultyNameEn, facultyBudgetPlaces, facultyTotalPlaces);
         FacultyDao facultyDao = new FacultyDao();
         Faculty oldFacultyRecord = facultyDao.find(oldFacultyName);
         faculty.setId(oldFacultyRecord.getId());
+        List<Applicant> facultyApplicants = new ApplicantDao().findAllFacultyApplicants(faculty);
+        if (!facultyApplicants.isEmpty()) {
+            setErrorMessage(request, ERROR_FACULTY_DEPENDS);
+            return Path.REDIRECT_TO_FACULTY + faculty.getNameEn();
+        }
         facultyDao.update(faculty);
         LOG.trace("Faculty record updated from: {}, to: {}",
                 oldFacultyRecord, faculty);
         String[] oldCheckedSubjectsIds = request.getParameterValues("oldCheckedSubjects");
         String[] newCheckedSubjectsIds = request.getParameterValues("subjects");
-        if (LOG.isTraceEnabled()) {
-            LOG.trace("Get checked subjects before: {}",
-                    Arrays.toString(oldCheckedSubjectsIds));
-            LOG.trace("Get checked subjects after: {}",
-                    Arrays.toString(newCheckedSubjectsIds));
-        }
         FacultySubjectsDao facultySubjectsDao = new FacultySubjectsDao();
         if (oldCheckedSubjectsIds == null) {
             if (newCheckedSubjectsIds == null) {
@@ -150,8 +136,7 @@ public class EditFaculty extends Command {
         // if there were checked subjects and still are
         // then for INSERT we should check if the record already
         // exists in db
-        Set<String> existingRecords = new HashSet<>(
-                Arrays.asList(oldCheckedSubjectsIds));
+        Set<String> existingRecords = new HashSet<>(Arrays.asList(oldCheckedSubjectsIds));
         for (String newCheckedSubject : newCheckedSubjectsIds) {
             if (existingRecords.contains(newCheckedSubject)) {
                 // if exists - then do nothing
@@ -182,4 +167,10 @@ public class EditFaculty extends Command {
         return Path.REDIRECT_TO_FACULTY + facultyNameEn;
     }
 
+    private Faculty createFaculty(String facultyNameRu, String facultyNameEn,
+                                  String facultyBudgetPlaces, String facultyTotalPlaces) {
+        int totalPlaces = Integer.parseInt(facultyTotalPlaces);
+        int budgetPlaces = Integer.parseInt(facultyBudgetPlaces);
+        return new Faculty(facultyNameRu, facultyNameEn, budgetPlaces, totalPlaces);
+    }
 }

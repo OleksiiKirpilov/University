@@ -47,8 +47,7 @@ public class DeleteFaculty extends Command {
         int facultyId = Integer.parseInt(request.getParameter(Fields.ENTITY_ID));
         FacultyDao facultyDao = new FacultyDao();
         Faculty facultyToDelete = facultyDao.find(facultyId);
-        ApplicantDao applicantDao = new ApplicantDao();
-        List<Applicant> facultyApplicants = applicantDao.findAllFacultyApplicants(facultyToDelete);
+        List<Applicant> facultyApplicants = new ApplicantDao().findAllFacultyApplicants(facultyToDelete);
         if (!facultyApplicants.isEmpty()) {
             setErrorMessage(request, ERROR_FACULTY_DEPENDS);
             return Path.REDIRECT_TO_FACULTY + facultyToDelete.getNameEn();

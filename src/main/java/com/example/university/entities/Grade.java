@@ -1,8 +1,7 @@
 package com.example.university.entities;
 
 /**
- * Grade entity. Every instance is characterized by foreign keys from subject and
- * applicant, grade value. So every grade references to specific subject and
+ * Grade entity. Every grade references to specific subject and
  * applicant that get it on some exam.
  */
 public class Grade extends Entity {
