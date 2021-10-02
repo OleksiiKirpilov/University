@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+
 public class SetSessionLanguage extends Command {
 
     private static final long serialVersionUID = -8779243740825414648L;
@@ -21,16 +22,15 @@ public class SetSessionLanguage extends Command {
                           RequestType requestType) throws IOException, ServletException {
         LOG.debug("Executing Command");
         if (requestType == RequestType.GET) {
-            return doGet(request, response);
+            doGet(request);
         }
         return null;
     }
 
-    private String doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void doGet(HttpServletRequest request) {
         HttpSession session = request.getSession();
         String lang = "en".equals(request.getParameter("lang")) ? "en" : "ru";
         session.setAttribute("lang", lang);
         LOG.trace("Set session attribute 'lang' = {}", lang);
-        return null;
     }
 }

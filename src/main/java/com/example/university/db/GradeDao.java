@@ -1,5 +1,6 @@
 package com.example.university.db;
 
+import com.example.university.entities.Applicant;
 import com.example.university.entities.Grade;
 import com.example.university.utils.Fields;
 import org.apache.logging.log4j.LogManager;
@@ -15,6 +16,8 @@ import java.util.List;
 public class GradeDao extends AbstractDao<Grade> {
 
     private static final String FIND_ALL_GRADES = "SELECT * FROM grades";
+    private static final String FIND_ALL_GRADES_BY_APPLICANT_ID =
+            "SELECT * FROM grades WHERE applicant_id = ?";
     private static final String FIND_GRADE = "SELECT * FROM grades WHERE id = ?";
     private static final String INSERT_GRADE =
             "INSERT INTO grades(applicant_id, subject_id, grade, exam_type) VALUES (?,?,?,?)";
@@ -22,6 +25,7 @@ public class GradeDao extends AbstractDao<Grade> {
             "UPDATE grades SET applicant_id = ?, subject_id = ?, grade = ?, exam_type = ? " +
                     "WHERE id = ?";
     private static final String DELETE_GRADE = "DELETE FROM grades WHERE id = ?";
+    private static final String SET_CONFIRMED = "UPDATE grades SET confirmed = ? WHERE applicant_id = ?";
 
     private static final Logger LOG = LogManager.getLogger(GradeDao.class);
 
@@ -144,6 +148,50 @@ public class GradeDao extends AbstractDao<Grade> {
         return users;
     }
 
+    public List<Grade> findAllByApplicantId(int id) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        List<Grade> users = new ArrayList<>();
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(FIND_ALL_GRADES_BY_APPLICANT_ID);
+            pstmt.setInt(1, id);
+            rs = pstmt.executeQuery();
+            con.commit();
+            while (rs.next()) {
+                users.add(unmarshal(rs));
+            }
+        } catch (SQLException e) {
+            rollback(con);
+            LOG.error("Can not find all grades", e);
+        } finally {
+            close(rs);
+            close(pstmt);
+            close(con);
+        }
+        return users;
+    }
+
+    public void setConfirmedByApplicantId(int applicantId, boolean confirmed) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement(SET_CONFIRMED);
+            pstmt.setBoolean(1, confirmed);
+            pstmt.setInt(2, applicantId);
+            pstmt.executeUpdate();
+            con.commit();
+        } catch (SQLException e) {
+            rollback(con);
+            LOG.error("Can not set confirmed status for grade", e);
+        } finally {
+            close(pstmt);
+            close(con);
+        }
+    }
+
     /**
      * Unmarshals database Grade record to Grade java instance.
      *
@@ -158,6 +206,7 @@ public class GradeDao extends AbstractDao<Grade> {
             g.setSubjectId(rs.getInt(Fields.SUBJECT_ID));
             g.setGrade(rs.getInt(Fields.GRADE_VALUE));
             g.setExamType(rs.getString(Fields.GRADE_EXAM_TYPE));
+            g.setConfirmed(rs.getBoolean(Fields.GRADE_CONFIRMED));
         } catch (SQLException e) {
             LOG.error("Can not unmarshal ResultSet to grade", e);
         }

@@ -35,7 +35,7 @@ public final class Fields {
 
     public static final String GRADE_VALUE = "grade";
     public static final String GRADE_EXAM_TYPE = "exam_type";
-    public static final String GRADE_FOREIGN_KEY_ID = "grades_id";
+    public static final String GRADE_CONFIRMED = "confirmed";
 
     public static final String REPORT_SHEET_FACULTY_ID = "faculty_id";
     public static final String REPORT_SHEET_USER_FIRST_NAME = "first_name";

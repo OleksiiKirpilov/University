@@ -65,6 +65,49 @@
 
 	</div>
 
+	<div class="form">
+		<c:if test="${not empty preliminaryGrades}">
+			<h3>
+				<fmt:message key="applicant.view_jsp.label.preliminary_subjects"/>
+			</h3>
+			<c:forEach var="pg" items="${preliminaryGrades}">
+				<div class="field">
+					<p>
+						<label>
+							<c:out value="${lang eq 'ru' ? pg.value.nameRu : pg.value.nameEn}: ${pg.key.grade}"></c:out>
+						</label>
+					</p>
+				</div>
+			</c:forEach>
+			<br>
+		</c:if>
+
+		<c:if test="${not empty diplomaGrades}">
+			<h3>
+				<fmt:message key="applicant.view_jsp.label.diploma_subjects"/>
+			</h3>
+			<c:forEach var="pg" items="${diplomaGrades}">
+				<div class="field">
+					<p>
+						<label>
+							<c:out value="${lang eq 'ru' ? pg.value.nameRu : pg.value.nameEn}: ${pg.key.grade}"></c:out>
+						</label>
+					</p>
+				</div>
+			</c:forEach>
+			<br>
+		</c:if>
+
+		<c:if test="${notConfirmed}">
+			<form action="controller" method="POST">
+				<input type="hidden" name="command" value="confirmGrades"/>
+				<input type="hidden" name="id" value="${applicant.id}"/>
+				<input type="hidden" name="userId" value="${user.id}"/>
+				<input type="submit" value="<fmt:message key="applicant.view_jsp.button.confirm_grades" />">
+			</form>
+		</c:if>
+	</div>
+
 	<%@ include file="/WEB-INF/view/jspf/message.jspf" %>
 
 </body>

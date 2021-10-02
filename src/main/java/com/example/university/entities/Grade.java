@@ -12,6 +12,7 @@ public class Grade extends Entity {
 	private int applicantId;
 	private int grade;
 	private String examType;
+	private boolean confirmed;
 
 	public Grade(int subjectId, int applicantId, int grade, String examType) {
 		super();
@@ -19,6 +20,7 @@ public class Grade extends Entity {
 		this.applicantId = applicantId;
 		this.grade = grade;
 		this.examType = examType;
+		this.confirmed = false;
 	}
 
 	public Grade() {
@@ -54,6 +56,14 @@ public class Grade extends Entity {
 
 	public void setExamType(String gradeType) {
 		this.examType = gradeType;
+	}
+
+	public boolean isConfirmed() {
+		return confirmed;
+	}
+
+	public void setConfirmed(boolean confirmed) {
+		this.confirmed = confirmed;
 	}
 
 	@Override

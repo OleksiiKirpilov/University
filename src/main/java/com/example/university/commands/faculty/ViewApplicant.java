@@ -1,8 +1,12 @@
 package com.example.university.commands.faculty;
 
 import com.example.university.commands.Command;
+import com.example.university.db.GradeDao;
+import com.example.university.db.SubjectDao;
 import com.example.university.entities.Applicant;
 import com.example.university.db.ApplicantDao;
+import com.example.university.entities.Grade;
+import com.example.university.entities.Subject;
 import com.example.university.entities.User;
 import com.example.university.db.UserDao;
 import com.example.university.utils.Fields;
@@ -12,6 +16,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,33 +50,35 @@ public class ViewApplicant extends Command {
 	 * @return path to applicant profile page
 	 */
 	private String doGet(HttpServletRequest request) {
-
 		int userId = Integer.parseInt(request.getParameter("userId"));
 		UserDao userDao = new UserDao();
-		// should not be null !
 		User user = userDao.find(userId);
-		request.setAttribute("first_name", user.getFirstName());
-		LOG.trace("Set the request attribute: 'first_name' = {}", user.getFirstName());
-		request.setAttribute("last_name", user.getLastName());
-		LOG.trace("Set the request attribute: 'last_name' = {}", user.getLastName());
-		request.setAttribute("email", user.getEmail());
-		LOG.trace("Set the request attribute: 'email' = {}", user.getEmail());
-		request.setAttribute("role", user.getRole());
-		LOG.trace("Set the request attribute: 'role' = {}", user.getRole());
-
+		if (user == null) {
+			LOG.error("Can not found user with id = {}", userId);
+			return Path.ERROR_PAGE;
+		}
 		ApplicantDao applicantDao = new ApplicantDao();
 		Applicant applicant = applicantDao.find(user);
 
-		request.setAttribute(Fields.ENTITY_ID, applicant.getId());
-		LOG.trace("Set the request attribute: 'id' = {}", applicant.getId());
-		request.setAttribute(Fields.APPLICANT_CITY, applicant.getCity());
-		LOG.trace("Set the request attribute: 'city' = {}", applicant.getCity());
-		request.setAttribute(Fields.APPLICANT_DISTRICT, applicant.getDistrict());
-		LOG.trace("Set the request attribute: 'district' = {}", applicant.getDistrict());
-		request.setAttribute(Fields.APPLICANT_SCHOOL, applicant.getSchool());
-		LOG.trace("Set the request attribute: 'school' = {}", applicant.getSchool());
-		request.setAttribute(Fields.APPLICANT_IS_BLOCKED, applicant.getBlockedStatus());
-		LOG.trace("Set the request attribute: 'isBlocked' = {}", applicant.getBlockedStatus());
+		List<Grade> grades = new GradeDao().findAllByApplicantId(applicant.getId());
+		Map<Grade, Subject> preliminaryGrades = new LinkedHashMap<>();
+		Map<Grade, Subject> dimplomaGrades = new LinkedHashMap<>();
+		for (Grade g : grades) {
+			Subject subject = new SubjectDao().find(g.getSubjectId());
+			if (g.getExamType().equals("preliminary")) {
+				preliminaryGrades.put(g, subject);
+			} else {
+				dimplomaGrades.put(g, subject);
+			}
+		}
+		boolean notConfirmed = grades.stream().anyMatch(g -> !g.isConfirmed());
+		request.setAttribute("user", user);
+		LOG.trace("Set the request attribute: 'user' = {}", user);
+		request.setAttribute("applicant", applicant);
+		LOG.trace("Set the request attribute: 'applicant' = {}", applicant);
+		request.setAttribute("preliminaryGrades", preliminaryGrades);
+		request.setAttribute("diplomaGrades", dimplomaGrades);
+		request.setAttribute("notConfirmed", notConfirmed);
 		return Path.FORWARD_APPLICANT_PROFILE;
 	}
 

@@ -42,6 +42,7 @@ public final class CommandManager {
         COMMANDS.put("viewApplicant", new ViewApplicant());
         COMMANDS.put("createReport", new CreateFacultyReport());
         COMMANDS.put("deleteSubject", new DeleteSubject());
+        COMMANDS.put("confirmGrades", new ConfirmGrades());
 
         LOG.debug("Command container was successfully initialized");
         LOG.trace("Total number of commands equals to {}", COMMANDS.size());

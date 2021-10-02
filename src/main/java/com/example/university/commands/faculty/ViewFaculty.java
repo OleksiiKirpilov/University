@@ -14,10 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Invoked when user wants to see some specific faculty.
@@ -90,13 +89,11 @@ public class ViewFaculty extends Command {
 
         ApplicantDao applicantDao = new ApplicantDao();
         List<Applicant> applicants = applicantDao.findAllFacultyApplicants(facultyRecord);
-        Map<Applicant, String> facultyApplicants = new TreeMap<>(
-                Comparator.comparingInt(Entity::getId));
+        Map<Applicant, String> facultyApplicants = new LinkedHashMap<>();
         UserDao userDao = new UserDao();
         for (Applicant applicant : applicants) {
             User user = userDao.find(applicant.getUserId());
-            facultyApplicants.put(applicant,
-                    user.getFirstName() + " " + user.getLastName());
+            facultyApplicants.put(applicant, user.getFirstName() + " " + user.getLastName());
         }
         request.setAttribute("facultyApplicants", facultyApplicants);
         LOG.trace("Set the request attribute: 'facultyApplicants' = {}", facultyApplicants);
