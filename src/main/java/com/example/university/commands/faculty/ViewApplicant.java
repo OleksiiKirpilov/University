@@ -54,7 +54,7 @@ public class ViewApplicant extends Command {
 		UserDao userDao = new UserDao();
 		User user = userDao.find(userId);
 		if (user == null) {
-			LOG.error("Can not found user with id = {}", userId);
+			LOG.debug("Can not found user with id = {}", userId);
 			return Path.ERROR_PAGE;
 		}
 		ApplicantDao applicantDao = new ApplicantDao();

@@ -52,15 +52,10 @@ public class EditProfile extends Command {
         UserDao userDao = new UserDao();
         User user = userDao.find(userEmail);
         request.setAttribute(Fields.USER_FIRST_NAME, user.getFirstName());
-        LOG.trace("Set attribute 'first_name': {}", user.getFirstName());
         request.setAttribute(Fields.USER_LAST_NAME, user.getLastName());
-        LOG.trace("Set attribute 'last_name': {}", user.getLastName());
         request.setAttribute(Fields.USER_EMAIL, user.getEmail());
-        LOG.trace("Set attribute 'email': {}", user.getEmail());
-        request.setAttribute(Fields.USER_PASSWORD, user.getPassword());
-        LOG.trace("Set attribute 'password': ***");
+        request.setAttribute(Fields.USER_PASSWORD, "");
         request.setAttribute(Fields.USER_LANG, user.getLang());
-        LOG.trace("Set attribute 'lang': {}", user.getLang());
         if (Role.isAdmin(role)) {
             return Path.FORWARD_ADMIN_PROFILE_EDIT;
         }
@@ -68,14 +63,9 @@ public class EditProfile extends Command {
             ApplicantDao applicantDao = new ApplicantDao();
             Applicant a = applicantDao.find(user);
             request.setAttribute(Fields.APPLICANT_CITY, a.getCity());
-            LOG.trace("Set attribute 'city': {}", a.getCity());
             request.setAttribute(Fields.APPLICANT_DISTRICT, a.getDistrict());
-            LOG.trace("Set attribute 'district': {}", a.getDistrict());
             request.setAttribute(Fields.APPLICANT_SCHOOL, a.getSchool());
-            LOG.trace("Set attribute 'school': {}", a.getSchool());
-            request.setAttribute(Fields.APPLICANT_IS_BLOCKED,
-                    a.getBlockedStatus());
-            LOG.trace("Set attribute 'isBlocked': {}", a.getBlockedStatus());
+            request.setAttribute(Fields.APPLICANT_IS_BLOCKED, a.getBlockedStatus());
             return Path.FORWARD_USER_PROFILE_EDIT;
         }
         return null;
@@ -89,17 +79,11 @@ public class EditProfile extends Command {
      */
     private String doPost(HttpServletRequest request) {
         String oldUserEmail = request.getParameter("oldEmail");
-        LOG.trace("Fetch request parameter: 'oldEmail' = {}", oldUserEmail);
         String userFirstName = request.getParameter(Fields.USER_FIRST_NAME);
-        LOG.trace("Fetch request parameter: 'first_name' = {}", userFirstName);
         String userLastName = request.getParameter(Fields.USER_LAST_NAME);
-        LOG.trace("Fetch request parameter: 'last_name' = {}", userLastName);
         String email = request.getParameter("email");
-        LOG.trace("Fetch request parameter: 'email' = {}", email);
         String password = request.getParameter("password");
-        LOG.trace("Fetch request parameter: 'password' = ***");
         String language = request.getParameter("lang");
-        LOG.trace("Fetch request parameter: 'lang' = {}", language);
 
         boolean valid = InputValidator.validateUserParameters(
                 userFirstName, userLastName, email, password, language);
@@ -108,7 +92,7 @@ public class EditProfile extends Command {
 
         if (!valid) {
             setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
-            LOG.error("errorMessage: Not all fields are properly filled");
+            LOG.debug("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_EDIT_PROFILE;
         }
         UserDao userDao = new UserDao();
@@ -116,11 +100,10 @@ public class EditProfile extends Command {
         User user = userDao.find(oldUserEmail);
         if (exisingUser != null && user.getId() != exisingUser.getId()) {
             setErrorMessage(request, ERROR_EMAIL_USED);
-            LOG.error("This email is already in use.");
+            LOG.debug("This email is already in use.");
             return Path.REDIRECT_EDIT_PROFILE;
         }
         if (Role.isAdmin(role)) {
-            LOG.trace("User found with such email: {}", user);
             user.setFirstName(userFirstName);
             user.setLastName(userLastName);
             user.setEmail(email);
@@ -138,18 +121,13 @@ public class EditProfile extends Command {
             // if user role is user then we should also update applicant
             // record for them
             String school = request.getParameter(Fields.APPLICANT_SCHOOL);
-            LOG.trace("Fetch request parameter: 'school' = {}", school);
             String district = request.getParameter(Fields.APPLICANT_DISTRICT);
-            LOG.trace("Fetch request parameter: 'district' = {}", district);
             String city = request.getParameter(Fields.APPLICANT_CITY);
-            LOG.trace("Fetch request parameter: 'city' = {}", city);
-            boolean blockedStatus = Boolean.parseBoolean(request
-                    .getParameter(Fields.APPLICANT_IS_BLOCKED));
-            LOG.trace("Fetch request parameter: 'isBlocked' = {}", blockedStatus);
+            boolean blockedStatus = Boolean.parseBoolean(request.getParameter(Fields.APPLICANT_IS_BLOCKED));
             valid = InputValidator.validateApplicantParameters(city, district, school);
             if (!valid) {
                 setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
-                LOG.error("errorMessage: Not all fields are properly filled");
+                LOG.debug("errorMessage: Not all fields are properly filled");
                 return Path.REDIRECT_EDIT_PROFILE;
             }
             LOG.trace("User found with such email: {}", user);

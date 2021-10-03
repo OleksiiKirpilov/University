@@ -11,54 +11,54 @@
 			<label>
 				<fmt:message key="profile.view_jsp.label.first_name" />
 			</label>
-			<c:out value="${requestScope.first_name}"></c:out>
+			<c:out value="${user.firstName}"></c:out>
 		</p>
 		<p>
 			<label>
 				<fmt:message key="profile.view_jsp.label.last_name" />
 			</label>
-			<c:out value="${requestScope.last_name}"></c:out>
+			<c:out value="${user.lastName}"></c:out>
 		</p>
 		<p>
 			<label>
 				<fmt:message key="profile.view_jsp.label.email" />
 			</label>
-			<c:out value="${requestScope.email}"></c:out>
+			<c:out value="${user.email}"></c:out>
 		</p>
 		<p>
 			<label>
 				<fmt:message key="profile.view_jsp.label.city" />
 			</label>
-			<c:out value="${requestScope.city}"></c:out>
+			<c:out value="${applicant.city}"></c:out>
 		</p>
 		<p>
 			<label>
 				<fmt:message key="profile.view_jsp.label.district" />
 			</label>
-			<c:out value="${requestScope.district}"></c:out>
+			<c:out value="${applicant.district}"></c:out>
 		</p>
 		<p>
 			<label>
 				<fmt:message key="profile.view_jsp.label.school" />
 			</label>
-			<c:out value="${requestScope.school}"></c:out>
+			<c:out value="${applicant.school}"></c:out>
 		</p>
 
 		<p>
 			<label>
 				<fmt:message key="applicant.view_jsp.label.blocked_status" />
 			</label>
-			<c:if test="${requestScope.isBlocked == true}">
+			<c:if test="${applicant.blockedStatus == true}">
 				<fmt:message key="applicant.view_jsp.label.blocked" />
 			</c:if>
-			<c:if test="${requestScope.isBlocked == false}">
+			<c:if test="${applicant.blockedStatus == false}">
 				<fmt:message key="applicant.view_jsp.label.unblocked" />
 			</c:if>
 		</p>
 
 		<form action="controller" method="POST">
 			<input type="hidden" name="command" value="viewApplicant">
-			<input type="hidden" name="id" value="${requestScope.id}">
+			<input type="hidden" name="id" value="${applicant.id}">
 			<input type="submit"
 				   value="<fmt:message key="applicant.view_jsp.button.change_blocked_status_msg" />">
 		</form>

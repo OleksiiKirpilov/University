@@ -38,7 +38,7 @@
 			</ol>
 		</c:if>
 
-		<c:if test="${userRole eq 'user' and !alreadyApplied}">
+		<c:if test="${userRole eq 'user' and !alreadyApplied and !finalized}">
 			<p>
 				<a href="controller?command=applyFaculty&name_en=${name_en}">
 					<fmt:message key="faculty.view_jsp.button.apply" /></a>

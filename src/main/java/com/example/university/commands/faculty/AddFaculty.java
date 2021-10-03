@@ -69,13 +69,13 @@ public class AddFaculty extends Command {
         boolean valid = InputValidator.validateFacultyParameters(nameRu, nameEn, budgetPlaces, totalPlaces);
         if (!valid) {
             setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
-            LOG.error("errorMessage: Not all fields are properly filled");
+            LOG.debug("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_FACULTY_ADD_ADMIN;
         }
         FacultyDao facultyDao = new FacultyDao();
         if (facultyDao.find(nameEn) != null || facultyDao.find(nameRu) != null) {
             setErrorMessage(request, ERROR_FACULTY_EXISTS);
-            LOG.error("Can not create faculty with names {}, {}", nameEn, nameRu);
+            LOG.debug("Can not create faculty with names {}, {}", nameEn, nameRu);
             return Path.REDIRECT_FACULTY_ADD_ADMIN;
         }
         int total = Integer.parseInt(totalPlaces);

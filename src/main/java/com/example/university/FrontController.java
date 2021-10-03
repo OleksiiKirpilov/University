@@ -51,6 +51,7 @@ public class FrontController extends HttpServlet {
             LOG.trace("Forward to address = {}", path);
             LOG.debug(FINISHED);
             request.getRequestDispatcher(path).forward(request, response);
+            return;
         }
         LOG.trace("Redirect to address = {}", path);
         LOG.debug(FINISHED);

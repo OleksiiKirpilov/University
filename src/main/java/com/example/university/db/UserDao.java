@@ -17,8 +17,6 @@ public class UserDao extends AbstractDao<User> {
 
     private static final String FIND_ALL_USERS = "SELECT * FROM users";
     private static final String FIND_USER = "SELECT * FROM users WHERE users.id = ?";
-    private static final String FIND_USER_BY_EMAIL_AND_PASS =
-            "SELECT * FROM users WHERE users.email = ? and users.password = ?";
     private static final String FIND_USER_BY_EMAIL =
             "SELECT * FROM users WHERE users.email = ?";
     private static final String INSERT_USER =
@@ -151,7 +149,6 @@ public class UserDao extends AbstractDao<User> {
             con = getConnection();
             pstmt = con.prepareStatement(FIND_USER_BY_EMAIL);
             pstmt.setString(1, email);
-            //pstmt.setString(2, password);
             rs = pstmt.executeQuery();
             con.commit();
             if (rs.next()) {
@@ -239,7 +236,6 @@ public class UserDao extends AbstractDao<User> {
             user.setSalt(rs.getString(Fields.USER_SALT));
             user.setRole(rs.getString(Fields.USER_ROLE));
             user.setLang(rs.getString(Fields.USER_LANG));
-            //user.setActiveStatus(rs.getBoolean(Fields.USER_ACTIVE_STATUS));
         } catch (SQLException e) {
             LOG.error("Can not unmarshal result set to user", e);
         }

@@ -52,22 +52,14 @@ public class EditFaculty extends Command {
         FacultyDao facultyDao = new FacultyDao();
         Faculty faculty = facultyDao.find(facultyName);
         request.setAttribute(Fields.FACULTY_NAME_RU, faculty.getNameRu());
-        LOG.trace("Set attribute 'name_ru': {}", faculty.getNameRu());
         request.setAttribute(Fields.FACULTY_NAME_EN, faculty.getNameEn());
-        LOG.trace("Set attribute 'name_en': {}", faculty.getNameEn());
-        request.setAttribute(Fields.FACULTY_TOTAL_PLACES,
-                faculty.getTotalPlaces());
-        LOG.trace("Set attribute 'total_places': {}", faculty.getTotalPlaces());
-        request.setAttribute(Fields.FACULTY_BUDGET_PLACES,
-                faculty.getBudgetPlaces());
-        LOG.trace("Set attribute 'budget_places': {}", faculty.getBudgetPlaces());
+        request.setAttribute(Fields.FACULTY_TOTAL_PLACES, faculty.getTotalPlaces());
+        request.setAttribute(Fields.FACULTY_BUDGET_PLACES, faculty.getBudgetPlaces());
         SubjectDao subjectDao = new SubjectDao();
         List<Subject> otherSubjects = subjectDao.findAllNotFacultySubjects(faculty);
         request.setAttribute("otherSubjects", otherSubjects);
-        LOG.trace("Set attribute 'otherSubjects': {}", otherSubjects);
         List<Subject> facultySubjects = subjectDao.findAllFacultySubjects(faculty);
         request.setAttribute("facultySubjects", facultySubjects);
-        LOG.trace("Set attribute 'facultySubjects': {}", facultySubjects);
         return Path.FORWARD_FACULTY_EDIT_ADMIN;
     }
 
@@ -89,7 +81,7 @@ public class EditFaculty extends Command {
                 facultyNameEn, facultyBudgetPlaces, facultyTotalPlaces);
         if (!valid) {
             setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
-            LOG.error("errorMessage: Not all fields are properly filled");
+            LOG.debug("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_FACULTY_EDIT_ADMIN + oldFacultyName;
         }
         Faculty faculty = createFaculty(facultyNameRu, facultyNameEn, facultyBudgetPlaces, facultyTotalPlaces);

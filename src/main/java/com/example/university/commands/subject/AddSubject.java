@@ -56,7 +56,7 @@ public class AddSubject extends Command {
         boolean valid = InputValidator.validateSubjectParameters(nameRu, nameEn);
         if (!valid) {
             setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
-            LOG.error("errorMessage: Not all fields are properly filled");
+            LOG.debug("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_SUBJECT_ADD_ADMIN;
         }
         SubjectDao subjectDao = new SubjectDao();

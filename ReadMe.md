@@ -17,3 +17,11 @@
   про результат зарахування на певну форму навчання, а також не зарахування за допомогою
   відправки email абітурієнтові).
 
+
+#### Установка
+- Установить MySQL, Tomcat
+- Инициализировать БД скриптом 'university.sql'
+- Настроить соединение с БД в файле \src\main\webapp\META-INF\context.xml
+- Собрать проект ( gradlew build) и скопировать .war в tomcat\webapps\university.war
+- Запустить Tomcat
+- Открыть в браузере http://localhost:8080/university/ 

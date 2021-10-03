@@ -18,7 +18,7 @@ public class GradeDao extends AbstractDao<Grade> {
     private static final String FIND_ALL_GRADES_BY_APPLICANT_ID =
             "SELECT * FROM grades WHERE applicant_id = ?";
     private static final String FIND_GRADE_BY_APPLICANT_ID_SUBJECT_ID_EXAM_TYPE =
-            "SELECT * FROM grades WHERE subject_id = ?, applicant_id = ?, exam_type = ?";
+            "SELECT * FROM grades WHERE subject_id = ? and applicant_id = ? and exam_type = ?";
     private static final String FIND_GRADE = "SELECT * FROM grades WHERE id = ?";
     private static final String INSERT_GRADE =
             "INSERT INTO grades(applicant_id, subject_id, grade, exam_type) VALUES (?,?,?,?)";

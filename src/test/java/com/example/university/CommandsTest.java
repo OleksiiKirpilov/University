@@ -91,7 +91,7 @@ public class CommandsTest {
     public void testNoCommand() throws ServletException, IOException {
         when(request.getParameter("command")).thenReturn("invalid_command");
         new FrontController().doGet(request, response);
-        verify(response, times(1)).sendRedirect(anyString());
+        verify(response, times(0)).sendRedirect(anyString());
     }
 
     @Test
@@ -106,7 +106,9 @@ public class CommandsTest {
     public void testLogout() throws ServletException, IOException {
         when(request.getParameter("command")).thenReturn("logout");
         new FrontController().doGet(request, response);
-        verify(response, times(1)).sendRedirect(anyString());
+        verify(response, times(0)).sendRedirect(anyString());
+        verify(request, times(1)).getRequestDispatcher(any());
+
     }
 
     @Test
@@ -114,7 +116,8 @@ public class CommandsTest {
         when(request.getParameter("command")).thenReturn("viewProfile");
         when(session.getAttribute("user")).thenReturn(user.getEmail());
         new FrontController().doGet(request, response);
-        verify(response, times(1)).sendRedirect(anyString());
+        verify(response, times(0)).sendRedirect(anyString());
+        verify(request, times(1)).getRequestDispatcher(any());
     }
 
     @Test
@@ -135,7 +138,7 @@ public class CommandsTest {
 
         when(request.getParameter("password")).thenReturn("qqqqQQQQ");
         new FrontController().doPost(request, response);
-        verify(response, times(3)).sendRedirect(anyString());
+        verify(response, times(2)).sendRedirect(anyString());
     }
 
     @Test
@@ -145,7 +148,8 @@ public class CommandsTest {
         when(session.getAttribute("userRole")).thenReturn(admin.getRole());
         when(session.getAttribute("name_en")).thenReturn(faculty.getNameEn());
         new FrontController().doGet(request, response);
-        verify(response, times(1)).sendRedirect(anyString());
+        verify(response, times(0)).sendRedirect(anyString());
+        verify(request, times(1)).getRequestDispatcher(any());
     }
 
     @Test
@@ -161,14 +165,15 @@ public class CommandsTest {
 
         new FrontController().doGet(request, response);
         new FrontController().doPost(request, response);
-        verify(response, times(2)).sendRedirect(anyString());
+        verify(response, times(1)).sendRedirect(anyString());
     }
 
     @Test
     public void testViewAllSubjects() throws ServletException, IOException {
         when(request.getParameter("command")).thenReturn("viewAllSubjects");
         new FrontController().doGet(request, response);
-        verify(response, times(1)).sendRedirect(anyString());
+        verify(response, times(0)).sendRedirect(anyString());
+        verify(request, times(1)).getRequestDispatcher(any());
     }
 
     @Test
@@ -178,7 +183,8 @@ public class CommandsTest {
         Subject s = subjectDao.find(1);
         when(request.getParameter(Fields.SUBJECT_NAME_EN)).thenReturn(s.getNameEn());
         new FrontController().doGet(request, response);
-        verify(response, times(1)).sendRedirect(anyString());
+        verify(response, times(0)).sendRedirect(anyString());
+        verify(request, times(1)).getRequestDispatcher(any());
     }
 
     @Test
@@ -186,7 +192,8 @@ public class CommandsTest {
         when(request.getParameter("command")).thenReturn("viewApplicant");
         when(request.getParameter("userId")).thenReturn(String.valueOf(user.getId()));
         new FrontController().doGet(request, response);
-        verify(response, times(1)).sendRedirect(anyString());
+        verify(response, times(0)).sendRedirect(anyString());
+        verify(request, times(1)).getRequestDispatcher(any());
     }
 
 
@@ -202,22 +209,17 @@ public class CommandsTest {
         when(request.getParameter("command")).thenReturn("createReport");
         when(request.getParameter(Fields.ENTITY_ID)).thenReturn("3");
         new FrontController().doGet(request, response);
-        verify(response, times(1)).sendRedirect(anyString());
+        verify(response, times(0)).sendRedirect(anyString());
+        verify(request, times(1)).getRequestDispatcher(any());
     }
 
 
     @Test
     public void testViewAllFaculties() throws Exception {
         when(request.getParameter("command")).thenReturn("viewAllFaculties");
-//        when(request.getParameter("password")).thenReturn("secret");
-//        StringWriter stringWriter = new StringWriter();
-//        PrintWriter writer = new PrintWriter(stringWriter);
-//        when(response.getWriter()).thenReturn(writer);
         new FrontController().doGet(request, response);
-//        verify(request, atLeast(1)).getParameter("username");
-//        writer.flush(); // it may not have been flushed yet...
-//        assertTrue(stringWriter.toString().contains("list.jsp"));
-        verify(response, times(1)).sendRedirect(anyString());
+        verify(response, times(0)).sendRedirect(anyString());
+        verify(request, times(1)).getRequestDispatcher(any());
     }
 
 }

@@ -58,14 +58,14 @@ public class AdminRegistration extends Command {
                 lastName, email, password, lang);
         if (!valid) {
             setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
-            LOG.error("errorMessage: Not all fields are filled");
+            LOG.debug("errorMessage: Not all fields are filled");
             return Path.REDIRECT_ADMIN_REGISTRATION_PAGE;
         }
         UserDao userDao = new UserDao();
         User user = userDao.find(email);
         if (user != null) {
             setErrorMessage(request, ERROR_EMAIL_USED);
-            LOG.error("This email({}) is already in use.", email);
+            LOG.debug("This email({}) is already in use.", email);
             return Path.REDIRECT_ADMIN_REGISTRATION_PAGE;
         }
         user = new User(email, password, null, firstName, lastName, Role.ADMIN, lang);

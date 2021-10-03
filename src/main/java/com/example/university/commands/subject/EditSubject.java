@@ -70,7 +70,7 @@ public class EditSubject extends Command {
         boolean valid = InputValidator.validateSubjectParameters(newSubjectNameRu, newSubjectNameEn);
         if (!valid) {
             setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
-            LOG.error("errorMessage: Not all fields are properly filled");
+            LOG.debug("errorMessage: Not all fields are properly filled");
             return Path.REDIRECT_SUBJECT_EDIT_ADMIN + oldSubjectName;
         }
         subject.setNameRu(newSubjectNameRu);
