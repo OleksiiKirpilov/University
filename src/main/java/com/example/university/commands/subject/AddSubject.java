@@ -34,9 +34,9 @@ public class AddSubject extends Command {
     }
 
     /**
-     * Forwards admin to add page.
+     * Forwards admin to add subject page.
      *
-     * @return path to add page
+     * @return path to add subject page
      */
     private String doGet() {
         return Path.FORWARD_SUBJECT_ADD_ADMIN;
@@ -50,9 +50,7 @@ public class AddSubject extends Command {
      */
     private String doPost(HttpServletRequest request) {
         String nameRu = request.getParameter("name_ru");
-        LOG.trace("Fetch request parameter: 'name_ru' = {}", nameRu);
         String nameEn = request.getParameter("name_en");
-        LOG.trace("Fetch request parameter: 'name_en' = {}", nameEn);
         boolean valid = InputValidator.validateSubjectParameters(nameRu, nameEn);
         if (!valid) {
             setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
@@ -63,7 +61,6 @@ public class AddSubject extends Command {
         Subject subject = new Subject();
         subject.setNameRu(nameRu);
         subject.setNameEn(nameEn);
-        LOG.trace("Create subject transfer object: {}", subject);
         subjectDao.create(subject);
         LOG.trace("Create subject record in database: {}", subject);
         return Path.REDIRECT_TO_SUBJECT + nameEn;

@@ -41,7 +41,6 @@ public class ViewAllSubjects extends Command {
     private String doGet(HttpServletRequest request) {
         SubjectDao subjectDao = new SubjectDao();
         Collection<Subject> allSubjects = subjectDao.findAll();
-        LOG.trace("Subjects records found: {}", allSubjects);
         request.setAttribute("allSubjects", allSubjects);
         LOG.trace("Set the request attribute: 'allSubjects' = {}", allSubjects);
         return Path.FORWARD_SUBJECT_VIEW_ALL_ADMIN;

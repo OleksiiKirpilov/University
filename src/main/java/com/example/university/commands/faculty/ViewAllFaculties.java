@@ -43,7 +43,6 @@ public class ViewAllFaculties extends Command {
         Collection<Faculty> faculties = facultyDao.findAll();
         LOG.trace("Faculties records found: {}", faculties);
         request.setAttribute("faculties", faculties);
-        LOG.trace("Set the request attribute: 'faculties' = {}", faculties);
         HttpSession session = request.getSession();
         String role = (String) session.getAttribute("userRole");
         if (role == null || Role.isUser(role)) {

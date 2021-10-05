@@ -40,16 +40,11 @@ public class ViewSubject extends Command {
      */
     private String doGet(HttpServletRequest request) {
         String subjectNameEn = request.getParameter(Fields.SUBJECT_NAME_EN);
-        LOG.trace("Subject name to look for is equal to: '{}'", subjectNameEn);
         SubjectDao subjectDao = new SubjectDao();
         Subject subject = subjectDao.find(subjectNameEn);
-        LOG.trace("Subject record found: {}", subject);
         request.setAttribute(Fields.ENTITY_ID, subject.getId());
-        LOG.trace("Set the request attribute: 'id' = {}", subject.getId());
         request.setAttribute(Fields.SUBJECT_NAME_RU, subject.getNameRu());
-        LOG.trace("Set the request attribute: 'name_ru' = {}", subject.getNameRu());
         request.setAttribute(Fields.SUBJECT_NAME_EN, subject.getNameEn());
-        LOG.trace("Set the request attribute: 'name_en' = {}", subject.getNameEn());
         return Path.FORWARD_SUBJECT_VIEW_ADMIN;
     }
 

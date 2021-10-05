@@ -72,16 +72,13 @@ public class CreateFacultyReport extends Command {
             saveReport = false;
         }
         request.setAttribute(Fields.REPORT_SHEET_FACULTY_FINALIZED, finalized);
-        LOG.trace("Set attribute 'finalized': {}", finalized);
         request.setAttribute(Fields.FACULTY_NAME_RU, faculty.getNameRu());
-        LOG.trace("Set attribute 'name_ru': {}", faculty.getNameRu());
         request.setAttribute(Fields.FACULTY_NAME_EN, faculty.getNameEn());
-        LOG.trace("Set attribute 'name_en': {}", faculty.getNameEn());
         request.setAttribute(Fields.ENTITY_ID, faculty.getId());
-        LOG.trace("Set attribute 'id': {}", faculty.getId());
         request.setAttribute("facultyReport", report);
-        LOG.trace("Set attribute 'facultyReport': {}", report);
-        return saveReport ? Path.REDIRECT_REPORT_SHEET_VIEW + faculty.getId() : Path.FORWARD_REPORT_SHEET_VIEW;
+        return saveReport
+                ? Path.REDIRECT_REPORT_SHEET_VIEW + faculty.getId()
+                : Path.FORWARD_REPORT_SHEET_VIEW;
     }
 
 }

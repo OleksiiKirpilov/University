@@ -47,22 +47,15 @@ public class ApplyFacultyView extends Command {
         FacultyDao facultyDao = new FacultyDao();
         Faculty faculty = facultyDao.find(facultyNameEn);
         request.setAttribute(Fields.ENTITY_ID, faculty.getId());
-        LOG.trace("Set the request faculty attribute: 'id' = {}", faculty.getId());
         request.setAttribute(Fields.FACULTY_NAME_RU, faculty.getNameRu());
-        LOG.trace("Set the request attribute: 'name' = {}", faculty.getNameRu());
         request.setAttribute(Fields.FACULTY_NAME_EN, faculty.getNameEn());
-        LOG.trace("Set the request attribute: 'name_en' = {}", faculty.getNameEn());
         request.setAttribute(Fields.FACULTY_TOTAL_PLACES, faculty.getTotalPlaces());
-        LOG.trace("Set the request attribute: 'total_places' = {}", faculty.getTotalPlaces());
         request.setAttribute(Fields.FACULTY_BUDGET_PLACES, faculty.getBudgetPlaces());
-        LOG.trace("Set the request attribute: 'budget_places' = {}", faculty.getBudgetPlaces());
         SubjectDao subjectDao = new SubjectDao();
         List<Subject> facultySubjects = subjectDao.findAllFacultySubjects(faculty);
         request.setAttribute("facultySubjects", facultySubjects);
-        LOG.trace("Set attribute 'facultySubjects': {}", facultySubjects);
         Collection<Subject> allSubjects = subjectDao.findAll();
         request.setAttribute("allSubjects", allSubjects);
-        LOG.trace("Set attribute 'allSubjects': {}", allSubjects);
         return Path.FORWARD_FACULTY_APPLY_USER;
     }
 
@@ -71,15 +64,12 @@ public class ApplyFacultyView extends Command {
      * successful, otherwise refreshes this page.
      */
     private String doPost(HttpServletRequest request) {
-        LOG.trace("Start processing applying for faculty form");
         HttpSession session = request.getSession(false);
         String email = String.valueOf(session.getAttribute("user"));
         UserDao userDao = new UserDao();
         User user = userDao.find(email);
-        LOG.trace("Found user in database that wants to apply: {}", user);
         ApplicantDao applicantDao = new ApplicantDao();
         Applicant applicant = applicantDao.find(user);
-        LOG.trace("Found applicant record in database for this user: {}", applicant);
         FacultyApplicantsDao faDao = new FacultyApplicantsDao();
         int facultyId = Integer.parseInt(request.getParameter(Fields.ENTITY_ID));
         FacultyApplicants newFacultyApplicant = new FacultyApplicants(facultyId,
@@ -91,7 +81,6 @@ public class ApplyFacultyView extends Command {
                     user, applicant, facultyId);
             return Path.REDIRECT_TO_VIEW_ALL_FACULTIES;
         }
-        LOG.trace("Start extracting data from request");
         Map<String, String[]> parameterMap = request.getParameterMap();
         GradeDao gradeDao = new GradeDao();
         for (Map.Entry<String, String[]> e : parameterMap.entrySet()) {
@@ -115,10 +104,8 @@ public class ApplyFacultyView extends Command {
                 }
             }
         }
-        LOG.trace("Create FacultyApplicants transfer object: {}", newFacultyApplicant);
         faDao.create(newFacultyApplicant);
         LOG.trace("FacultyApplicants record was created in database: {}", newFacultyApplicant);
-        LOG.trace("Finished processing applying for faculty form");
         FacultyDao facultyDao = new FacultyDao();
         Faculty faculty = facultyDao.find(facultyId);
         return Path.REDIRECT_TO_FACULTY + faculty.getNameEn();

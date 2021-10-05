@@ -24,10 +24,7 @@ public class NoCommand extends Command {
                           HttpServletResponse response,
                           RequestType actionType)
             throws IOException, ServletException {
-        LOG.debug("Command execution");
-        String errorMessage = "No such command";
-        request.setAttribute("errorMessage", errorMessage);
-        LOG.error("Set the request attribute: 'errorMessage' = {}", errorMessage);
+        LOG.debug("No such command");
         return Path.ERROR_PAGE;
     }
 

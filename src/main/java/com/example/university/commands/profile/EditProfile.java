@@ -103,42 +103,37 @@ public class EditProfile extends Command {
             LOG.debug("This email is already in use.");
             return Path.REDIRECT_EDIT_PROFILE;
         }
-        if (Role.isAdmin(role)) {
-            user.setFirstName(userFirstName);
-            user.setLastName(userLastName);
-            user.setEmail(email);
-            user.setPassword(password);
-            user.setLang(language);
-            LOG.trace("After calling setters with request parameters on user entity: {}", user);
-            userDao.update(user);
-            LOG.trace("User info updated");
-            // update session attributes if user changed it
-            session.setAttribute("user", email);
-            session.setAttribute(Fields.USER_LANG, language);
-            return Path.REDIRECT_TO_PROFILE;
+        if (!Role.isAdmin(role) && !Role.isUser(role)) {
+            return null;
         }
+
+        String school = null;
+        String district = null;
+        String city = null;
+        boolean blockedStatus = false;
+
         if (Role.isUser(role)) {
-            // if user role is user then we should also update applicant
-            // record for them
-            String school = request.getParameter(Fields.APPLICANT_SCHOOL);
-            String district = request.getParameter(Fields.APPLICANT_DISTRICT);
-            String city = request.getParameter(Fields.APPLICANT_CITY);
-            boolean blockedStatus = Boolean.parseBoolean(request.getParameter(Fields.APPLICANT_IS_BLOCKED));
+            school = request.getParameter(Fields.APPLICANT_SCHOOL);
+            district = request.getParameter(Fields.APPLICANT_DISTRICT);
+            city = request.getParameter(Fields.APPLICANT_CITY);
+            blockedStatus = Boolean.parseBoolean(request.getParameter(Fields.APPLICANT_IS_BLOCKED));
             valid = InputValidator.validateApplicantParameters(city, district, school);
             if (!valid) {
                 setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
                 LOG.debug("errorMessage: Not all fields are properly filled");
                 return Path.REDIRECT_EDIT_PROFILE;
             }
-            LOG.trace("User found with such email: {}", user);
-            user.setFirstName(userFirstName);
-            user.setLastName(userLastName);
-            user.setEmail(email);
-            user.setPassword(password);
-            user.setLang(language);
-            LOG.trace("After calling setters with request parameters on user entity: {}", user);
-            userDao.update(user);
-            LOG.trace("User info updated");
+        }
+        LOG.trace("User found with such email: {}", user);
+        user.setFirstName(userFirstName);
+        user.setLastName(userLastName);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setLang(language);
+        LOG.trace("After calling setters with request parameters on user entity: {}", user);
+        userDao.update(user);
+        LOG.trace("User info updated");
+        if (Role.isUser(role)) {
             ApplicantDao applicantDao = new ApplicantDao();
             Applicant a = applicantDao.find(user);
             a.setCity(city);
@@ -148,11 +143,9 @@ public class EditProfile extends Command {
             LOG.trace("After calling setters with request parameters on applicant entity: {}", a);
             applicantDao.update(a);
             LOG.trace("Applicant info updated");
-            // update session attributes if user changed it
-            session.setAttribute("user", email);
-            session.setAttribute(Fields.USER_LANG, language);
-            return Path.REDIRECT_TO_PROFILE;
         }
-        return null;
+        session.setAttribute("user", email);
+        session.setAttribute(Fields.USER_LANG, language);
+        return Path.REDIRECT_TO_PROFILE;
     }
 }

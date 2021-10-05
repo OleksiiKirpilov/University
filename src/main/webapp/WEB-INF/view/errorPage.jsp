@@ -9,7 +9,9 @@
 
 <div class="header">
 	<h4>
-		<fmt:message key="error_message.general_error" />
+		<a href="welcome.jsp">
+			<fmt:message key="error_message.general_error" />
+		</a>
 	</h4>
 </div>
 

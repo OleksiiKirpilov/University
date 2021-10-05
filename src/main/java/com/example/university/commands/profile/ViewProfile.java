@@ -48,13 +48,9 @@ public class ViewProfile extends Command {
         UserDao userDao = new UserDao();
         User user = userDao.find(userEmail);
         request.setAttribute("first_name", user.getFirstName());
-        LOG.trace("Set the request attribute: 'first_name' = {}", user.getFirstName());
         request.setAttribute("last_name", user.getLastName());
-        LOG.trace("Set the request attribute: 'last_name' = {}", user.getLastName());
         request.setAttribute("email", user.getEmail());
-        LOG.trace("Set the request attribute: 'email' = {}", user.getEmail());
         request.setAttribute("role", user.getRole());
-        LOG.trace("Set the request attribute: 'role' = {}", user.getRole());
         String role = user.getRole();
         if (Role.isAdmin(role)) {
             return Path.FORWARD_ADMIN_PROFILE;
@@ -63,11 +59,8 @@ public class ViewProfile extends Command {
             ApplicantDao applicantDao = new ApplicantDao();
             Applicant applicant = applicantDao.find(user);
             request.setAttribute("city", applicant.getCity());
-            LOG.trace("Set the request attribute: 'city' = {}", applicant.getCity());
             request.setAttribute("district", applicant.getDistrict());
-            LOG.trace("Set the request attribute: 'district' = {}", applicant.getDistrict());
             request.setAttribute("school", applicant.getSchool());
-            LOG.trace("Set the request attribute: 'school' = {}", applicant.getSchool());
             return Path.FORWARD_USER_PROFILE;
         }
         return null;

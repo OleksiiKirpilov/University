@@ -73,9 +73,7 @@ public class ViewApplicant extends Command {
 		}
 		boolean notConfirmed = grades.stream().anyMatch(g -> !g.isConfirmed());
 		request.setAttribute("user", user);
-		LOG.trace("Set the request attribute: 'user' = {}", user);
 		request.setAttribute("applicant", applicant);
-		LOG.trace("Set the request attribute: 'applicant' = {}", applicant);
 		request.setAttribute("preliminaryGrades", preliminaryGrades);
 		request.setAttribute("diplomaGrades", dimplomaGrades);
 		request.setAttribute("notConfirmed", notConfirmed);
@@ -93,7 +91,7 @@ public class ViewApplicant extends Command {
 		Applicant applicant = applicantDao.find(applicantId);
 		boolean updatedBlockedStatus = !applicant.getBlockedStatus();
 		applicant.setBlockedStatus(updatedBlockedStatus);
-		LOG.trace("Applicant with 'id' = {} and changed 'isBlocked' status = {}"
+		LOG.trace("Applicant with 'id' = {}.Changed 'isBlocked' status = {}"
 				+ " record will be updated.", applicantId, updatedBlockedStatus);
 		applicantDao.update(applicant);
 		return Path.REDIRECT_APPLICANT_PROFILE + applicant.getUserId();

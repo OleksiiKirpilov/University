@@ -46,10 +46,8 @@ public class AddFaculty extends Command {
      * @return path to the add faculty page.
      */
     private String doGet(HttpServletRequest request) {
-        LOG.trace("Request for only showing (not already adding) faculty/add.jsp");
         SubjectDao subjectDao = new SubjectDao();
         Collection<Subject> allSubjects = subjectDao.findAll();
-        LOG.trace("All subjects found: {}", allSubjects);
         request.setAttribute("allSubjects", allSubjects);
         LOG.trace("Set request attribute 'allSubjects' = {}", allSubjects);
         return Path.FORWARD_FACULTY_ADD_ADMIN;
@@ -81,7 +79,6 @@ public class AddFaculty extends Command {
         int total = Integer.parseInt(totalPlaces);
         int budget = Integer.parseInt(budgetPlaces);
         Faculty faculty = new Faculty(nameRu, nameEn, budget, total);
-        LOG.trace("Create faculty transfer object: {}", faculty);
         facultyDao.create(faculty);
         LOG.trace("Create faculty record in database: {}", faculty);
         // only after creating a faculty record we can proceed with

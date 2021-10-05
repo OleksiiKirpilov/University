@@ -86,11 +86,8 @@ public class UserRegistration extends Command {
 
         HttpSession session = request.getSession();
         session.setAttribute("user", user.getEmail());
-        LOG.trace("Set session attribute 'user' = {}", user.getEmail());
         session.setAttribute("userRole", user.getRole());
-        LOG.trace("Set session attribute: 'userRole' = {}", user.getRole());
         session.setAttribute("lang", user.getLang());
-        LOG.trace("Set session attribute 'lang' = {}", user.getLang());
         LOG.info("User: {} logged as {}", user, user.getRole());
         return Path.REDIRECT_TO_PROFILE;
     }

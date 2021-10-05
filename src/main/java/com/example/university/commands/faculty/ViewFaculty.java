@@ -45,31 +45,20 @@ public class ViewFaculty extends Command {
      */
     private String doGet(HttpServletRequest request) {
         String facultyNameEn = request.getParameter(Fields.FACULTY_NAME_EN);
-        LOG.trace("Faculty name to look for is equal to: '{}'", facultyNameEn);
         FacultyDao facultyDao = new FacultyDao();
         Faculty facultyRecord = facultyDao.find(facultyNameEn);
-        LOG.trace("Faculty record found: {}", facultyRecord);
         List<ApplicantReportSheet> report = new ApplicantReportSheetDao().getFinalizedReport(facultyRecord.getId());
         boolean finalized = !report.isEmpty();
         request.setAttribute(Fields.REPORT_SHEET_FACULTY_FINALIZED, finalized);
-        LOG.trace("Set the request attribute: 'finalized' = {}", finalized);
         request.setAttribute(Fields.ENTITY_ID, facultyRecord.getId());
-        LOG.trace("Set the request attribute: 'id' = {}", facultyRecord.getId());
         request.setAttribute(Fields.FACULTY_NAME_RU, facultyRecord.getNameRu());
-        LOG.trace("Set the request attribute: 'name_ru' = {}", facultyRecord.getNameRu());
         request.setAttribute(Fields.FACULTY_NAME_EN, facultyRecord.getNameEn());
-        LOG.trace("Set the request attribute: 'name_en' = {}", facultyRecord.getNameEn());
         request.setAttribute(Fields.FACULTY_TOTAL_PLACES, facultyRecord.getTotalPlaces());
-        LOG.trace("Set the request attribute: 'total_places' = {}",
-                facultyRecord.getTotalPlaces());
         request.setAttribute(Fields.FACULTY_BUDGET_PLACES, facultyRecord.getBudgetPlaces());
-        LOG.trace("Set the request attribute: 'budget_places' = {}", facultyRecord.getBudgetPlaces());
 
         SubjectDao subjectDao = new SubjectDao();
         List<Subject> facultySubjects = subjectDao.findAllFacultySubjects(facultyRecord);
-
         request.setAttribute("facultySubjects", facultySubjects);
-        LOG.trace("Set the request attribute: 'facultySubjects' = {}", facultySubjects);
 
         HttpSession session = request.getSession(false);
         String role = (String) session.getAttribute("userRole");
@@ -96,7 +85,6 @@ public class ViewFaculty extends Command {
             facultyApplicants.put(applicant, user.getFirstName() + " " + user.getLastName());
         }
         request.setAttribute("facultyApplicants", facultyApplicants);
-        LOG.trace("Set the request attribute: 'facultyApplicants' = {}", facultyApplicants);
         return Path.FORWARD_FACULTY_VIEW_ADMIN;
     }
 

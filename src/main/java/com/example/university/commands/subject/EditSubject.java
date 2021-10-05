@@ -44,9 +44,7 @@ public class EditSubject extends Command {
         SubjectDao subjectDao = new SubjectDao();
         Subject subject = subjectDao.find(subjectName);
         request.setAttribute(Fields.SUBJECT_NAME_RU, subject.getNameRu());
-        LOG.trace("Set attribute 'name_ru': {}", subject.getNameRu());
         request.setAttribute(Fields.SUBJECT_NAME_EN, subject.getNameEn());
-        LOG.trace("Set attribute 'name_en': {}", subject.getNameEn());
         return Path.FORWARD_SUBJECT_EDIT_ADMIN;
     }
 
@@ -59,14 +57,10 @@ public class EditSubject extends Command {
     private String doPost(HttpServletRequest request) {
         // get parameters from page
         String oldSubjectName = request.getParameter("oldName");
-        LOG.trace("Fetch request parameter: 'oldName' = {}", oldSubjectName);
         SubjectDao subjectDao = new SubjectDao();
         Subject subject = subjectDao.find(oldSubjectName);
-        LOG.trace("Subject record found with this data: {}", subject);
         String newSubjectNameRu = request.getParameter(Fields.SUBJECT_NAME_RU);
-        LOG.trace("Fetch request parameter: 'name_ru' = {}", newSubjectNameRu);
         String newSubjectNameEn = request.getParameter(Fields.SUBJECT_NAME_EN);
-        LOG.trace("Fetch request parameter: 'name_en' = {}", newSubjectNameEn);
         boolean valid = InputValidator.validateSubjectParameters(newSubjectNameRu, newSubjectNameEn);
         if (!valid) {
             setErrorMessage(request, ERROR_FILL_ALL_FIELDS);
@@ -75,9 +69,8 @@ public class EditSubject extends Command {
         }
         subject.setNameRu(newSubjectNameRu);
         subject.setNameEn(newSubjectNameEn);
-        LOG.trace("After calling setters with request parameters on subject entity: {}", subject);
         subjectDao.update(subject);
-        LOG.trace("Subject record updated");
+        LOG.trace("Subject record updated. {}", subject);
         return Path.REDIRECT_TO_SUBJECT + newSubjectNameEn;
     }
 

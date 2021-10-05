@@ -49,7 +49,6 @@ public class DeleteSubject extends Command {
         int subjectId = Integer.parseInt(request.getParameter(Fields.ENTITY_ID));
         SubjectDao subjectDao = new SubjectDao();
         Subject subjectToDelete = subjectDao.find(subjectId);
-        LOG.trace("Found subject that should be deleted: {}", subjectToDelete);
         FacultySubjectsDao facultySubjectsDao = new FacultySubjectsDao();
         Collection<FacultySubjects> facultySubjects = facultySubjectsDao.findAll();
         facultySubjects.removeIf(r -> r.getSubjectId() != subjectToDelete.getId());
@@ -69,6 +68,7 @@ public class DeleteSubject extends Command {
             return result;
         }
         LOG.trace("There are faculties that have this subject as preliminary.");
+        setErrorMessage(request, ERROR_SUBJECT_DELETE);
         return Path.REDIRECT_TO_SUBJECT + subjectToDelete.getNameEn();
     }
 }
