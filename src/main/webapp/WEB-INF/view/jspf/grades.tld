@@ -8,7 +8,7 @@
 	<short-name>grades</short-name>
 	<uri>/WEB-INF/grades</uri>
 	<tag>
-		<description>Tag that illuminates bad entered data by the client. Two attributes are required: 'subjectId' and 'examType'. They will be concatenated and later treated as one name.</description>
+		<description>Tag for generating grades to select</description>
 		<name>insert</name>
 		<tag-class>com.example.university.GradesTag</tag-class>
 		<body-content>empty</body-content>
